@@ -9,7 +9,8 @@ const userData = [
   {
     firstName: 'Ellie',
     email: 'ellie@platyp.com',
-    password: 'Pass',
+    password: 'Pass1234',
+    passwordConfirmation: 'Pass1234',
     dateOfBirth: '1995-02-22',
     postcode: 'HP5 2RY',
     gender: 'female',
@@ -24,7 +25,8 @@ const userData = [
   {
     firstName: 'Sam',
     email: 'sam@platyp.com',
-    password: 'Pass',
+    password: 'Pass1234',
+    passwordConfirmation: 'Pass1234',
     dateOfBirth: '1993-04-02',
     postcode: 'E3 2AX',
     gender: 'male',

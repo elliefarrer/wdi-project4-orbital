@@ -1,31 +1,119 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
+const moment = require('moment');
+
+
 const userSchema = new mongoose.Schema({
-  firstName: String,
-  email: { type: String, required: true },
-  password: String,
-  dateOfBirth: Date,
-  postcode: String,
-  gender: String,
-  sexuality: String,
-  minAgeRange: Number,
-  maxAgeRange: Number,
-  profilePic: String,
+  firstName: {
+    type: String,
+    required: true,
+    minlength: 2
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    match: /(?=.*[@])(?=.*[.])/
+  },
+  password: {
+    type: String,
+    required: true,
+    minlength: 8,
+    match: /(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])/
+  },
+  dateOfBirth: {
+    type: Date,
+    required: true
+  },
+  postcode: {
+    type: String,
+    required: true
+  },
+  gender: {
+    type: String,
+    required: true,
+    enum: [ 'male', 'female', 'other' ]
+  },
+  sexuality: {
+    type: String,
+    required: true,
+    enum: [ 'straight', 'gay/lesbian', 'bisexual' ]
+  },
+  minAgeRange: {
+    type: Number,
+    min: 18
+  },
+  maxAgeRange: {
+    type: Number,
+    min: 19
+  },
+  profilePic: {
+    type: String,
+    required: true,
+    match: /(?=.*[.jpg]$)(?=.*[.jpeg]$)(?=.*[.png]$)/
+  },
   occupation: String,
-  languages: [{ type: String }],
-  bio: String
+  languages: [{
+    type: String
+  }],
+  bio: {
+    type: String,
+    required: true,
+    minlength: 100,
+    maxlength: 250
+  }
 });
+
 
 userSchema.plugin(require('mongoose-unique-validator'));
 
-userSchema.pre('validate', function hashPassword(next) {
-  if(this.isModified('password')) {
-    this.password = bcrypt.hashSync(this.password, 8);
+
+///////////// VIRTUALS /////////////////
+// calculate user's age
+userSchema.virtual('age')
+  .get(function() {
+    return moment().diff(this.dateOfBirth, 'years');
+  });
+
+userSchema.virtual('passwordConfirmation')
+  .set(function(passwordConfirmation) {
+    this._passwordConfirmation = passwordConfirmation;
+  });
+
+
+//////////////// LIFECYCLE HOOKS ///////////////
+userSchema.pre('validate', function(next) {
+  if(!this._passwordConfirmation || this._passwordConfirmation !== this.password) {
+    console.log('Passwords do not match');
+    this.invalidate('Password confirmation', 'does not match');
+  }
+
+  // invalidate if user is under 18
+  console.log('Age is', this.age);
+  if(this.age < 18) {
+    console.log('Age is under 18');
+    this.invalidate('Age', 'is under 18');
+  }
+
+  // invalidate if min age rage equals match, or is higher than max
+  if(this.minAgeRange >= this.maxAgeRange) {
+    console.log('Min age range is too high');
+    this.invalidate('Min age range', 'matches or is higher than max age range');
   }
   next();
 });
 
+userSchema.pre('save', function hashPassword(next) {
+  if(this.isModified('password')) {
+    this.password = bcrypt.hashSync(this.password, 8);
+  }
+
+  next();
+});
+
+
+/////////////// METHODS /////////////////
 userSchema.methods.validatePassword = function(password) {
   return bcrypt.compareSync(password, this.password);
 };
