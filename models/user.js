@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 
 const userSchema = new mongoose.Schema({
   firstName: String,
-  email: String,
+  email: { type: String, required: true },
   password: String,
   dateOfBirth: Date,
   postcode: String,
@@ -16,6 +16,8 @@ const userSchema = new mongoose.Schema({
   languages: [{ type: String }],
   bio: String
 });
+
+userSchema.plugin(require('mongoose-unique-validator'));
 
 userSchema.pre('validate', function hashPassword(next) {
   if(this.isModified('password')) {
