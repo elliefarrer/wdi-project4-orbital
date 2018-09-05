@@ -8,6 +8,33 @@ function usersIndex(req, res, next) {
     .finally(next);
 }
 
+function usersShow(req, res, next) {
+  User
+    .findById(req.params.userId)
+    .then(user => res.json(user))
+    .catch(next);
+}
+
+function usersUpdate(req, res, next) {
+  User
+    .findById(req.params.userId)
+    .then(user => user.set(req.body))
+    .then(user => user.save())
+    .then(user => res.json(user))
+    .catch(next);
+}
+
+function usersDelete(req, res, next) {
+  User
+    .findById(req.params.userId)
+    .then(user => user.remove())
+    .then(() => res.sendStatus(204))
+    .catch(next);
+}
+
 module.exports = {
-  index: usersIndex
+  index: usersIndex,
+  show: usersShow,
+  update: usersUpdate,
+  delete: usersDelete
 };
