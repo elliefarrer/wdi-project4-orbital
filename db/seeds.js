@@ -34,7 +34,7 @@ const userData = [
     profilePic: 'sam.png',
     occupation: 'Market Researcher',
     languages: ['English', 'French', 'Urdu'],
-    bio: 'From Manchester, recently moved to London. Looking to meet someone chilled out with a great sense of humour.'
+    bio: 'From Manchester, recently moved to London for work. Looking to meet someone chilled out with a great sense of humour.'
   }
 ];
 
