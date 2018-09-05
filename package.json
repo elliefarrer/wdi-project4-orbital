@@ -1,0 +1,8 @@
+{
+  "name": "Orbital",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:platypotomus/wdi-project4-orbital.git",
+  "author": "Ellie Farrer <elliefarrermusic@gmail.com>",
+  "license": "MIT"
+}
