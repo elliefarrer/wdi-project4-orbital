@@ -27,6 +27,12 @@ Router.route('/users/:userId')
 
 /////////////// SWIPES AND MATCHES ////////////////
 Router.route('/users/:userId/swipes')
-  .get(swipeController.index);
+  // .all(secureRoute)
+  .get(swipeController.index)
+  .post(swipeController.create);
+
+Router.route('/users/:userId/swipes/:swipeId')
+  // unmatch users by changing status
+  .put(swipeController.update);
 
 module.exports = Router;
