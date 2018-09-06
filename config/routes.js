@@ -43,6 +43,7 @@ Router.route('/users/:userId/chats')
   .post(chatController.startNewChat);
 
 Router.route('/users/:userId/chats/:chatId')
-  .get(chatController.show);
+  .get(chatController.show)
+  .post(chatController.continueChat);
 
 module.exports = Router;

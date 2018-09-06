@@ -18,7 +18,6 @@ function chatsShow(req, res, next) {
 }
 
 function startNewChat(req, res, next) {
-  console.log('Req body is', req.body);
   Chat
     .create(req.body)
     // .populate('userOne', 'userTwo')
@@ -26,8 +25,23 @@ function startNewChat(req, res, next) {
     .catch(next);
 }
 
+
+function continueChat(req, res, next) {
+  console.log('req body is', req.body);
+  Chat
+    .findById(req.params.chatId)
+    // .populate('userOne', 'userTwo')
+    .then(chat => {
+      chat.messages.push(req.body);
+      return chat.save();
+    })
+    .then(chat => res.json(chat))
+    .catch(next);
+}
+
 module.exports = {
   index: chatsIndex,
   show: chatsShow,
-  startNewChat: startNewChat
+  startNewChat: startNewChat,
+  continueChat: continueChat
 };
