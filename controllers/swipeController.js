@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const User = require('../models/user');
 
 function swipesIndex(req, res, next) {
@@ -30,21 +31,28 @@ function swipesCreate(req, res, next) {
     .catch(next);
 }
 
+///////// user.swipes is unmatching req.body.userId //////////
+function swipesDelete(req, res, next) {
+  User
+    .findById(req.params.userId)
+    .then(user => {
+      user.swipes = user.swipes.filter(key => {
+        return key.userId != req.body.userId;
+      });
+      // user.swipes.status = 'left';
+      return user.save();
+    })
+    .then(user => res.sendStatus(204).json(user))
+    .catch(next);
+}
+
 module.exports = {
   index: swipesIndex,
-  create: swipesCreate
+  create: swipesCreate,
+  delete: swipesDelete
 };
 
-// .findById(req.params.id)
-//     .exec()
-//     .then(user => {
-//       user.pendingMatchRequests.push(req.currentUser._id);
-//       req.currentUser.sentMatchRequests.push(req.params.id);
-//
-//       return Promise.props({
-//         sender: req.currentUser.save(),
-//         receiver: user.save()
-//       });
-//     })
-//     .then(users => res.json(users.sender))
-//     .catch(next);
+// user.swipes.filter(key => {
+//   return key._id === req.body.userId;
+// }).status = 'left';
+// return user.save();

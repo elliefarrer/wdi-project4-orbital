@@ -31,8 +31,8 @@ Router.route('/users/:userId/swipes')
   .get(swipeController.index)
   .post(swipeController.create);
 
-// Router.route('/users/:userId/swipes/:swipeId')
+Router.route('/users/:userId/swipes/:swipeId')
   // unmatch users by changing status
-  // .put(swipeController.update);
+  .delete(swipeController.delete);
 
 module.exports = Router;
