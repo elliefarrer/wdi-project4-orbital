@@ -3,6 +3,7 @@ const Router = express.Router();
 // const secureRoute = require('../lib/secureRoute');
 
 const userController = require('../controllers/userController');
+const swipeController = require('../controllers/swipeController');
 const authController = require('../controllers/authController');
 
 //////////////// AUTH ///////////////////
@@ -22,5 +23,10 @@ Router.route('/users/:userId')
   .get(userController.show)
   .put(userController.update)
   .delete(userController.delete);
+
+
+/////////////// SWIPES AND MATCHES ////////////////
+Router.route('/users/:userId/swipes')
+  .get(swipeController.index);
 
 module.exports = Router;
