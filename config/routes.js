@@ -1,5 +1,6 @@
 const express = require('express');
 const Router = express.Router();
+const secureRoute = require('../lib/secureRoute');
 
 const userController = require('../controllers/userController');
 const authController = require('../controllers/authController');
@@ -14,9 +15,10 @@ Router.route('/login')
 
 ///////////////// USERS /////////////////
 Router.route('/users')
-  .get(userController.index);
+  .get(secureRoute, userController.index);
 
 Router.route('/users/:userId')
+  .all(secureRoute)
   .get(userController.show)
   .put(userController.update)
   .delete(userController.delete);
