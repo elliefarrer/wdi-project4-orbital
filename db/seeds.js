@@ -1,4 +1,5 @@
 const User = require('../models/user');
+const Chat = require('../models/chat');
 
 const { dbURI } = require('../config/env');
 const mongoose = require('mongoose');
@@ -6,6 +7,7 @@ mongoose.Promise = require('bluebird');
 mongoose.connect(dbURI);
 
 User.collection.drop();
+Chat.collection.drop();
 
 const userIds = ['5b90faba6164a88ac1374928', '5b90fb567ac316da4df12cf3', '5b90fb667ac316da4df12cf4', '5b90fb777ac316da4df12cf5', '5b90fb7f7ac316da4df12cf6', '5b90fb8c7ac316da4df12cf7', '5b90fb947ac316da4df12cf8', '5b90fb9e7ac316da4df12cf9', '5b90fba57ac316da4df12cfa','5b90fbae7ac316da4df12cfb', '5b90fbb77ac316da4df12cfc'];
 
@@ -146,9 +148,63 @@ const userData = [
   }
 ];
 
+const chatData = [
+  {
+    userOne: '',
+    userTwo: '',
+    messages: [
+      {
+        sentBy: '',
+        content: 'Hi there, how are you doing?',
+        timestamps: '2018-09-06 17:11'
+      },
+      {
+        sentBy: '',
+        content: 'I\'m good thank you! Yourself?',
+        timestamps: '2018-09-06 17:20'
+      },
+      {
+        sentBy: '',
+        content: 'Good thanks! What a riveting conversation this is',
+        timestamps: '2018-09-06 17:22'
+      }
+    ]
+  },
+
+  {
+    userOne: '',
+    userTwo: '',
+    messages: [
+      {
+        sentBy: '',
+        content: 'Hi, how are you? Been up to much today',
+        timestamps: '2018-09-06 17:15'
+      },
+      {
+        sentBy: '',
+        content: 'Not much, just building the app you\'re using right now and reading all your data :)',
+        timestamps: '2018-09-06 17:24'
+      }
+    ]
+  }
+];
 
 User
   .create(userData)
-  .then(users => console.log(`Created ${users.length} users`))
+  .then(users => {
+    console.log(`Created ${users.length} users`);
+    chatData[0].userOne = users[0]._id;
+    chatData[0].userTwo = users[1]._id;
+    chatData[1].userOne = users[0]._id;
+    chatData[1].userTwo = users[2]._id;
+
+    chatData[0].messages[0].sentBy = users[0]._id;
+    chatData[0].messages[1].sentBy = users[1]._id;
+    chatData[0].messages[2].sentBy = users[0]._id;
+    chatData[1].messages[0].sentBy = users[2]._id;
+    chatData[1].messages[1].sentBy = users[0]._id;
+    return Chat.create(chatData);
+  })
+  .then(chats => console.log(`Created ${chats.length} chats`))
   .catch(err => console.log('There was an error', err))
   .finally(() => mongoose.connection.close());

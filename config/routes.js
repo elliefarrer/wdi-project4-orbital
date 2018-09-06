@@ -4,6 +4,7 @@ const Router = express.Router();
 
 const userController = require('../controllers/userController');
 const swipeController = require('../controllers/swipeController');
+const chatController = require('../controllers/chatController');
 const authController = require('../controllers/authController');
 
 //////////////// AUTH ///////////////////
@@ -34,5 +35,13 @@ Router.route('/users/:userId/swipes')
 Router.route('/users/:userId/swipes/:swipeId')
   // unmatch users by changing status
   .delete(swipeController.delete);
+
+
+/////////////////// CHATS /////////////////////
+Router.route('/users/:userId/chats')
+  .get(chatController.index);
+
+Router.route('/users/:userId/chats/:chatId')
+  .get(chatController.show);
 
 module.exports = Router;
