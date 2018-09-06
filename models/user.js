@@ -62,9 +62,22 @@ const userSchema = new mongoose.Schema({
     required: true,
     minlength: 100,
     maxlength: 250
-  }
+  },
+  // timeStamps: String,
+  swipes: [
+    {
+      userId: { type: mongoose.Schema.ObjectId, ref: 'User' },
+      status: { type: String, enum: ['swiped right', 'pending', 'matched', 'unmatched', 'swiped left', 'expired'] },
+      timestamps: { type: String, default: moment().format('HH:mm:ss') }
+      //TODO: change default back to 'no swipe' when tested/figured out how to do this a better way
+    }
+  ]
 });
 
+// no swipe = neither user has swiped the other either right or left
+// left swipe = one or both users has swiped the other left
+// pending = one user has swiped the other right, waiting for the other to swipe
+// match = both users have swiped each other right so can now message
 
 userSchema.plugin(require('mongoose-unique-validator'));
 
@@ -119,3 +132,8 @@ userSchema.methods.validatePassword = function(password) {
 };
 
 module.exports = mongoose.model('User', userSchema);
+
+////////// MATT'S THOUGHTS
+// User
+//   name: String
+//   matches: [{ userId, status: String, enum: 'sent', 'pending', 'accepted', 'unmatched', 'left'], timeStemp: date }]
