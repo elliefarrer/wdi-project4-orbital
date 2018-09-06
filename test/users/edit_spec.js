@@ -89,7 +89,7 @@ const invalidPwData = {
   bio: 'Professional from south London, looking for something serious and to settledown. Into cooking and keeping fit. If you don\'t like cats, we won\'t get on. I havetwo fur babies and want more!'
 };
 
-describe('GET /users', () => {
+describe('PUT /users/:userId', () => {
   // let token;
   let userId;
 
