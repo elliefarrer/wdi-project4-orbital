@@ -20,3 +20,5 @@ app.use(morgan('dev'));
 app.use('/api', Router);
 app.use(errorHandler);
 app.listen(port, () => console.log(`I'm hungry. Feed me on port ${port} 😋`));
+
+module.exports = app;

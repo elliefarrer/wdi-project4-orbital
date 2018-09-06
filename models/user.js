@@ -105,7 +105,7 @@ userSchema.pre('validate', function(next) {
   }
 
   // invalidate if user is under 18
-  console.log('Age is', this.age);
+  // console.log('Age is', this.age);
   if(this.age < 18) {
     console.log('Age is under 18');
     this.invalidate('Age', 'is under 18');
