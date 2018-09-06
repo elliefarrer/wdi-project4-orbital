@@ -39,7 +39,8 @@ Router.route('/users/:userId/swipes/:swipeId')
 
 /////////////////// CHATS /////////////////////
 Router.route('/users/:userId/chats')
-  .get(chatController.index);
+  .get(chatController.index)
+  .post(chatController.startNewChat);
 
 Router.route('/users/:userId/chats/:chatId')
   .get(chatController.show);

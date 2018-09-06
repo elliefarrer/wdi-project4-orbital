@@ -17,7 +17,17 @@ function chatsShow(req, res, next) {
     .catch(next);
 }
 
+function startNewChat(req, res, next) {
+  console.log('Req body is', req.body);
+  Chat
+    .create(req.body)
+    // .populate('userOne', 'userTwo')
+    .then(chat => res.json(chat))
+    .catch(next);
+}
+
 module.exports = {
   index: chatsIndex,
-  show: chatsShow
+  show: chatsShow,
+  startNewChat: startNewChat
 };
