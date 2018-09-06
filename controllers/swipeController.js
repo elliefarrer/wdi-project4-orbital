@@ -1,95 +1,50 @@
 const User = require('../models/user');
-const { secret } = require('../config/env');
-const jwt = require('jsonwebtoken');
-
-let token;
-let userId;
-
-function getTokenFromRequest(req) {
-  token = req.headers.authorization.replace('Bearer ', '');
-  console.log('token is', token);
-  function getUserIdFromToken(err, result) {
-    console.log('err is', err); // JsonWebTokenError: invalid token. Points to line 17
-    console.log('Result is', result); // Result is undefined
-    userId = result.sub;
-    console.log('user id is', userId);
-  }
-  jwt.verify(token, secret, getUserIdFromToken);
-}
-
 
 function swipesIndex(req, res, next) {
-  getTokenFromRequest(req);
   User
-    .findById(userId)
+    .findById(req.params.userId)
     .populate('swipes')
-    .then(user => res.json(user.swipes))
+    .then(users => res.json(users.swipes))
     .catch(next);
 }
 
+// Get swiper's ID from req.params.userId. Get swipee's ID from req.body.userId
 function swipesCreate(req, res, next) {
-  console.log('Does this even run');
-  getTokenFromRequest(req);
   User
-    .findById(userId)
-    .then(() => console.log('What is on params?', req.params))
+    .findById(req.params.userId)
+    .then(user => {
+      // if user swipes left
+      if (req.body.status === 'left') {
+        user.swipes.push({ userId: req.body.userId, status: req.body.status });
+        console.log('User is now', user);
+      }
+      // if user swipes right
+      if (req.body.status === 'right') {
+        user.swipes.push({ userId: req.body.userId, status: req.body.status });
+        console.log('User is now', user);
+      }
+      return user.save();
+    })
+    // .then(user => console.log('User is now', user))
+    .then(user => res.json(user))
     .catch(next);
-}
-
-function swipesUpdate(req, res, next) {
-  console.log('req params is', req.params);
-  console.log('res is', res);
 }
 
 module.exports = {
   index: swipesIndex,
-  create: swipesCreate,
-  update: swipesUpdate
+  create: swipesCreate
 };
 
-// function passengerCreate(req, res, next) {
-//   const carShareId = req.params.carShareId;
-//   getTokenFromHttpRequest(req);
-//   User
-//     .findById(userId)
+// .findById(req.params.id)
+//     .exec()
 //     .then(user => {
-//       user.carShares.push(carShareId);
-//       // console.log(user);
-//       return user.save();
+//       user.pendingMatchRequests.push(req.currentUser._id);
+//       req.currentUser.sentMatchRequests.push(req.params.id);
+//
+//       return Promise.props({
+//         sender: req.currentUser.save(),
+//         receiver: user.save()
+//       });
 //     })
-//     .then(() => {
-//       return CarShare
-//         .findById(carShareId)
-//         .then(carShare => {
-//           carShare.pendingPassengers.push(userId);
-//           return carShare.save();
-//         });
-//     })
-//     .then((carShare) => res.json(carShare))
+//     .then(users => res.json(users.sender))
 //     .catch(next);
-// }
-
-// function pendingPassengersDelete(req, res, next) {
-//   const carShareId = req.params.carShareId;
-//   const passengerId = req.params.passengerId;
-//   CarShare
-//     .findById(carShareId)
-//     .then(carShare => {
-//       carShare.pendingPassengers = carShare.pendingPassengers.filter(pendingPassenger =>
-//         pendingPassenger.toString() !== passengerId
-//       );
-//       carShare.passengers = carShare.passengers.filter(pendingPassenger =>
-//         pendingPassenger.toString() !== passengerId
-//       );
-//       return carShare.save();
-//     })
-//     .then(() => User.findById(passengerId)) //This bit needs testing
-//     .then(rejectedPassenger => {
-//       // console.log('the rejected passenger is', rejectedPassenger);
-//       rejectedPassenger.carShares = rejectedPassenger.carShares.filter(passengerOn =>
-//         passengerOn.toString() !== carShareId);
-//       return rejectedPassenger.save();
-//     })
-//     .then(() => res.sendStatus(204))
-//     .catch(next);
-// }

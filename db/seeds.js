@@ -27,10 +27,10 @@ const userData = [
     languages: [ 'English', 'French', 'Italian', 'Dutch' ],
     bio: 'Classical musician turned JavaScript developer. 5ft2, ENTP, and very proud Brit. Proud mummy of a black labrador. If you don\'t like Patisserie Valerie and the Oxford comma, we won\'t get on.',
     swipes: [
-      { userId: userIds[1], status: 'matched' },
-      { userId: userIds[2], status: 'swiped right' },
-      { userId: userIds[3], status: 'swiped left' },
-      { userId: userIds[4], status: 'pending' }
+      { userId: userIds[1], status: 'right' },
+      { userId: userIds[2], status: 'right' },
+      { userId: userIds[3], status: 'left' },
+      { userId: userIds[4], status: 'left' }
     ]
   },
   {
@@ -50,7 +50,7 @@ const userData = [
     languages: ['English', 'French', 'Urdu'],
     bio: 'From Manchester, recently moved to London for work. Looking to meet someone chilled out with a great sense of humour.',
     swipes: [
-      { userId: userIds[0], status: 'matched' }
+      { userId: userIds[0], status: 'right' }
     ]
   },
   {
@@ -70,7 +70,7 @@ const userData = [
     languages: [ 'English' ],
     bio: 'Some of my mates use this so thought I\'d give it a go. Just looking for someone to have a laugh with. Not sure what else to say so swipe right and message to find out.',
     swipes: [
-      { userId: userIds[0], status: 'pending' }
+      { userId: userIds[0], status: 'right' }
     ]
   },
   {
@@ -105,9 +105,9 @@ const userData = [
     profilePic: 'paul.png',
     occupation: 'Crypto Currency Miner',
     languages: [ 'English' ],
-    bio: 'Greetings, m\'lady. I am a gentleman who treats a lady like a gentleman should.I am a nice guy, why can\'t I get a reply? Sorry I\'m obese, live with my mum, andspend my life on the computer mining XRP 😒',
+    bio: 'Greetings, m\'lady. I am a gentleman who treats a lady like a gentleman should. I am a nice guy, why can\'t I get a reply? Sorry I\'m obese, live with my mum, and spend my life on the computer mining XRP 😒',
     swipes: [
-      { userId: userIds[0], status: 'swiped right' }
+      { userId: userIds[0], status: 'right' }
     ]
   },
   {

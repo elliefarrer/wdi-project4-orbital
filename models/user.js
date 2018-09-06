@@ -67,7 +67,7 @@ const userSchema = new mongoose.Schema({
   swipes: [
     {
       userId: { type: mongoose.Schema.ObjectId, ref: 'User' },
-      status: { type: String, enum: ['swiped right', 'pending', 'matched', 'unmatched', 'swiped left', 'expired'] },
+      status: { type: String, enum: ['right', 'left', 'expired'] },
       timestamps: { type: String, default: moment().format('YYYY-MM-DD HH:mm:ss') }
       //TODO: change default back to 'no swipe' when tested/figured out how to do this a better way
     }
@@ -97,9 +97,11 @@ userSchema.virtual('passwordConfirmation')
 
 //////////////// LIFECYCLE HOOKS ///////////////
 userSchema.pre('validate', function(next) {
-  if(!this._passwordConfirmation || this._passwordConfirmation !== this.password) {
-    console.log('Passwords do not match');
-    this.invalidate('Password confirmation', 'does not match');
+  if(this.isModified('password')) {
+    if(!this._passwordConfirmation || this._passwordConfirmation !== this.password) {
+      console.log('Passwords do not match');
+      this.invalidate('Password confirmation', 'does not match');
+    }
   }
 
   // invalidate if user is under 18
