@@ -259,11 +259,27 @@ const userData = [
     profilePic: 'https://i.imgur.com/XPxDZgf.png',
     occupation: 'Estate Agent',
     languages: ['English'],
-    bio: 'Estate agent who\'s a big fan of whipped cream, less so of salt. You can never meet my family, they\'re very weird. Never available to hang out on Friday nights.' 
-  }
+    bio: 'Estate agent who\'s a big fan of whipped cream, less so of salt. You can never meet my family, they\'re very weird. Never available to hang out on Friday nights.'
+  },
 
   //////// WOMEN //////////
-
+  {
+    _id: userIds[12],
+    firstName: 'Jasmine',
+    email: 'jasmine@platyp.com',
+    password: 'Pass1234',
+    passwordConfirmation: 'Pass1234',
+    dateOfBirth: '1993-07-31',
+    postcode: 'W11 1EL',
+    gender: 'woman',
+    sexuality: ['women'],
+    minAgeRange: 24,
+    maxAgeRange: 27,
+    profilePic: 'https://i.imgur.com/dsKzIzc.png',
+    occupation: 'Writer',
+    languages: ['English', 'Dutch'],
+    bio: 'I\'m a food critic currently writing my first novel. Huge fan of all food from fine dining to fast food, but I\'m also very creative. Mummy to two cats.'
+  }
 ];
 
 const chatData = [

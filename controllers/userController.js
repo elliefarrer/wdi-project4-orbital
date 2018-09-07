@@ -1,5 +1,6 @@
 const User = require('../models/user');
 
+//IDEA: can I filter by gender and age range here? Or use a query string with axios in the front end
 function usersIndex(req, res, next) {
   User
     .find()

@@ -20,6 +20,11 @@ export default class UsersShow extends React.Component {
     this.props.history.push('/');
   }
 
+  deleteProfile = () => {
+    axios.delete(`/api/users/${this.props.match.params.userId}`, Auth.bearerHeader())
+      .then(() => this.props.history.push('/'));
+  }
+
   render() {
     const user = this.state.user;
     return (
@@ -44,9 +49,12 @@ export default class UsersShow extends React.Component {
               )}
             </p>
 
-            <Link to={`/users/${Auth.currentUserId()}/edit`}>Edit Profile</Link>
             {Auth.isAuthenticated() &&
-              <a onClick={this.logOut}>Log out {Auth.currentFirstName()}</a>
+              <div>
+                <Link to={`/users/${Auth.currentUserId()}/edit`}>Edit Profile</Link>
+                <a onClick={this.logOut}>Log out {Auth.currentFirstName()}</a>
+                <a onClick={this.deleteProfile}>Delete Profile</a>
+              </div>
             }
           </div>
         }

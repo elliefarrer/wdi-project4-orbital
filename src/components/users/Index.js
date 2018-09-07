@@ -7,6 +7,7 @@ import moment from 'moment';
 // libraries
 // import Auth from '../../lib/Auth';
 
+//IDEA: can I filter by sexuality and age range in back end? Or use a query string here to filter? Can you add params to axios like with $http in Angular?
 export default class UsersIndex extends React.Component {
   state = {}
 
