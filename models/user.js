@@ -33,13 +33,13 @@ const userSchema = new mongoose.Schema({
   gender: {
     type: String,
     required: true,
-    enum: [ 'male', 'female', 'other' ]
+    enum: [ 'man', 'woman', 'transgender', 'non-binary', 'other', 'prefer not to say' ]
   },
-  sexuality: {
+  sexuality: [{
     type: String,
     required: true,
-    enum: [ 'straight', 'gay/lesbian', 'bisexual' ]
-  },
+    enum: [ 'men', 'women', 'transgender', 'non-binary', 'other' ]
+  }],
   minAgeRange: {
     type: Number,
     min: 18

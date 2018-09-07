@@ -4,6 +4,9 @@ import { Link } from 'react-router-dom';
 
 import moment from 'moment';
 
+// libraries
+import Auth from '../../lib/Auth';
+
 export default class UsersIndex extends React.Component {
   state = {}
 
@@ -11,6 +14,11 @@ export default class UsersIndex extends React.Component {
     console.log('component mounted');
     axios.get('/api/users')
       .then(res => this.setState({ users: res.data }));
+  }
+
+  logOut = () => {
+    Auth.removeToken();
+    this.props.history.push('/');
   }
 
   render() {
@@ -38,6 +46,9 @@ export default class UsersIndex extends React.Component {
             </div>
           </Link>
         )}
+        {Auth.isAuthenticated() &&
+          <a onClick={this.logOut}>Log out {Auth.currentFirstName()}</a>
+        }
       </section>
     );
   }

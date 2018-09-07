@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 // libraries
@@ -62,10 +63,12 @@ export default class AuthLogin extends React.Component {
                 onChange={this.handleChange}
               />
             </div>
-            <button>Submit</button>
+            <button>Login</button>
           </div>
         </form>
         <button onClick={this.togglePasswordShow}>👁</button>
+
+        <Link to="/register">Sign Up</Link>
       </section>
     );
   }

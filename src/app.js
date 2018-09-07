@@ -9,6 +9,7 @@ import './scss/style.scss';
 // Components
 import Header from './components/Header';
 import AuthLogin from './components/auth/Login';
+import AuthRegister from './components/auth/Register';
 import UsersIndex from './components/users/Index';
 import UsersShow from './components/users/Show';
 
@@ -20,6 +21,7 @@ class App extends React.Component {
         <main>
           <Switch>
             <Route exact path="/" component={AuthLogin} />
+            <Route exact path="/register" component={AuthRegister} />
             <Route exact path="/users" component={UsersIndex} />
             <Route path="/users/:userId" component={UsersShow} />
           </Switch>
