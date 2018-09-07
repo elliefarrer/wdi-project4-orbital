@@ -9,7 +9,36 @@ mongoose.connect(dbURI);
 User.collection.drop();
 Chat.collection.drop();
 
-const userIds = ['5b90faba6164a88ac1374928', '5b90fb567ac316da4df12cf3', '5b90fb667ac316da4df12cf4', '5b90fb777ac316da4df12cf5', '5b90fb7f7ac316da4df12cf6', '5b90fb8c7ac316da4df12cf7', '5b90fb947ac316da4df12cf8', '5b90fb9e7ac316da4df12cf9', '5b90fba57ac316da4df12cfa','5b90fbae7ac316da4df12cfb', '5b90fbb77ac316da4df12cfc'];
+const userIds = [
+  '5b90faba6164a88ac1374928',
+  '5b90fb567ac316da4df12cf3',
+  '5b90fb667ac316da4df12cf4',
+  '5b90fb777ac316da4df12cf5',
+  '5b90fb7f7ac316da4df12cf6',
+  '5b90fb8c7ac316da4df12cf7',
+  '5b90fb947ac316da4df12cf8',
+  '5b90fb9e7ac316da4df12cf9',
+  '5b90fba57ac316da4df12cfa',
+  '5b90fbae7ac316da4df12cfb',
+  '5b90fbb77ac316da4df12cfc',
+  '5b92684e3683e27f1a51cbc9',
+  '5b92685e3683e27f1a51cbca',
+  '5b9268693683e27f1a51cbcb',
+  '5b9268783683e27f1a51cbcc',
+  '5b9268783683e27f1a51cbcd',
+  '5b9268783683e27f1a51cbce',
+  '5b9268953683e27f1a51cbcf',
+  '5b9268983683e27f1a51cbd0',
+  '5b9268a93683e27f1a51cbd1',
+  '5b9268a93683e27f1a51cbd2',
+  '5b9268a93683e27f1a51cbd3',
+  '5b9268a93683e27f1a51cbd4',
+  '5b9268a93683e27f1a51cbd5',
+  '5b9268a93683e27f1a51cbd6',
+  '5b9268a93683e27f1a51cbd7',
+  '5b9268a93683e27f1a51cbd8',
+  '5b9268a93683e27f1a51cbd9'
+];
 
 const userData = [
   {
@@ -90,7 +119,7 @@ const userData = [
     profilePic: 'https://i.imgur.com/xXcqsMw.png',
     occupation: 'Project Manager',
     languages: [ 'English', 'Mandarin' ],
-    bio: 'Professional from south London, looking for something serious and to settledown. Into cooking and keeping fit. If you don\'t like cats, we won\'t get on. I havetwo fur babies and want more!'
+    bio: 'Professional from south London, looking for something serious and to settle down. Into cooking and keeping fit. If you don\'t like cats, we won\'t get on. I have two fur babies and want more!'
   },
   {
     _id: userIds[4],
@@ -127,7 +156,7 @@ const userData = [
     profilePic: 'https://i.imgur.com/TxQDSMZ.png',
     occupation: 'Marketing Intern',
     languages: [ 'English', 'Spanish' ],
-    bio: 'Don\'t call my name, dont\'t call my name, Alejandro. I\'m not your babe, I\'mnot your babe, Fernando. Not much of a Lady Gaga fan.'
+    bio: 'Don\'t call my name, dont\'t call my name, Alejandro. I\'m not your babe, I\'m not your babe, Fernando. Not much of a Lady Gaga fan.'
   },
   {
     _id: userIds[6],
@@ -162,7 +191,9 @@ const userData = [
     occupation: 'Musician',
     languages: [ 'English', 'French' ],
     bio: 'I\'m the one in the middle. Composer who writes music for jingles. Only on here so my dad will stop asking if there are any females. If you get any weird messages from me, you can assume it was my brother.'
-  }
+  },
+
+  ////////
 ];
 
 const chatData = [

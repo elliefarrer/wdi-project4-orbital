@@ -3,8 +3,8 @@ const Chat = require('../models/chat');
 
 function chatsIndex(req, res, next) {
   Chat
-    .find()
-    .populate('userOne', 'userTwo') //TODO: check if I need to populate chats.messages.sentBy and if so, how to do it
+    .find({ $or: [{ userOne: req.params.userId}, {userTwo: req.params.userId }] })
+    .populate('userOne userTwo', 'firstName profilePic') //TODO: check if I need to populate chats.messages.sentBy and if so, how to do it
     .then(chats => res.json(chats))
     .catch(next);
 }
@@ -12,7 +12,7 @@ function chatsIndex(req, res, next) {
 function chatsShow(req, res, next) {
   Chat
     .findById(req.params.chatId)
-    .populate('userOne', 'userTwo')
+    .populate('userOne userTwo', 'firstName profilePic')
     .then(chat => res.json(chat))
     .catch(next);
 }
@@ -20,7 +20,7 @@ function chatsShow(req, res, next) {
 function startNewChat(req, res, next) {
   Chat
     .create(req.body)
-    // .populate('userOne', 'userTwo')
+    // .populate('userOne userTwo', 'firstName profilePic')
     .then(chat => res.json(chat))
     .catch(next);
 }
@@ -30,7 +30,7 @@ function continueChat(req, res, next) {
   console.log('req body is', req.body);
   Chat
     .findById(req.params.chatId)
-    // .populate('userOne', 'userTwo')
+    .populate('userOne userTwo', 'firstName profilePic')
     .then(chat => {
       chat.messages.push(req.body);
       return chat.save();

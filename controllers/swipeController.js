@@ -1,4 +1,3 @@
-const _ = require('lodash');
 const User = require('../models/user');
 
 function swipesIndex(req, res, next) {
