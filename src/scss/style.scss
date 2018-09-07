@@ -1,31 +1,80 @@
 body {
   font-family: 'Oxygen', sans-serif;
-  text-align: center;
+  .centered-text {
+    text-align: center;
+  }
+
   nav {
     color: #ffffff;
     height: 7vh;
     // position: relative;
     background-color: orange;
-    .column-1of3 {
+    .column {
       position: absolute;
       top: 0;
+      height: 7vh;
+    }
+    .column-1of3 {
       left: 0;
       width: 33vw;
-      height: 7vh;
     }
     .column-2of3 {
-      position: absolute;
-      top: 0;
       left: 33%;
       width: 33vw;
-      height: 7vh;
     }
     .column-3of3 {
-      position: absolute;
-      top: 0;
       left: 66%;
       width: 34vw;
-      height: 7vh;
+      // TODO: replace width: 34vw with calc
+    }
+  }
+
+  .users-index {
+    margin-top: 5rem;
+    .polaroid {
+      margin: 0 auto;
+      background-color: pink;
+      width: 900px;
+      height: 1000px;
+      margin-bottom: 1rem;
+      .polaroid-body {
+        height: 800px;
+        width: 800px;
+        margin: 2rem 2rem 0 2rem;
+      }
+      .polaroid-footer {
+        margin-left: 3rem;
+        text-align: left;
+        h2 {
+          font-size: 4.5rem;
+        }
+        h4 {
+          font-size: 2rem;
+        }
+      }
+    }
+    .buttons {
+      height: 20vh;
+      .column-1of2 {
+        position: absolute;
+        left: 0;
+        width: 50vw;
+        button {
+          background-color: pink;
+          width: 2rem;
+          height: 2rem;
+        }
+      }
+      .column-2of2 {
+        position: absolute;
+        left: 50%;
+        width: 50vw;
+        button {
+          background-color: pink;
+          width: 2rem;
+          height: 2rem;
+        }
+      }
     }
   }
 }

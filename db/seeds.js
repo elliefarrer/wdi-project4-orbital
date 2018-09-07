@@ -67,7 +67,7 @@ const userData = [
     sexuality: 'bisexual',
     minAgeRange: 20,
     maxAgeRange: 24,
-    profilePic: 'harry.png',
+    profilePic: 'https://i.imgur.com/tBSRAsB.png',
     occupation: 'Scaffolder',
     languages: [ 'English' ],
     bio: 'Some of my mates use this so thought I\'d give it a go. Just looking for someone to have a laugh with. Not sure what else to say so swipe right and message to find out.',
@@ -104,7 +104,7 @@ const userData = [
     sexuality: 'straight',
     minAgeRange: 22,
     maxAgeRange: 31,
-    profilePic: 'paul.png',
+    profilePic: 'https://i.imgur.com/uaMHPp6.png',
     occupation: 'Crypto Currency Miner',
     languages: [ 'English' ],
     bio: 'Greetings, m\'lady. I am a gentleman who treats a lady like a gentleman should. I am a nice guy, why can\'t I get a reply? Sorry I\'m obese, live with my mum, and spend my life on the computer mining XRP 😒',
@@ -132,7 +132,7 @@ const userData = [
   {
     _id: userIds[6],
     firstName: 'Vasco',
-    email: 'vasco@email.com',
+    email: 'vasco@platyp.com',
     password: 'Pass1234',
     passwordConfirmation: 'Pass1234',
     dateOfBirth: '1999-08-10',
@@ -145,6 +145,23 @@ const userData = [
     occupation: 'Student',
     languages: [ 'English', 'Portuguese', 'Spanish', 'French' ],
     bio: 'I\'m a Portuguese bassoonist, studying in Moorgate. Swipe right if you know who Stravinsky is. Not sure what I\'m looking for on here, just want to meet people and see where it leads.'
+  },
+  {
+    _id: userIds[7],
+    firstName: 'Adam',
+    email: 'adam@platyp.com',
+    password: 'Pass1234',
+    passwordConfirmation: 'Pass1234',
+    dateOfBirth: '1990-05-05',
+    postcode: 'WD6 3BJ',
+    gender: 'male',
+    sexuality: 'straight',
+    minAgeRange: 23,
+    maxAgeRange: 28,
+    profilePic: 'https://i.imgur.com/z7TUnXT.png',
+    occupation: 'Musician',
+    languages: [ 'English', 'French' ],
+    bio: 'I\'m the one in the middle. Composer who writes music for jingles. Only on here so my dad will stop asking if there are any females. If you get any weird messages from me, you can assume it was my brother.'
   }
 ];
 
