@@ -1,0 +1,31 @@
+body {
+  font-family: 'Oxygen', sans-serif;
+  text-align: center;
+  nav {
+    color: #ffffff;
+    height: 7vh;
+    // position: relative;
+    background-color: orange;
+    .column-1of3 {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 33vw;
+      height: 7vh;
+    }
+    .column-2of3 {
+      position: absolute;
+      top: 0;
+      left: 33%;
+      width: 33vw;
+      height: 7vh;
+    }
+    .column-3of3 {
+      position: absolute;
+      top: 0;
+      left: 66%;
+      width: 34vw;
+      height: 7vh;
+    }
+  }
+}
