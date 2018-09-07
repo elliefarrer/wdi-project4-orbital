@@ -4,12 +4,20 @@ import { Link } from 'react-router-dom';
 
 import moment from 'moment';
 
+// libraries
+import Auth from '../../lib/Auth';
+
 export default class UsersShow extends React.Component {
   state = {}
 
   componentDidMount = () => {
     axios.get(`/api/users/${this.props.match.params.userId}`)
       .then(res => this.setState({ user: res.data }));
+  }
+
+  logOut = () => {
+    Auth.removeToken();
+    this.props.history.push('/');
   }
 
   render() {
@@ -35,8 +43,14 @@ export default class UsersShow extends React.Component {
                 <span key={index}>{language}</span>
               )}
             </p>
+
+            <Link to={`/users/${Auth.currentUserId()}/edit`}>Edit Profile</Link>
+            {Auth.isAuthenticated() &&
+              <a onClick={this.logOut}>Log out {Auth.currentFirstName()}</a>
+            }
           </div>
         }
+
       </section>
     );
   }

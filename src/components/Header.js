@@ -18,7 +18,7 @@ const Header = function() {
         <Link to="/users">Index</Link>
       </div>
       <div className="column column-3of3 centered-text">
-        <Link to="/users/:userId/chats">Inbox</Link>
+        <Link to={`/users/${Auth.currentUserId()}/chats`}>Inbox</Link>
       </div>
     </nav>
   );

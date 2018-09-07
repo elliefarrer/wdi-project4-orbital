@@ -12,6 +12,10 @@ import AuthLogin from './components/auth/Login';
 import AuthRegister from './components/auth/Register';
 import UsersIndex from './components/users/Index';
 import UsersShow from './components/users/Show';
+import UsersEdit from './components/users/Edit';
+
+// Libraries
+import Auth from './lib/Auth';
 
 class App extends React.Component {
   render() {
@@ -23,7 +27,8 @@ class App extends React.Component {
             <Route exact path="/" component={AuthLogin} />
             <Route exact path="/register" component={AuthRegister} />
             <Route exact path="/users" component={UsersIndex} />
-            <Route path="/users/:userId" component={UsersShow} />
+            <Route exact path="/users/:userId" component={UsersShow} />
+            <Route path={`/users/${Auth.currentUserId()}/edit`}  component={UsersEdit} />
           </Switch>
         </main>
       </div>
