@@ -9,6 +9,7 @@ import './scss/style.scss';
 // Components
 import Header from './components/Header';
 import UsersIndex from './components/users/Index';
+import UsersShow from './components/users/Show';
 
 class App extends React.Component {
   render() {
@@ -18,6 +19,7 @@ class App extends React.Component {
         <main>
           <Switch>
             <Route exact path="/users" component={UsersIndex} />
+            <Route path="/users/:userId" component={UsersShow} />
           </Switch>
         </main>
       </div>

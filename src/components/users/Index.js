@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 import moment from 'moment';
 
@@ -17,7 +18,7 @@ export default class UsersIndex extends React.Component {
     return (
       <section className="users-index centered-text">
         {this.state.users && this.state.users.map(user =>
-          <div key={user._id}>
+          <Link key={user._id} to={`/users/${user._id}`}>
             <div className="polaroid">
               <img className="polaroid-body" src={user.profilePic} alt={user.firstName} />
               <div className="polaroid-footer">
@@ -35,7 +36,7 @@ export default class UsersIndex extends React.Component {
                 <button>💖</button>
               </div>
             </div>
-          </div>
+          </Link>
         )}
       </section>
     );
