@@ -3,7 +3,7 @@ const User = require('../models/user');
 function swipesIndex(req, res, next) {
   User
     .findById(req.params.userId)
-    .populate('swipes')
+    .populate('swipes.userId', 'firstName profilePic')
     .then(users => res.json(users.swipes))
     .catch(next);
 }

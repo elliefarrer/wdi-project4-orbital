@@ -13,9 +13,12 @@ import AuthRegister from './components/auth/Register';
 import UsersIndex from './components/users/Index';
 import UsersShow from './components/users/Show';
 import UsersEdit from './components/users/Edit';
+import ChatsIndex from './components/chats/Index';
 
 // Libraries
 import Auth from './lib/Auth';
+
+//BUG: can't go from a user's show page to profile page. Could possibly do this with a different component?
 
 class App extends React.Component {
   render() {
@@ -27,7 +30,8 @@ class App extends React.Component {
             <Route exact path="/" component={AuthLogin} />
             <Route exact path="/register" component={AuthRegister} />
             <Route exact path="/users" component={UsersIndex} />
-            <Route exact path="/users/:userId" component={UsersShow} />
+            <Route exact path={`/users/${Auth.currentUserId()}/chats`} component={ChatsIndex} />
+            <Route path="/users/:userId" component={UsersShow} />
             <Route path={`/users/${Auth.currentUserId()}/edit`}  component={UsersEdit} />
           </Switch>
         </main>
