@@ -15,6 +15,19 @@ export default class UsersShow extends React.Component {
       .then(res => this.setState({ user: res.data }));
   }
 
+  handleSwipe = event => {
+    event.preventDefault();
+    const swipeData = {
+      userId: event.target.name,
+      status: event.target.value,
+      timestamps: Date.now()
+    };
+    axios.post(`/api/users/${Auth.currentUserId()}/swipes`, swipeData)
+      .then(res => this.setState({ currentUser: res.data }))
+      .then(() => this.props.history.push('/users'))
+      .catch(err => console.log(err));
+  }
+
   logOut = () => {
     Auth.removeToken();
     this.props.history.push('/');
@@ -35,6 +48,15 @@ export default class UsersShow extends React.Component {
 
             {/* make this link look like a button */}
             <Link to="/users">Back</Link>
+
+            <div className="buttons">
+              <div className="column-1of2">
+                <button name={user._id} value="left" onClick={this.handleSwipe}>✖️</button>
+              </div>
+              <div className="column-2of2">
+                <button name={user._id} value="right" onClick={this.handleSwipe}>💖</button>
+              </div>
+            </div>
 
             <h2>{user.firstName}, {moment().diff(user.dateOfBirth, 'years')}</h2>
             <p>{user.occupation}</p>

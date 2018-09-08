@@ -58,8 +58,8 @@ const userData = [
     languages: [ 'English', 'French', 'Italian', 'Dutch' ],
     bio: 'Classical musician turned JavaScript developer. 5ft2, ENTP, and very proud Brit. Proud mummy of a black labrador. If you don\'t like Patisserie Valerie and the Oxford comma, we won\'t get on.',
     swipes: [
-      { userId: userIds[1], status: 'right' },
-      { userId: userIds[2], status: 'right' },
+      { userId: userIds[1], status: 'right', mutual: true },
+      { userId: userIds[2], status: 'right', mutual: true },
       { userId: userIds[3], status: 'left' },
       { userId: userIds[4], status: 'left' }
     ]
@@ -82,7 +82,7 @@ const userData = [
     languages: ['English', 'French', 'Urdu'],
     bio: 'From Manchester, recently moved to London for work. Looking to meet someone chilled out with a great sense of humour.',
     swipes: [
-      { userId: userIds[0], status: 'right' }
+      { userId: userIds[0], status: 'right', mutual: true }
     ]
   },
   {
@@ -102,7 +102,7 @@ const userData = [
     languages: [ 'English' ],
     bio: 'Some of my mates use this so thought I\'d give it a go. Just looking for someone to have a laugh with. Not sure what else to say so swipe right and message to find out.',
     swipes: [
-      { userId: userIds[0], status: 'right' }
+      { userId: userIds[0], status: 'right', mutual: true }
     ]
   },
   {
