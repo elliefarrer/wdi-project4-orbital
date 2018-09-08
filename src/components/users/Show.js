@@ -36,6 +36,7 @@ export default class UsersShow extends React.Component {
   deleteProfile = () => {
     axios.delete(`/api/users/${this.props.match.params.userId}`, Auth.bearerHeader())
       .then(() => this.props.history.push('/'));
+    Auth.removeToken();
   }
 
   render() {

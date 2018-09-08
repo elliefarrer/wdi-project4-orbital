@@ -7,6 +7,7 @@ import './css/reset.css';
 import './scss/style.scss';
 
 // Components
+import SecureRoute from './components/common/SecureRoute';
 import Header from './components/Header';
 import AuthLogin from './components/auth/Login';
 import AuthRegister from './components/auth/Register';
@@ -24,17 +25,17 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Header />
+        {Auth.isAuthenticated() &&
+          <Header />
+        }
         <main>
           <Switch>
             <Route exact path="/" component={AuthLogin} />
             <Route exact path="/register" component={AuthRegister} />
-            <Route exact path="/users" component={UsersIndex} />
-            <Route exact path="/users/:userId/chats" component={ChatsIndex} />
-            <Route path="/users/:userId" component={UsersShow} />
-            {Auth.isAuthenticated() &&
-              <Route path={`/users/${Auth.currentUserId()}/edit`} component={UsersEdit} />
-            }
+            <SecureRoute exact path="/users" component={UsersIndex} />
+            <SecureRoute exact path="/users/:userId/chats" component={ChatsIndex} />
+            <SecureRoute path="/users/:userId" component={UsersShow} />
+            <SecureRoute path={`/users/${Auth.currentUserId()}/edit`} component={UsersEdit} />
           </Switch>
         </main>
       </div>
