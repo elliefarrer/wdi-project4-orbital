@@ -68,7 +68,7 @@ const userSchema = new mongoose.Schema({
     {
       userId: { type: mongoose.Schema.ObjectId, ref: 'User' },
       status: { type: String, enum: ['right', 'left', 'expired'] },
-      timestamps: { type: String, default: moment().format('YYYY-MM-DD HH:mm') }
+      timestamps: { type: String, default: moment().format('YYYY-MM-dd HH:mm') }
       //TODO: change default back to 'no swipe' when tested/figured out how to do this a better way
     }
   ]

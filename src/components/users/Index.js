@@ -6,11 +6,23 @@ import { Link } from 'react-router-dom';
 import moment from 'moment';
 
 // libraries
-// import Auth from '../../lib/Auth';
+import Auth from '../../lib/Auth';
 
 //IDEA: can I filter by sexuality and age range in back end? Or use a query string here to filter? Can you add params to axios like with $http in Angular?
 export default class UsersIndex extends React.Component {
   state = {}
+
+  handleSwipe = event => {
+    event.preventDefault();
+    const swipeData = {
+      userId: event.target.name,
+      status: event.target.value,
+      timestamps: Date.now()
+    };
+    axios.post(`/api/users/${Auth.currentUserId()}/swipes`, swipeData)
+      .then(res => this.setState({ currentUser: res.data }))
+      .catch(err => console.log(err));
+  }
 
   componentDidMount = () => {
     console.log('component mounted');
@@ -23,9 +35,12 @@ export default class UsersIndex extends React.Component {
     return (
       <section className="users-index centered-text">
         {this.state.users && this.state.users.map(user =>
-          <Link key={user._id} to={`/users/${user._id}`}>
+          <div key={user._id} >
             <div className="polaroid">
               <img className="polaroid-body" src={user.profilePic} alt={user.firstName} />
+              <Link to={`/users/${user._id}`}>
+                <i className="fas fa-info-circle"></i>
+              </Link>
               <div className="polaroid-footer">
                 <h2>{user.firstName}, {moment().diff(user.dateOfBirth, 'years')}</h2>
                 <h4>{user.occupation}</h4>
@@ -35,13 +50,13 @@ export default class UsersIndex extends React.Component {
 
             <div className="buttons">
               <div className="column-1of2">
-                <button>✖️</button>
+                <button name={user._id} value="left" onClick={this.handleSwipe}>✖️</button>
               </div>
               <div className="column-2of2">
-                <button>💖</button>
+                <button name={user._id} value="right" onClick={this.handleSwipe}>💖</button>
               </div>
             </div>
-          </Link>
+          </div>
         )}
 
       </section>
