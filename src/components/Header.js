@@ -17,9 +17,11 @@ const Header = function() {
       <div className="column column-2of3 centered-text">
         <Link to="/users">Index</Link>
       </div>
-      <div className="column column-3of3 centered-text">
-        <Link to={`/users/${Auth.currentUserId()}/chats`}>Inbox</Link>
-      </div>
+      {Auth.isAuthenticated() &&
+        <div className="column column-3of3 centered-text">
+          <Link to={`/users/${Auth.currentUserId()}/chats`}>Inbox</Link>
+        </div>
+      }
     </nav>
   );
 };

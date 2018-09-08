@@ -7,7 +7,9 @@ import { Link } from 'react-router-dom';
 import Auth from '../../lib/Auth';
 
 export default class ChatsIndex extends React.Component {
-  state = {};
+  state = {
+    matches: []
+  };
 
   componentDidMount = () => {
     axios.get(`/api/users/${Auth.currentUserId()}/swipes`, {
@@ -34,8 +36,8 @@ export default class ChatsIndex extends React.Component {
     console.log('Chats are', this.state.chats);
     return (
       <section>
-        {this.state.swipes && this.state.swipes.map(swipe =>
-          <Link key={swipe._id} to={`/users/${swipe.userId._id}`}>
+        {this.state.swipes && this.state.swipes.map((swipe, index) =>
+          <Link key={index} to={`/users/${swipe.userId._id}`}>
             <img src={swipe.userId.profilePic} alt={swipe.userId.firstName} />
             <p>{swipe.userId.firstName}</p>
           </Link>

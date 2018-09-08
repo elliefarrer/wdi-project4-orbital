@@ -17,9 +17,11 @@ Auth.removeToken = function() {
 };
 
 Auth.getPayload = function() {
-  const token = this.getToken();
-  const payload = token.split('.')[1];
-  return JSON.parse(atob(payload));
+  if(this.getToken()) {
+    const token = this.getToken();
+    const payload = token.split('.')[1];
+    return JSON.parse(atob(payload));
+  }
 };
 
 //IDEA: extend this function and use it to get profilePic as well, if necessary
@@ -28,7 +30,9 @@ Auth.currentFirstName = function() {
 };
 
 Auth.currentUserId = function() {
-  return this.getPayload().sub;
+  if(this.getToken()) {
+    return this.getPayload().sub;
+  }
 };
 
 Auth.bearerHeader = function() {
