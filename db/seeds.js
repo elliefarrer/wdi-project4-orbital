@@ -157,7 +157,10 @@ const userData = [
     profilePic: 'https://i.imgur.com/TxQDSMZ.png',
     occupation: 'Marketing Intern',
     languages: [ 'English', 'Spanish' ],
-    bio: 'Don\'t call my name, dont\'t call my name, Alejandro. I\'m not your babe, I\'m not your babe, Fernando. Not much of a Lady Gaga fan.'
+    bio: 'Don\'t call my name, dont\'t call my name, Alejandro. I\'m not your babe, I\'m not your babe, Fernando. Not much of a Lady Gaga fan.',
+    swipes: [
+      { userId: userIds[0], status: 'right' }
+    ]
   },
   {
     _id: userIds[6],
@@ -174,7 +177,10 @@ const userData = [
     profilePic: 'https://i.imgur.com/KB0u7wa.png',
     occupation: 'Student',
     languages: [ 'English', 'Portuguese', 'Spanish', 'French' ],
-    bio: 'I\'m a Portuguese bassoonist, studying in Moorgate. Swipe right if you know who Stravinsky is. Not sure what I\'m looking for on here, just want to meet people and see where it leads.'
+    bio: 'I\'m a Portuguese bassoonist, studying in Moorgate. Swipe right if you know who Stravinsky is. Not sure what I\'m looking for on here, just want to meet people and see where it leads.',
+    swipes: [
+      { userId: userIds[0], status: 'left' }
+    ]
   },
   {
     _id: userIds[7],
@@ -191,7 +197,10 @@ const userData = [
     profilePic: 'https://i.imgur.com/z7TUnXT.png',
     occupation: 'Musician',
     languages: [ 'English', 'French' ],
-    bio: 'I\'m the one in the middle. Composer who writes music for jingles. Only on here so my dad will stop asking if there are any females. If you get any weird messages from me, you can assume it was my brother.'
+    bio: 'I\'m the one in the middle. Composer who writes music for jingles. Only on here so my dad will stop asking if there are any females. If you get any weird messages from me, you can assume it was my brother.',
+    swipes: [
+      { userId: userIds[0], status: 'left' }
+    ]
   },
   {
     _id: userIds[8],
