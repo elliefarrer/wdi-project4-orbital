@@ -48,8 +48,6 @@ export default class ChatsIndex extends React.Component {
     const chatData = {
       userOne: Auth.currentUserId(),
       userTwo: this.state.userTwo,
-      //TODO: messaged doesn't go with the chat model, but with the user model. So update this in the swipeController
-      messaged: true,
       messages: [
         {
           sentBy: {
@@ -68,6 +66,15 @@ export default class ChatsIndex extends React.Component {
       .catch(err => console.log(err));
   }
 
+  handleUnmatch = userToUnmatch => {
+    return () => {
+      axios.delete(`/api/users/${Auth.currentUserId()}/swipes/${userToUnmatch}`, userToUnmatch)
+        .then(res => this.setState({ swipes: res.data }))
+        .then(() => this.props.history.push(`/users/${Auth.currentUserId()}/chats}`))
+        .catch(err => console.log(err));
+    };
+  }
+
   componentDidMount = () => {
     axios.get(`/api/users/${Auth.currentUserId()}/swipes`)
       .then(res => this.setState({ swipes: res.data }));
@@ -83,6 +90,7 @@ export default class ChatsIndex extends React.Component {
     //BUG: sometimes messages load for a second time, must be due to asynchronicity
     const messagedUsers = this.getOtherUser(this.state.chats);
     console.log('Messaged users are', messagedUsers);
+    console.log('swipes are', this.state.swipes);
 
 
     return (
@@ -98,6 +106,7 @@ export default class ChatsIndex extends React.Component {
                 </Link>
                 <i id={swipe.userId._id} className="fas fa-comments" onClick={this.toggleNewChat}></i>
                 <p>{swipe.userId.firstName}</p>
+                <a onClick={this.handleUnmatch(swipe._id)}>Unmatch</a>
 
                 {this.state.newChat &&
                   <form onSubmit={this.handleSubmit}>

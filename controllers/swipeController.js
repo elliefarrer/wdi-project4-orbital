@@ -75,20 +75,35 @@ function swipesCreate(req, res, next) {
   }
 }
 
-///////// user.swipes is unmatching req.body.userId //////////
 function swipesDelete(req, res, next) {
   User
     .findById(req.params.userId)
     .then(user => {
-      user.swipes = user.swipes.filter(key => {
-        return key.userId != req.body.userId;
-      });
-      // user.swipes.status = 'left';
+      const userToUnmatch = user.swipes.id(req.params.swipeId).userId;
+      User
+        .findById(userToUnmatch)
+        .then(user => {
+          const key = user.swipes.findIndex(key => key.userId == req.params.userId);
+          user.swipes[key].mutual = false;
+          user.swipes[key].messaged = false;
+          return user.save();
+        });
+      user.swipes.id(req.params.swipeId).remove();
       return user.save();
     })
-    .then(user => res.sendStatus(204).json(user))
+    .then(user => res.json(user))
     .catch(next);
 }
+
+// function tagsDelete(req, res, next) {
+//   Film.findById(req.params.filmId)
+//     .then(film => {
+//       film.tags.id(req.params.tagId).remove();
+//       return film.save();
+//     })
+//     .then(film => res.json(film))
+//     .catch(next);
+// }
 
 module.exports = {
   index: swipesIndex,
