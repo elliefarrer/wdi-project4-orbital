@@ -4,18 +4,22 @@ import { Link } from 'react-router-dom';
 // import querystring from 'query-string';
 
 // import _ from 'lodash';
-// import moment from 'moment';
+import moment from 'moment';
 
 // libraries
 import Auth from '../../lib/Auth';
 
+// TODO: also, to fix timestamp bug (v. important for messaging), look at what you did in project 2 with pre validation and do the same there
+
+//IDEA: save instagram and spotify usernames to seeds. Better to get user to put these in on the relevant parts of the showpage (a user edit). Otherwise have these on Register and UsersEdit
+
 export default class ChatsIndex extends React.Component {
-  state = {};
+  state = {
+    newChat: false
+  };
 
   getOtherUser = () => {
     const currentUserId = Auth.currentUserId();
-    console.log('gou chats are', this.state.chats);
-    console.log('Logged in is', currentUserId);
     if(this.state.chats) {
       this.state.chats.forEach(chat => {
         if(currentUserId === chat.userOne._id) {
@@ -23,21 +27,64 @@ export default class ChatsIndex extends React.Component {
         } else {
           chat.userToDisplay = chat.userOne;
         }
-        console.log('Messaged on state', this.state.messaged);
       });
     }
   }
 
-  getMostRecentMessage = () => {
-    console.log('Get this to work');
+  toggleNewChat = () => {
+    const newChat = !this.state.newChat;
+    this.setState({ newChat });
   }
 
-  // TODO: instead of pushing the relevant user to this.state.messaged. Push it to an array within this.state.chats. So it can be accessed along with other info about the chat. Like most recent message, timestamp, and chat ID.
+  handleChange = event => {
+    // console.log('event target id', event.target.id);
+    const { target: { name, value }} = event;
+    this.setState({ [name]: value, userTwo: event.target.id });
+    console.log('state is now', this.state);
+  }
 
-  // TODO: also, to fix timestamp bug (v. important for messaging), look at what you did in project 2 with pre validation and do the same there
+  handleSubmit = event => {
+    event.preventDefault();
+    const chatData = {
+      userOne: Auth.currentUserId(),
+      userTwo: this.state.userTwo,
+      messaged: true,
+      messages: [
+        {
+          sentBy: {
+            _id: Auth.currentUserId(),
+            firstName: Auth.currentFirstName(),
+            profilePic: Auth.currentProfilePic()
+          },
+          content: this.state.newMessage,
+          timestamps: moment().format('YYYY-MM-DD HH:mm')
+        }
+      ]
+    };
+    console.log('chat data is', chatData);
+    axios.post(`/api/users/${Auth.currentUserId()}/chats`, chatData)
+      .then(res => this.setState({ chat: res.data, newChat: false, newMessage: '' }))
+      .catch(err => console.log(err));
+  }
 
-  //IDEA: save instagram and spotify usernames to seeds. Better to get user to put these in on the relevant parts of the showpage (a user edit). Otherwise have these on Register and UsersEdit
-
+  // handleSubmit = event => {
+  //   event.preventDefault();
+  //   const chatId = this.props.match.params.chatId;
+  //   const messageData = {
+  //     sentBy: {
+  //       _id: Auth.currentUserId(),
+  //       firstName: Auth.currentFirstName(),
+  //       profilePic: Auth.currentProfilePic()
+  //     },
+  //     content: this.state.newMessage,
+  //     timestamps: moment().format('YYYY-MM-DD HH:mm')
+  //   };
+  //   console.log('message data is', messageData);
+  //   axios.post(`/api/users/${Auth.currentUserId()}/chats/${chatId}`, messageData)
+  //     .then(res => this.setState({ chat: res.data, newMessage: '' }))
+  //     .then(() => this.getOtherUser())
+  //     .catch(err => console.log(err));
+  // }
 
   componentDidMount = () => {
     axios.get(`/api/users/${Auth.currentUserId()}/swipes`)
@@ -48,21 +95,13 @@ export default class ChatsIndex extends React.Component {
 
   }
 
-  //TODO: write a function to get the correct user, whether it's userOne or userTwo. Then call it below.
-
-  //TODO: write a function to get the most recent message and cut it to the first c.50 characters
-
 
 
   render() {
-    console.log('Swipes are', this.state.swipes);
-    console.log('Chats are', this.state.chats);
-
     //BUG: sometimes messages load for a second time, must be due to asynchronicity
     const messagedUsers = this.getOtherUser(this.state.chats);
     console.log('Messaged users are', messagedUsers);
 
-    console.log('Recent messages are', this.getMostRecentMessage());
 
     return (
       <section className="chats-index">
@@ -75,7 +114,17 @@ export default class ChatsIndex extends React.Component {
                 <Link to={`/users/${swipe.userId._id}`}>
                   <i className="fas fa-info-circle"></i>
                 </Link>
+                <i id={swipe.userId._id} className="fas fa-comments" onClick={this.toggleNewChat}></i>
                 <p>{swipe.userId.firstName}</p>
+
+                {this.state.newChat &&
+                  <form onSubmit={this.handleSubmit}>
+                    <div className="field">
+                      <textarea id={swipe.userId._id} name="newMessage" type="text" placeholder="Type a message..." value={this.state.newMessage || ''} onChange={this.handleChange}></textarea>
+                      <button id={swipe.userId._id}>Send</button>
+                    </div>
+                  </form>
+                }
               </div>
             )}
           </div>

@@ -20,6 +20,7 @@ function chatsShow(req, res, next) {
 function startNewChat(req, res, next) {
   Chat
     .create(req.body)
+    // .populate('userOne userTwo messages.sentBy', 'firstName profilePic')
     .then(() => {
       User
         .findById(req.params.userId)
