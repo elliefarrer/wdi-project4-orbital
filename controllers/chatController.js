@@ -24,7 +24,27 @@ function startNewChat(req, res, next) {
     .then(() => {
       User
         .findById(req.params.userId)
-        .then(user => console.log('user is', user));
+        .then(user => {
+          console.log('User is', user, 'Find this user', req.body.userTwo);
+          const key = user.swipes.findIndex(key => key.userId == req.body.userTwo);
+          if(key || key === 0) {
+            user.swipes[key].messaged = true;
+            console.log('Does this work', user.swipes[key]);
+          }
+          return user.save();
+        });
+    })
+    .then(() => {
+      User
+        .findById(req.body.userTwo)
+        .then(user => {
+          const key = user.swipes.findIndex(key => key.userId == req.params.userId);
+          if(key || key === 0) {
+            user.swipes[key].messaged = true;
+          }
+          console.log('The user is now', user);
+          return user.save();
+        });
     })
     .then(chat => res.json(chat))
     .catch(next);

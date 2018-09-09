@@ -48,6 +48,7 @@ export default class ChatsIndex extends React.Component {
     const chatData = {
       userOne: Auth.currentUserId(),
       userTwo: this.state.userTwo,
+      //TODO: messaged doesn't go with the chat model, but with the user model. So update this in the swipeController
       messaged: true,
       messages: [
         {
@@ -66,25 +67,6 @@ export default class ChatsIndex extends React.Component {
       .then(res => this.setState({ chat: res.data, newChat: false, newMessage: '' }))
       .catch(err => console.log(err));
   }
-
-  // handleSubmit = event => {
-  //   event.preventDefault();
-  //   const chatId = this.props.match.params.chatId;
-  //   const messageData = {
-  //     sentBy: {
-  //       _id: Auth.currentUserId(),
-  //       firstName: Auth.currentFirstName(),
-  //       profilePic: Auth.currentProfilePic()
-  //     },
-  //     content: this.state.newMessage,
-  //     timestamps: moment().format('YYYY-MM-DD HH:mm')
-  //   };
-  //   console.log('message data is', messageData);
-  //   axios.post(`/api/users/${Auth.currentUserId()}/chats/${chatId}`, messageData)
-  //     .then(res => this.setState({ chat: res.data, newMessage: '' }))
-  //     .then(() => this.getOtherUser())
-  //     .catch(err => console.log(err));
-  // }
 
   componentDidMount = () => {
     axios.get(`/api/users/${Auth.currentUserId()}/swipes`)
