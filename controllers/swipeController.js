@@ -6,7 +6,7 @@ function swipesIndex(req, res, next) {
     .populate('swipes.userId', 'firstName profilePic')
     .then(users => {
       const filteredUsers = users.swipes.filter(key => {
-        return key.mutual === true;
+        return key.mutual === true && key.messaged === false;
       });
       return users = filteredUsers;
     })

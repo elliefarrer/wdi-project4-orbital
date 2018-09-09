@@ -20,7 +20,11 @@ function chatsShow(req, res, next) {
 function startNewChat(req, res, next) {
   Chat
     .create(req.body)
-    // .populate('userOne userTwo', 'firstName profilePic')
+    .then(() => {
+      User
+        .findById(req.params.userId)
+        .then(user => console.log('user is', user));
+    })
     .then(chat => res.json(chat))
     .catch(next);
 }

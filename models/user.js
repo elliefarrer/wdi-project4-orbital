@@ -69,6 +69,7 @@ const userSchema = new mongoose.Schema({
       userId: { type: mongoose.Schema.ObjectId, ref: 'User' },
       status: { type: String, enum: ['right', 'left'] },
       mutual: { type: Boolean, default: false },
+      messaged: { type: Boolean, default: false },
       timestamps: { type: String, default: moment().format('YYYY-MM-dd HH:mm') }
       //TODO: change default back to 'no swipe' when tested/figured out how to do this a better way
     }
