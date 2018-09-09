@@ -3,16 +3,14 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 // import querystring from 'query-string';
 
-import _ from 'lodash';
-import moment from 'moment';
+// import _ from 'lodash';
+// import moment from 'moment';
 
 // libraries
 import Auth from '../../lib/Auth';
 
 export default class ChatsIndex extends React.Component {
-  state = {
-    messaged: []
-  };
+  state = {};
 
   getOtherUser = () => {
     const currentUserId = Auth.currentUserId();
@@ -21,9 +19,9 @@ export default class ChatsIndex extends React.Component {
     if(this.state.chats) {
       this.state.chats.forEach(chat => {
         if(currentUserId === chat.userOne._id) {
-          this.state.messaged.push(chat.userTwo);
+          chat.userToDisplay = chat.userTwo;
         } else {
-          this.state.messaged.push(chat.userOne);
+          chat.userToDisplay = chat.userOne;
         }
         console.log('Messaged on state', this.state.messaged);
       });
@@ -34,6 +32,11 @@ export default class ChatsIndex extends React.Component {
     console.log('Get this to work');
   }
 
+  // TODO: instead of pushing the relevant user to this.state.messaged. Push it to an array within this.state.chats. So it can be accessed along with other info about the chat. Like most recent message, timestamp, and chat ID.
+
+  // TODO: also, to fix timestamp bug (v. important for messaging), look at what you did in project 2 with pre validation and do the same there
+
+  //IDEA: save instagram and spotify usernames to seeds. Better to get user to put these in on the relevant parts of the showpage (a user edit). Otherwise have these on Register and UsersEdit
 
 
   componentDidMount = () => {
@@ -80,16 +83,18 @@ export default class ChatsIndex extends React.Component {
 
         <h2>Chats</h2>
         <div className="chats-section">
-          {this.state.messaged && this.state.messaged.map(user =>
-            <div className="chat-container" key={user._id}>
+          {this.state.chats && this.state.chats.map(chat =>
+            <Link className="chat-container" key={chat._id} to={`/users/${Auth.currentUserId()}/chats/${chat._id}`}>
               <div className="column-1of2">
-                <img src={user.profilePic} alt={user.firstName} />
+                <img src={chat.userToDisplay.profilePic} alt={chat.userToDisplay.firstName} />
               </div>
               <div className="column-2of2">
-                <h3>{user.firstName}</h3>
+                <h3>{chat.userToDisplay.firstName}</h3>
+                <p>{chat.messages[chat.messages.length-1].sentBy.firstName}: {chat.messages[chat.messages.length-1].content}</p>
+                <p>Sent on {chat.messages[chat.messages.length-1].timestamps}</p>
               </div>
               <hr />
-            </div>
+            </Link>
           )}
         </div>
       </section>

@@ -15,6 +15,7 @@ import UsersIndex from './components/users/Index';
 import UsersShow from './components/users/Show';
 import UsersEdit from './components/users/Edit';
 import ChatsIndex from './components/chats/Index';
+import ChatsShow from './components/chats/Show';
 
 // Libraries
 import Auth from './lib/Auth';
@@ -34,6 +35,7 @@ class App extends React.Component {
             <Route exact path="/register" component={AuthRegister} />
             <SecureRoute exact path="/users" component={UsersIndex} />
             <SecureRoute exact path="/users/:userId/chats" component={ChatsIndex} />
+            <SecureRoute path="/users/:userId/chats/:chatId" component={ChatsShow} />
             <SecureRoute path="/users/:userId" component={UsersShow} />
             <SecureRoute path={`/users/${Auth.currentUserId()}/edit`} component={UsersEdit} />
           </Switch>

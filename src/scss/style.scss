@@ -94,7 +94,7 @@ body {
       .chat-container {
         position: relative;
         .column-1of2 {
-          // position: relative;
+          position: relative;
           left: 0;
           width: 40vw;
           display: flex;
@@ -105,9 +105,9 @@ body {
           }
         }
         .column-2of2 {
-          position: absolute;
+          position: relative;
           left: 35%;
-          top: 0;
+          top: -100px;
           width: 55vw;
           display: flex;
           flex-wrap: wrap;
@@ -116,6 +116,19 @@ body {
           }
         }
       }
+    }
+  }
+
+  .chat-show {
+    .thumbnail {
+      height: 150px;
+      width: 150px;
+    }
+    .message-bubble {
+      background-color: orange;
+      border-radius: 20%;
+      width: auto;
+      max-width: 400px;
     }
   }
 }
