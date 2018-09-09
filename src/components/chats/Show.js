@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
+import moment from 'moment';
+
 import Auth from '../../lib/Auth';
 
 export default class ChatsShow extends React.Component {
@@ -21,6 +23,33 @@ export default class ChatsShow extends React.Component {
     }
   }
 
+  handleChange = event => {
+    // this.getOtherUser();
+    console.log('Event fired', event.target.name, event.target.value);
+    const { target: { name, value }} = event;
+    this.setState({ [name]: value });
+    console.log('State is now', this.state);
+  }
+
+  handleSubmit = event => {
+    event.preventDefault();
+    const chatId = this.props.match.params.chatId;
+    const messageData = {
+      sentBy: {
+        _id: Auth.currentUserId(),
+        firstName: Auth.currentFirstName(),
+        profilePic: Auth.currentProfilePic()
+      },
+      content: this.state.newMessage,
+      timestamps: moment().format('YYYY-MM-DD HH:mm')
+    };
+    console.log('message data is', messageData);
+    axios.post(`/api/users/${Auth.currentUserId()}/chats/${chatId}`, messageData)
+      .then(res => this.setState({ chat: res.data, newMessage: '' }))
+      .then(() => this.getOtherUser())
+      .catch(err => console.log(err));
+  }
+
   componentDidMount = () => {
     axios.get(`/api/users/${Auth.currentUserId()}/chats/${this.props.match.params.chatId}`)
       .then(res => this.setState({ chat: res.data }));
@@ -28,23 +57,29 @@ export default class ChatsShow extends React.Component {
     this.getOtherUser();
   }
 
+  // componentDidUpdate = () => {
+  //   this.getOtherUser();
+  // }
+
   render() {
     const messagedUser = this.getOtherUser(this.state.chats);
     console.log('Messaged user is', messagedUser);
-    console.log('State is', this.state);
+
+    const currentChat = this.state.chat;
     return (
       <section className="chat-show">
-        {this.state.chat &&
+        {currentChat &&
           <div>
-            <Link to={`/users/${this.state.chat.userToDisplay._id}`}>
-              <img src={this.state.chat.userToDisplay.profilePic} alt={this.state.chat.userToDisplay.firstName} />
-              <p>{this.state.chat.userToDisplay.firstName}</p>
+            <Link to={`/users/${currentChat.userToDisplay._id}`}>
+              <img src={currentChat.userToDisplay.profilePic} alt={currentChat.userToDisplay.firstName} />
+              <p>{currentChat.userToDisplay.firstName}</p>
             </Link>
             <hr />
-            {this.state.chat.messages.map(message =>
+            {currentChat.messages.map(message =>
               <div key={message._id}>
                 <div>
                   <img className="thumbnail" src={message.sentBy.profilePic} alt={message.sentBy.firstName} />
+                  <p>{message.sentBy.firstName}</p>
                 </div>
                 <div className="message-bubble">
                   <p>{message.content}</p>
@@ -52,6 +87,16 @@ export default class ChatsShow extends React.Component {
                 </div>
               </div>
             )}
+
+            {/* NEW MESSAGE FORM */}
+            <div className="message-form">
+              <form onSubmit={this.handleSubmit}>
+                <div className="field">
+                  <textarea name="newMessage" type="text" placeholder="Type a message..." value={this.state.newMessage || ''} onChange={this.handleChange}></textarea>
+                  <button>Send</button>
+                </div>
+              </form>
+            </div>
           </div>
         }
       </section>

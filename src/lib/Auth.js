@@ -35,6 +35,13 @@ Auth.currentUserId = function() {
   }
 };
 
+Auth.currentProfilePic = function() {
+  if(this.getToken()) {
+    console.log('payload pp is', this.getPayload().profilePic);
+    return this.getPayload().profilePic;
+  }
+};
+
 Auth.bearerHeader = function() {
   return {
     headers: {

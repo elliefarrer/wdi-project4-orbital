@@ -30,7 +30,7 @@ function continueChat(req, res, next) {
   console.log('req body is', req.body);
   Chat
     .findById(req.params.chatId)
-    .populate('userOne userTwo', 'firstName profilePic')
+    .populate('userOne userTwo messages.sentBy', 'firstName profilePic')
     .then(chat => {
       chat.messages.push(req.body);
       return chat.save();
