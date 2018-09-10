@@ -1,6 +1,9 @@
 import React from 'react';
 import axios from 'axios';
 
+// Components
+import ErrorMessage from '../common/ErrorMessage';
+
 // libraries
 import Auth from '../../lib/Auth';
 
@@ -14,29 +17,107 @@ export default class UsersEdit extends React.Component {
       {label: 'Other', value: 'other'},
       {label: 'Prefer Not To Say', value: 'prefer not to say'}
     ],
-    password: ''
+
+    sexualityCheckboxes: [
+      {label: 'Men', value: 'man'},
+      {label: 'Women', value: 'woman'},
+      {label: 'Transgender', value: 'transgender'},
+      {label: 'Non-Binary', value: 'non-binary'},
+      {label: 'Other', value: 'other'}
+    ],
+
+    languageOptions: [
+      {label: 'Welsh', value: 'Welsh'},
+      {label: 'French', value: 'French'},
+      {label: 'Spanish', value: 'Spanish'},
+      {label: 'Portuguese', value: 'Portuguese'},
+      {label: 'Italian', value: 'Italian'},
+      {label: 'German', value: 'German'},
+      {label: 'Dutch', value: 'Dutch'},
+      {label: 'Polish', value: 'Polish'},
+      {label: 'Russian', value: 'Russian'},
+      {label: 'Greek', value: 'Greek'},
+      {label: 'Turkish', value: 'Turkish'},
+      {label: 'Hebrew', value: 'Hebrew'},
+      {label: 'Arabic', value: 'Arabic'},
+      {label: 'Mandarin', value: 'Mandarin'},
+      {label: 'Japanese', value: 'Japanese'},
+      {label: 'Hindi', value: 'Hindi'},
+      {label: 'Urdu', value: 'Urdu'}
+    ],
+
+    password: '',
+    sexuality: [],
+    languages: [],
+
+    errors: {
+
+    }
   }
 
   handleChange = event => {
-    console.log('Handle change fired', event.target.value);
+    console.log('Handle change fired', event.target.name, event.target.value);
     const { target: { name, value }} = event;
+    const errors = this.state.errors;
+    delete errors[name];
     this.setState({ [name]: value });
   }
 
   handleSubmit = event => {
     console.log('Sent', event.target);
     event.preventDefault();
+    // if(this.state.password !== this.state.passwordConfirmation) {
+    //   const errors = this.state.errors;
+    //   errors.passwordConfirmation = 'Passwords do not match';
+    //   return this.state({ errors });
+    // }
     axios.put(`/api/users/${Auth.currentUserId()}`, this.state, Auth.bearerHeader())
       .then(() => {
         this.props.history.push(`/users/${Auth.currentUserId()}`);
       })
-      .catch(err => console.log('There was an error', err));
+      .catch(err => {
+        const oldErrors = this.state.errors;
+        const newErrors = err.response.data.errors;
+        const errors = { ...oldErrors, ...newErrors };
+        this.setState({ errors });
+      });
+  }
+
+  clearArrays = () => {
+    const newState = this.state;
+    newState.sexuality = [];
+    newState.languages = [];
+  }
+
+  handleSexualityChange = event => {
+    // const newState = this.state;
+    // newState.sexuality = [];
+    console.log('Handle change fired', event.target.name, event.target.value);
+    // const name = event.target.name;
+    const value = event.target.value;
+    const errors = this.state.errors;
+    delete errors['sexuality'];
+    this.state.sexuality.push(value);
+  }
+
+  handleLanguageChange = event => {
+    // const newState = this.state;
+    // newState.languages = [];
+    console.log('Handle change fired', event.target.name, event.target.value);
+    const value = event.target.value;
+    const errors = this.state.errors;
+    delete errors['languages'];
+    this.state.languages.push(value);
   }
 
   componentDidMount() {
     console.log('match params is', this.props);
     axios.get(`/api/users/${Auth.currentUserId()}`, Auth.bearerHeader())
       .then(res => this.setState( res.data ));
+
+    if(this.state.sexuality && this.state.languages) {
+      this.clearArrays();
+    }
   }
 
   render() {
@@ -50,30 +131,33 @@ export default class UsersEdit extends React.Component {
                 name="firstName"
                 type="text"
                 placeholder="First Name"
-                value={state.firstName}
+                value={state.firstName || ''}
                 onChange={this.handleChange}
               />
             </div>
+            <ErrorMessage error={this.state.errors.firstName}/>
 
 
             <div className="field">
               <input
                 name="dateOfBirth"
                 type="date"
-                value={this.state.dateOfBirth}
+                value={this.state.dateOfBirth || ''}
                 onChange={this.handleChange}
               />
             </div>
+            <ErrorMessage error={this.state.errors.dateOfBirth}/>
 
             <div className="field">
               <input
                 name="postcode"
                 type="text"
                 placeholder="Postcode"
-                value={this.state.postcode}
+                value={this.state.postcode || ''}
                 onChange={this.handleChange}
               />
             </div>
+            <ErrorMessage error={this.state.errors.postcode}/>
 
             <div className="field">
               <input
@@ -84,6 +168,7 @@ export default class UsersEdit extends React.Component {
                 onChange={this.handleChange}
               />
             </div>
+            <ErrorMessage error={this.state.errors.email}/>
 
 
             <div className="field">
@@ -95,77 +180,63 @@ export default class UsersEdit extends React.Component {
                 </div>
               )}
             </div>
+            <ErrorMessage error={this.state.errors.gender}/>
 
             <div className="field">
               <label htmlFor="sexuality">Please select who you are interested in meeting on Orbital</label>
-              <input name="sexuality" type="checkbox" value="man" onChange={this.handleChange} /> Men
-              <input name="sexuality" type="checkbox" value="woman" onChange={this.handleChange} /> Women
-              <input name="sexuality" type="checkbox" value="transgender" onChange={this.handleChange} /> Transgender People
-              <input name="sexuality" type="checkbox" value="non-binary" onChange={this.handleChange} /> Non-Binary People
-              <input name="sexuality" type="checkbox" value="other" onChange={this.handleSChange} /> Other
+              {this.state.sexualityCheckboxes.map((sexuality, index) =>
+                <div key={index}>
+                  <input type="checkbox" name="sexuality" value={sexuality.value} onChange={this.handleSexualityChange}/>
+                  <label>{sexuality.label}</label>
+                </div>
+              )}
             </div>
-
-            <div className="field">
-              <input
-                name="minAgeRange"
-                type="number"
-                min="18"
-                placeholder="min age"
-                value={this.state.minAgeRange}
-                onChange={this.handleChange}
-              />
-            </div>
-
-            <div className="field">
-              <input
-                name="maxAgeRange"
-                type="number"
-                min="19"
-                placeholder="max age"
-                value={this.state.maxAgeRange}
-                onChange={this.handleChange}
-              />
-            </div>
+            <ErrorMessage error={this.state.errors.sexuality}/>
 
             <div className="field">
               <input
                 name="occupation"
                 type="text"
                 placeholder="Occupation"
-                value={this.state.occupation}
+                value={this.state.occupation || ''}
                 onChange={this.handleChange}
               />
             </div>
+            <ErrorMessage error={this.state.errors.occupation}/>
 
             <div className="field">
               <input
                 name="profilePic"
                 type="text"
                 placeholder="Profile Picture (URL)"
-                value={this.state.profilePic}
+                value={this.state.profilePic || ''}
                 onChange={this.handleChange}
               />
             </div>
+            <ErrorMessage error={this.state.errors.profilePic}/>
 
             <div className="field">
               <label htmlFor="languages">What other languages do you speak?</label>
-              <input name="languages" type="checkbox" value="Welsh" onChange={this.handleChange} /> Welsh
-              <input name="languages" type="checkbox" value="French" onChange={this.handleChange} /> French
-              <input name="languages" type="checkbox" value="Spanish" onChange={this.handleChange} /> Spanish
-              <input name="languages" type="checkbox" value="Portuguese" onChange={this.handleChange} /> Portuguese
-              <input name="languages" type="checkbox" value="Italian" onChange={this.handleChange} /> Italian
-              <input name="languages" type="checkbox" value="German" onChange={this.handleChange} /> German
+              {this.state.languageOptions.map((language, index) =>
+                <div key={index}>
+                  <input type="checkbox" name="language" value={language.value} onChange={this.handleLanguageChange}/>
+                  <label>{language.label}</label>
+                </div>
+              )}
             </div>
+            <ErrorMessage error={this.state.errors.languages}/>
 
             <div className="field">
+              <label>{this.state.bio.length}/250</label>
               <input
                 name="bio"
                 type="text"
                 placeholder="Bio"
-                value={this.state.bio}
+                value={this.state.bio || ''}
                 onChange={this.handleChange}
               />
             </div>
+            <ErrorMessage error={this.state.errors.bio}/>
 
             <button>Edit Profile</button>
 

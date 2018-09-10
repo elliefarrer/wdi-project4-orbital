@@ -2,6 +2,9 @@ import React from 'react';
 // import { Link } from 'react-router-dom';
 import axios from 'axios';
 
+// Components
+import ErrorMessage from '../common/ErrorMessage';
+
 // libraries
 import Auth from '../../lib/Auth';
 
@@ -17,26 +20,78 @@ export default class AuthRegister extends React.Component {
       {label: 'Other', value: 'other'},
       {label: 'Prefer Not To Say', value: 'prefer not to say'}
     ],
+
+    sexualityCheckboxes: [
+      {label: 'Men', value: 'man'},
+      {label: 'Women', value: 'woman'},
+      {label: 'Transgender', value: 'transgender'},
+      {label: 'Non-Binary', value: 'non-binary'},
+      {label: 'Other', value: 'other'}
+    ],
+
+    languageOptions: [
+      {label: 'Welsh', value: 'Welsh'},
+      {label: 'French', value: 'French'},
+      {label: 'Spanish', value: 'Spanish'},
+      {label: 'Portuguese', value: 'Portuguese'},
+      {label: 'Italian', value: 'Italian'},
+      {label: 'German', value: 'German'},
+      {label: 'Dutch', value: 'Dutch'},
+      {label: 'Polish', value: 'Polish'},
+      {label: 'Russian', value: 'Russian'},
+      {label: 'Greek', value: 'Greek'},
+      {label: 'Turkish', value: 'Turkish'},
+      {label: 'Hebrew', value: 'Hebrew'},
+      {label: 'Arabic', value: 'Arabic'},
+      {label: 'Mandarin', value: 'Mandarin'},
+      {label: 'Japanese', value: 'Japanese'},
+      {label: 'Hindi', value: 'Hindi'},
+      {label: 'Urdu', value: 'Urdu'}
+    ],
+
     firstName: 'Molly',
     dateOfBirth: '1998-09-09',
     email: 'molly@platyp.com',
     password: 'Pass1234',
     passwordConfirmation: 'Pass1234',
     postcode: 'E1 1DB',
-    sexuality: ['men', 'women'],
+    sexuality: [],
     minAgeRange: 21,
     maxAgeRange: 24,
     profilePic: 'https://i.imgur.com/Bp9yrkl.png',
     occupation: 'Student',
-    languages: ['Welsh', 'German'],
-    bio: 'History student at QMUL, originally from Essex. Part time model but I love pizza more than anything!'
+    languages: [],
+    bio: 'History student at QMUL, originally from Essex. Part time model but I love pizza more than anything!',
+
+    errors: {
+
+    }
   }
 
 
   handleChange = event => {
     console.log('Handle change fired', event.target.name, event.target.value);
     const { target: { name, value }} = event;
+    const errors = this.state.errors;
+    delete errors[name];
     this.setState({ [name]: value });
+  }
+
+  handleSexualityChange = event => {
+    console.log('Handle change fired', event.target.name, event.target.value);
+    // const name = event.target.name;
+    const value = event.target.value;
+    const errors = this.state.errors;
+    delete errors['sexuality'];
+    this.state.sexuality.push(value);
+  }
+
+  handleLanguageChange = event => {
+    console.log('Handle change fired', event.target.name, event.target.value);
+    const value = event.target.value;
+    const errors = this.state.errors;
+    delete errors['languages'];
+    this.state.languages.push(value);
   }
 
   // toggle password type between password and text, to reveal it
@@ -49,13 +104,23 @@ export default class AuthRegister extends React.Component {
   handleSubmit = event => {
     console.log('Sent', event.target);
     event.preventDefault();
+    if(this.state.password !== this.state.passwordConfirmation) {
+      const errors = this.state.errors;
+      errors.passwordConfirmation = 'Passwords do not match';
+      return this.state({ errors });
+    }
     axios.post('/api/register', this.state)
       .then(res => {
         const token = res.data.token;
         Auth.setToken(token);
         this.props.history.push('/users');
       })
-      .catch(err => console.log('There was an error', err));
+      .catch(err => {
+        const oldErrors = this.state.errors;
+        const newErrors = err.response.data.errors;
+        const errors = { ...oldErrors, ...newErrors };
+        this.setState({ errors });
+      });
   }
 
   render() {
@@ -71,6 +136,7 @@ export default class AuthRegister extends React.Component {
               value={this.state.firstName}
               onChange={this.handleChange}/>
           </div>
+          <ErrorMessage error={this.state.errors.firstName} />
 
           <div className="field">
             <input
@@ -80,6 +146,7 @@ export default class AuthRegister extends React.Component {
               onChange={this.handleChange}
             />
           </div>
+          <ErrorMessage error={this.state.errors.dateOfBirth} />
 
           <div className="field">
             <input
@@ -90,6 +157,7 @@ export default class AuthRegister extends React.Component {
               onChange={this.handleChange}
             />
           </div>
+          <ErrorMessage error={this.state.errors.postcode} />
 
           <div className="field">
             <input
@@ -100,6 +168,7 @@ export default class AuthRegister extends React.Component {
               onChange={this.handleChange}
             />
           </div>
+          <ErrorMessage error={this.state.errors.email} />
 
           <div className="field">
             <input
@@ -111,6 +180,7 @@ export default class AuthRegister extends React.Component {
             />
             <p>Your password must be at least 8 characters long, and contain at least one lower case letter, upper case letter, and number.</p>
           </div>
+          <ErrorMessage error={this.state.errors.password} />
 
           <div className="field">
             <input
@@ -121,6 +191,7 @@ export default class AuthRegister extends React.Component {
               onChange={this.handleChange}
             />
           </div>
+          <ErrorMessage error={this.state.errors.passwordConfirmation} />
 
           <div className="field">
             <label htmlFor="gender">Please select your gender</label>
@@ -131,37 +202,18 @@ export default class AuthRegister extends React.Component {
               </div>
             )}
           </div>
+          <ErrorMessage error={this.state.errors.gender} />
 
           <div className="field">
             <label htmlFor="sexuality">Please select who you are interested in meeting on Orbital</label>
-            <input name="sexuality" type="checkbox" value="man" onChange={this.handleChange} /> Men
-            <input name="sexuality" type="checkbox" value="woman" onChange={this.handleChange} /> Women
-            <input name="sexuality" type="checkbox" value="transgender" onChange={this.handleChange} /> Transgender People
-            <input name="sexuality" type="checkbox" value="non-binary" onChange={this.handleChange} /> Non-Binary People
-            <input name="sexuality" type="checkbox" value="other" onChange={this.handleSChange} /> Other
+            {this.state.sexualityCheckboxes.map((sexuality, index) =>
+              <div key={index}>
+                <input type="checkbox" name="sexuality" value={sexuality.value || ''} onChange={this.handleSexualityChange}/>
+                <label>{sexuality.label}</label>
+              </div>
+            )}
           </div>
-
-          <div className="field">
-            <input
-              name="minAgeRange"
-              type="number"
-              min="18"
-              placeholder="min age"
-              value={this.state.minAgeRange}
-              onChange={this.handleChange}
-            />
-          </div>
-
-          <div className="field">
-            <input
-              name="maxAgeRange"
-              type="number"
-              min="19"
-              placeholder="max age"
-              value={this.state.maxAgeRange}
-              onChange={this.handleChange}
-            />
-          </div>
+          <ErrorMessage error={this.state.errors.sexuality} />
 
           <div className="field">
             <input
@@ -172,6 +224,7 @@ export default class AuthRegister extends React.Component {
               onChange={this.handleChange}
             />
           </div>
+          <ErrorMessage error={this.state.errors.occupation} />
 
           <div className="field">
             <input
@@ -182,18 +235,21 @@ export default class AuthRegister extends React.Component {
               onChange={this.handleChange}
             />
           </div>
+          <ErrorMessage error={this.state.errors.profilePic} />
 
           <div className="field">
             <label htmlFor="languages">What other languages do you speak?</label>
-            <input name="languages" type="checkbox" value="Welsh" onChange={this.handleChange} /> Welsh
-            <input name="languages" type="checkbox" value="French" onChange={this.handleChange} /> French
-            <input name="languages" type="checkbox" value="Spanish" onChange={this.handleChange} /> Spanish
-            <input name="languages" type="checkbox" value="Portuguese" onChange={this.handleChange} /> Portuguese
-            <input name="languages" type="checkbox" value="Italian" onChange={this.handleChange} /> Italian
-            <input name="languages" type="checkbox" value="German" onChange={this.handleChange} /> German
+            {this.state.languageOptions.map((language, index) =>
+              <div key={index}>
+                <input type="checkbox" name="language" value={language.value || ''} onChange={this.handleLanguageChange}/>
+                <label>{language.label}</label>
+              </div>
+            )}
           </div>
+          <ErrorMessage error={this.state.errors.languages} />
 
           <div className="field">
+            <label>{this.state.bio.length}/250</label>
             <input
               name="bio"
               type="text"
@@ -202,6 +258,7 @@ export default class AuthRegister extends React.Component {
               onChange={this.handleChange}
             />
           </div>
+          <ErrorMessage error={this.state.errors.bio} />
 
           <button>Sign Up</button>
 

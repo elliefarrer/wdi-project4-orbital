@@ -11,8 +11,6 @@ import Auth from '../../lib/Auth';
 
 // TODO: also, to fix timestamp bug (v. important for messaging), look at what you did in project 2 with pre validation and do the same there
 
-//IDEA: save instagram and spotify usernames to seeds. Better to get user to put these in on the relevant parts of the showpage (a user edit). Otherwise have these on Register and UsersEdit
-
 export default class ChatsIndex extends React.Component {
   state = {
     newChat: false
@@ -66,7 +64,6 @@ export default class ChatsIndex extends React.Component {
       .catch(err => console.log(err));
   }
 
-  // from Rob: check that identical data is coming back with this.setState as to the axios request. If not, fiddle in the back end.
   handleUnmatch = userToUnmatch => {
     return () => {
       axios.delete(`/api/users/${Auth.currentUserId()}/swipes/${userToUnmatch}`, Auth.bearerHeader())
@@ -84,12 +81,6 @@ export default class ChatsIndex extends React.Component {
     };
   }
 
-  orderChats = (chats) => {
-    const timestamps = chats.map(chat => chat.messages[chat.messages.length-1].timestamps);
-    console.log('timestamps are', timestamps);
-    return _.sortBy(timestamps).reverse();
-  }
-
   componentDidMount = () => {
     axios.get(`/api/users/${Auth.currentUserId()}/swipes`, Auth.bearerHeader())
       .then(res => this.setState({ swipes: res.data }));
@@ -105,12 +96,7 @@ export default class ChatsIndex extends React.Component {
     const messagedUsers = this.getOtherUser(this.state.chats);
     console.log('Messaged users are', messagedUsers);
     console.log('swipes are', this.state.swipes);
-    let sortedChats;
 
-    if(this.state.chats) {
-      sortedChats = this.orderChats(this.state.chats);
-      console.log('sorted chats are', sortedChats);
-    }
 
     return (
       <section className="chats-index">
@@ -142,7 +128,7 @@ export default class ChatsIndex extends React.Component {
 
         <h2>Chats</h2>
         <div className="chats-section">
-          {sortedChats && this.state.chats.map(chat =>
+          {this.state.chats && this.state.chats.map(chat =>
             <div key={chat._id}>
               <Link className="chat-container"  to={`/users/${Auth.currentUserId()}/chats/${chat._id}`}>
                 <div className="column-1of2">

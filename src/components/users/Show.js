@@ -123,6 +123,8 @@ export default class UsersShow extends React.Component {
               )}
             </p>
 
+            {/* <a className="twitter-timeline" data-lang="en" href="https://twitter.com/EllieFarrerMus?ref_src=twsrc%5Etfw">Tweets by EllieFarrerMus</a> <script async src="https://platform.twitter.com/widgets.js" charSet="utf-8"></script> */}
+
             {Auth.isAuthenticated() &&
               <div>
                 <Link to={`/users/${Auth.currentUserId()}/edit`}>Edit Profile</Link>

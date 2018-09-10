@@ -4,6 +4,7 @@ const { secret } = require('../config/env');
 
 const moment = require('moment');
 
+// from Rob: this is a bit odd, although it works. Perhaps build up a user object and return it instead. 
 let token;
 let userId;
 let userSexuality;
