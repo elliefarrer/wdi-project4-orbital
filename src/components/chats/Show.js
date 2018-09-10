@@ -7,7 +7,9 @@ import moment from 'moment';
 import Auth from '../../lib/Auth';
 
 export default class ChatsShow extends React.Component {
-  state = {}
+  state = {
+    messageContainerClass: ''
+  }
 
   getOtherUser = () => {
     const newState = this.state.chat;
@@ -59,6 +61,16 @@ export default class ChatsShow extends React.Component {
     };
   }
 
+  setMessageStyle = (sentById) => {
+    const newState = this.state;
+    newState.messageContainerClass = '';
+    if (sentById === Auth.currentUserId()) {
+      newState.messageContainerClass = 'current-user';
+    } else {
+      newState.messageContainerClass = 'other-user';
+    }
+  }
+
   componentDidMount = () => {
     axios.get(`/api/users/${Auth.currentUserId()}/chats/${this.props.match.params.chatId}`, Auth.bearerHeader())
       .then(res => this.setState({ chat: res.data }));
@@ -89,13 +101,18 @@ export default class ChatsShow extends React.Component {
 
             {currentChat.messages.map(message =>
               <div key={message._id}>
-                <div>
-                  <img className="thumbnail" src={message.sentBy.profilePic} alt={message.sentBy.firstName} />
-                  <p>{message.sentBy.firstName}</p>
-                </div>
-                <div className="message-bubble">
-                  <p>{message.content}</p>
-                  <p>{message.timestamps}</p>
+
+                {this.setMessageStyle(message.sentBy._id)}
+
+                <div className={`message-container ${this.state.messageContainerClass}`}>
+                  <div>
+                    <img className="thumbnail" src={message.sentBy.profilePic} alt={message.sentBy.firstName} />
+                    <p>{message.sentBy.firstName}</p>
+                  </div>
+                  <div className="message-bubble">
+                    <p>{message.content}</p>
+                    <p>{message.timestamps}</p>
+                  </div>
                 </div>
               </div>
             )}

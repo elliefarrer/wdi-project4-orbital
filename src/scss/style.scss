@@ -120,15 +120,29 @@ body {
   }
 
   .chat-show {
-    .thumbnail {
-      height: 150px;
-      width: 150px;
+    .other-user {
+      .thumbnail {
+        height: 150px;
+        width: 150px;
+      }
+      .message-bubble {
+        background-color: orange;
+        border-radius: 20%;
+        width: auto;
+        max-width: 400px;
+      }
     }
-    .message-bubble {
-      background-color: orange;
-      border-radius: 20%;
-      width: auto;
-      max-width: 400px;
+    .current-user {
+      .thumbnail {
+        height: 150px;
+        width: 150px;
+      }
+      .message-bubble {
+        background-color: pink;
+        border-radius: 20%;
+        width: auto;
+        max-width: 400px;
+      }
     }
   }
 }
