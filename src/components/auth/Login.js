@@ -4,6 +4,7 @@ import axios from 'axios';
 
 // libraries
 import Auth from '../../lib/Auth';
+import Flash from '../../lib/Flash';
 
 
 export default class AuthLogin extends React.Component {
@@ -32,10 +33,15 @@ export default class AuthLogin extends React.Component {
     axios.post('/api/login', this.state)
       .then(res => {
         const token = res.data.token;
-        Auth.setToken(token); //TODO write this
+        Auth.setToken(token);
+        Flash.setMessage('neutral', res.data.message);
         this.props.history.push('/users');
       })
-      .catch(err => console.log('There was an error', err));
+      .catch(err => {
+        console.log('Error is', err.response);
+        Flash.setMessage('anger', 'We couldn\'t find your login details. Please try again');
+        this.props.history.push(this.props.location.pathname);
+      });
   }
 
 

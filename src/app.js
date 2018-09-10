@@ -8,6 +8,8 @@ import './scss/style.scss';
 
 // Components
 import SecureRoute from './components/common/SecureRoute';
+import FlashMessages from './components/common/FlashMessage';
+
 import Header from './components/Header';
 import AuthLogin from './components/auth/Login';
 import AuthRegister from './components/auth/Register';
@@ -29,6 +31,7 @@ class App extends React.Component {
         {Auth.isAuthenticated() &&
           <Header />
         }
+        <FlashMessages />
         <main>
           <Switch>
             <Route exact path="/" component={AuthLogin} />

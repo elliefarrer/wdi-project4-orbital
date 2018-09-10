@@ -9,6 +9,7 @@ import Location from './common/Location';
 
 // libraries
 import Auth from '../../lib/Auth';
+import Flash from '../../lib/Flash';
 
 export default class UsersShow extends React.Component {
   state = {
@@ -58,6 +59,7 @@ export default class UsersShow extends React.Component {
 
   logOut = () => {
     Auth.removeToken();
+    Flash.setMessage('neutral', 'Goodbye! Hope to see you again soon...');
     this.props.history.push('/');
   }
 
@@ -65,6 +67,7 @@ export default class UsersShow extends React.Component {
     axios.delete(`/api/users/${this.props.match.params.userId}`, Auth.bearerHeader())
       .then(() => this.props.history.push('/'));
     Auth.removeToken();
+    Flash.setMessage('neutral', 'Sorry to see you go! Hope to see you back again one day...');
   }
 
   render() {
