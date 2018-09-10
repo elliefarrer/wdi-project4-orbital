@@ -61,7 +61,9 @@ const userData = [
       { userId: userIds[1], status: 'right', mutual: true, messaged: true },
       { userId: userIds[2], status: 'right', mutual: true, messaged: true },
       { userId: userIds[3], status: 'left' },
-      { userId: userIds[4], status: 'left' }
+      { userId: userIds[4], status: 'left' },
+      { userId: userIds[5], status: 'right', mutual: true },
+      { userId: userIds[11], status: 'right', mutual: true }
     ]
   },
   ////////////////// MEN /////////////////////
@@ -159,7 +161,7 @@ const userData = [
     languages: [ 'English', 'Spanish' ],
     bio: 'Don\'t call my name, dont\'t call my name, Alejandro. I\'m not your babe, I\'m not your babe, Fernando. Not much of a Lady Gaga fan.',
     swipes: [
-      { userId: userIds[0], status: 'right' }
+      { userId: userIds[0], status: 'right', mutual: true }
     ]
   },
   {
@@ -268,7 +270,10 @@ const userData = [
     profilePic: 'https://i.imgur.com/XPxDZgf.png',
     occupation: 'Estate Agent',
     languages: ['English'],
-    bio: 'Estate agent who\'s a big fan of whipped cream, less so of salt. You can never meet my family, they\'re very weird. Never available to hang out on Friday nights.'
+    bio: 'Estate agent who\'s a big fan of whipped cream, less so of salt. You can never meet my family, they\'re very weird. Never available to hang out on Friday nights.',
+    swipes: [
+      { userId: userIds[0], status: 'right', mutual: true }
+    ]
   },
 
   //////// WOMEN //////////

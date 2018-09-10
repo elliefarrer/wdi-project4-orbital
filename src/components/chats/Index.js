@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 // import querystring from 'query-string';
 
-// import _ from 'lodash';
+import _ from 'lodash';
 import moment from 'moment';
 
 // libraries
@@ -66,11 +66,12 @@ export default class ChatsIndex extends React.Component {
       .catch(err => console.log(err));
   }
 
+  // from Rob: check that identical data is coming back with this.setState as to the axios request. If not, fiddle in the back end.
   handleUnmatch = userToUnmatch => {
     return () => {
       axios.delete(`/api/users/${Auth.currentUserId()}/swipes/${userToUnmatch}`)
         .then(res => this.setState({ swipes: res.data }))
-        .then(() => this.props.history.push(`/users/${Auth.currentUserId()}/chats}`))
+        // .then(() => this.props.history.push(`/users/${Auth.currentUserId()}/chats}`))
         .catch(err => console.log(err));
     };
   }
@@ -83,15 +84,19 @@ export default class ChatsIndex extends React.Component {
     };
   }
 
+  orderChats = (chats) => {
+    const timestamps = chats.map(chat => chat.messages[chat.messages.length-1].timestamps);
+    console.log('timestamps are', timestamps);
+    return _.sortBy(timestamps).reverse();
+  }
+
   componentDidMount = () => {
     axios.get(`/api/users/${Auth.currentUserId()}/swipes`)
       .then(res => this.setState({ swipes: res.data }));
 
     axios.get(`/api/users/${Auth.currentUserId()}/chats`)
       .then(res => this.setState({ chats: res.data }));
-
   }
-
 
 
 
@@ -100,7 +105,12 @@ export default class ChatsIndex extends React.Component {
     const messagedUsers = this.getOtherUser(this.state.chats);
     console.log('Messaged users are', messagedUsers);
     console.log('swipes are', this.state.swipes);
+    let sortedChats;
 
+    if(this.state.chats) {
+      sortedChats = this.orderChats(this.state.chats);
+      console.log('sorted chats are', sortedChats);
+    }
 
     return (
       <section className="chats-index">
@@ -132,21 +142,22 @@ export default class ChatsIndex extends React.Component {
 
         <h2>Chats</h2>
         <div className="chats-section">
-          {this.state.chats && this.state.chats.map(chat =>
+          {sortedChats && this.state.chats.map(chat =>
             <div key={chat._id}>
-            <Link className="chat-container" to={`/users/${Auth.currentUserId()}/chats/${chat._id}`}>
-              <div className="column-1of2">
-                <img src={chat.userToDisplay.profilePic} alt={chat.userToDisplay.firstName} />
-              </div>
-              <div className="column-2of2">
-                <h3>{chat.userToDisplay.firstName}</h3>
-                <p>{chat.messages[chat.messages.length-1].sentBy.firstName}: {chat.messages[chat.messages.length-1].content}</p>
-                <p>Sent on {chat.messages[chat.messages.length-1].timestamps}</p>
-              </div>
-              <hr />
-            </Link>
-            <a onClick={this.handleChatDelete(chat._id)}>Unmatch</a>
-          </div>
+              <Link className="chat-container"  to={`/users/${Auth.currentUserId()}/chats/${chat._id}`}>
+                <div className="column-1of2">
+                  {/* <p>{chat}</p> */}
+                  <img src={chat.userToDisplay.profilePic} alt={chat.userToDisplay.firstName}   />
+                </div>
+                <div className="column-2of2">
+                  <h3>{chat.userToDisplay.firstName}</h3>
+                  <p>{chat.messages[chat.messages.length-1].sentBy.firstName}:  {chat.messages[chat.messages.length-1].content}</p>
+                  <p>Sent on {chat.messages[chat.messages.length-1].timestamps}</p>
+                </div>
+                <hr />
+              </Link>
+              <a onClick={this.handleChatDelete(chat._id)}>Unmatch</a>
+            </div>
           )}
         </div>
       </section>

@@ -46,7 +46,7 @@ function startNewChat(req, res, next) {
           return user.save();
         });
     })
-    .then(chat => res.json(chat))
+    // .then(chat => res.json(chat))
     .catch(next);
 }
 
@@ -68,7 +68,12 @@ function chatsDelete(req, res, next) {
   Chat
     .findById(req.params.chatId)
     .then(chat => chat.remove())
-    .then(() => res.sendStatus(204))
+    .then(() => {
+      Chat
+        .find({ $or: [{ userOne: req.params.userId}, {userTwo: req.params.userId }] })
+        .populate('userOne userTwo messages.sentBy', 'firstName profilePic')
+        .then(chats => res.json(chats));
+    })
     .catch(next);
 }
 

@@ -91,7 +91,19 @@ function swipesDelete(req, res, next) {
       user.swipes.id(req.params.swipeId).remove();
       return user.save();
     })
-    .then(user => res.json(user))
+    // .then(user => res.json(user.swipes))
+    .then(() => {
+      User
+        .findById(req.params.userId)
+        .populate('swipes.userId', 'firstName profilePic')
+        .then(users => {
+          const filteredUsers = users.swipes.filter(key => {
+            return key.mutual === true && key.messaged === false;
+          });
+          return users = filteredUsers;
+        })
+        .then(users => res.json(users));
+    })
     .catch(next);
 }
 
