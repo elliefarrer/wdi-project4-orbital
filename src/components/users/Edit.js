@@ -26,7 +26,7 @@ export default class UsersEdit extends React.Component {
   handleSubmit = event => {
     console.log('Sent', event.target);
     event.preventDefault();
-    axios.put(`/api/users/${Auth.currentUserId()}`, this.state)
+    axios.put(`/api/users/${Auth.currentUserId()}`, this.state, Auth.bearerHeader())
       .then(() => {
         this.props.history.push(`/users/${Auth.currentUserId()}`);
       })
@@ -35,7 +35,7 @@ export default class UsersEdit extends React.Component {
 
   componentDidMount() {
     console.log('match params is', this.props);
-    axios.get(`/api/users/${Auth.currentUserId()}`)
+    axios.get(`/api/users/${Auth.currentUserId()}`, Auth.bearerHeader())
       .then(res => this.setState( res.data ));
   }
 
@@ -98,8 +98,8 @@ export default class UsersEdit extends React.Component {
 
             <div className="field">
               <label htmlFor="sexuality">Please select who you are interested in meeting on Orbital</label>
-              <input name="sexuality" type="checkbox" value="men" onChange={this.handleChange} /> Men
-              <input name="sexuality" type="checkbox" value="women" onChange={this.handleChange} /> Women
+              <input name="sexuality" type="checkbox" value="man" onChange={this.handleChange} /> Men
+              <input name="sexuality" type="checkbox" value="woman" onChange={this.handleChange} /> Women
               <input name="sexuality" type="checkbox" value="transgender" onChange={this.handleChange} /> Transgender People
               <input name="sexuality" type="checkbox" value="non-binary" onChange={this.handleChange} /> Non-Binary People
               <input name="sexuality" type="checkbox" value="other" onChange={this.handleSChange} /> Other

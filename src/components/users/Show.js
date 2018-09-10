@@ -11,7 +11,7 @@ export default class UsersShow extends React.Component {
   state = {}
 
   componentDidMount = () => {
-    axios.get(`/api/users/${this.props.match.params.userId}`)
+    axios.get(`/api/users/${this.props.match.params.userId}`, Auth.bearerHeader())
       .then(res => this.setState({ user: res.data }));
   }
 
@@ -22,7 +22,7 @@ export default class UsersShow extends React.Component {
       status: event.target.value,
       timestamps: Date.now()
     };
-    axios.post(`/api/users/${Auth.currentUserId()}/swipes`, swipeData)
+    axios.post(`/api/users/${Auth.currentUserId()}/swipes`, swipeData, Auth.bearerHeader())
       .then(res => this.setState({ currentUser: res.data }))
       .then(() => this.props.history.push('/users'))
       .catch(err => console.log(err));

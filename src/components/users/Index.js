@@ -19,7 +19,7 @@ export default class UsersIndex extends React.Component {
       status: event.target.value,
       timestamps: Date.now()
     };
-    axios.post(`/api/users/${Auth.currentUserId()}/swipes`, swipeData)
+    axios.post(`/api/users/${Auth.currentUserId()}/swipes`, swipeData, Auth.bearerHeader())
       .then(res => this.setState({ currentUser: res.data }))
       .catch(err => console.log(err));
   }

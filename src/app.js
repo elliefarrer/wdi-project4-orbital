@@ -36,7 +36,7 @@ class App extends React.Component {
             <SecureRoute exact path="/users" component={UsersIndex} />
             <SecureRoute exact path="/users/:userId/chats" component={ChatsIndex} />
             <SecureRoute path="/users/:userId/chats/:chatId" component={ChatsShow} />
-            <SecureRoute path="/users/:userId" component={UsersShow} />
+            <SecureRoute exact path="/users/:userId" component={UsersShow} />
             <SecureRoute path={`/users/${Auth.currentUserId()}/edit`} component={UsersEdit} />
           </Switch>
         </main>

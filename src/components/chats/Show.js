@@ -44,7 +44,7 @@ export default class ChatsShow extends React.Component {
       timestamps: moment().format('YYYY-MM-DD HH:mm')
     };
     console.log('message data is', messageData);
-    axios.post(`/api/users/${Auth.currentUserId()}/chats/${chatId}`, messageData)
+    axios.post(`/api/users/${Auth.currentUserId()}/chats/${chatId}`, messageData, Auth.bearerHeader())
       .then(res => this.setState({ chat: res.data, newMessage: '' }))
       .then(() => this.getOtherUser())
       .catch(err => console.log(err));
@@ -52,7 +52,7 @@ export default class ChatsShow extends React.Component {
 
   handleChatDelete = chatToDelete => {
     return () => {
-      axios.delete(`/api/users/${Auth.currentUserId()}/chats/${chatToDelete}`)
+      axios.delete(`/api/users/${Auth.currentUserId()}/chats/${chatToDelete}`, Auth.bearerHeader())
         .then(res => this.setState({ chats: res.data }))
         .then(() => this.props.history.push(`/users/${Auth.currentUserId()}/chats`))
         .catch(err => console.log(err));
@@ -60,7 +60,7 @@ export default class ChatsShow extends React.Component {
   }
 
   componentDidMount = () => {
-    axios.get(`/api/users/${Auth.currentUserId()}/chats/${this.props.match.params.chatId}`)
+    axios.get(`/api/users/${Auth.currentUserId()}/chats/${this.props.match.params.chatId}`, Auth.bearerHeader())
       .then(res => this.setState({ chat: res.data }));
 
     this.getOtherUser();

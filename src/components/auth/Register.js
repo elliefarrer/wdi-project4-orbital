@@ -134,8 +134,8 @@ export default class AuthRegister extends React.Component {
 
           <div className="field">
             <label htmlFor="sexuality">Please select who you are interested in meeting on Orbital</label>
-            <input name="sexuality" type="checkbox" value="men" onChange={this.handleChange} /> Men
-            <input name="sexuality" type="checkbox" value="women" onChange={this.handleChange} /> Women
+            <input name="sexuality" type="checkbox" value="man" onChange={this.handleChange} /> Men
+            <input name="sexuality" type="checkbox" value="woman" onChange={this.handleChange} /> Women
             <input name="sexuality" type="checkbox" value="transgender" onChange={this.handleChange} /> Transgender People
             <input name="sexuality" type="checkbox" value="non-binary" onChange={this.handleChange} /> Non-Binary People
             <input name="sexuality" type="checkbox" value="other" onChange={this.handleSChange} /> Other

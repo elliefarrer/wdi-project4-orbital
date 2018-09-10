@@ -61,7 +61,7 @@ export default class ChatsIndex extends React.Component {
       ]
     };
     console.log('chat data is', chatData);
-    axios.post(`/api/users/${Auth.currentUserId()}/chats`, chatData)
+    axios.post(`/api/users/${Auth.currentUserId()}/chats`, chatData, Auth.bearerHeader())
       .then(res => this.setState({ chat: res.data, newChat: false, newMessage: '' }))
       .catch(err => console.log(err));
   }
@@ -69,7 +69,7 @@ export default class ChatsIndex extends React.Component {
   // from Rob: check that identical data is coming back with this.setState as to the axios request. If not, fiddle in the back end.
   handleUnmatch = userToUnmatch => {
     return () => {
-      axios.delete(`/api/users/${Auth.currentUserId()}/swipes/${userToUnmatch}`)
+      axios.delete(`/api/users/${Auth.currentUserId()}/swipes/${userToUnmatch}`, Auth.bearerHeader())
         .then(res => this.setState({ swipes: res.data }))
         // .then(() => this.props.history.push(`/users/${Auth.currentUserId()}/chats}`))
         .catch(err => console.log(err));
@@ -78,7 +78,7 @@ export default class ChatsIndex extends React.Component {
 
   handleChatDelete = chatToDelete => {
     return () => {
-      axios.delete(`/api/users/${Auth.currentUserId()}/chats/${chatToDelete}`)
+      axios.delete(`/api/users/${Auth.currentUserId()}/chats/${chatToDelete}`, Auth.bearerHeader())
         .then(res => this.setState({ chats: res.data }))
         .catch(err => console.log(err));
     };
@@ -91,10 +91,10 @@ export default class ChatsIndex extends React.Component {
   }
 
   componentDidMount = () => {
-    axios.get(`/api/users/${Auth.currentUserId()}/swipes`)
+    axios.get(`/api/users/${Auth.currentUserId()}/swipes`, Auth.bearerHeader())
       .then(res => this.setState({ swipes: res.data }));
 
-    axios.get(`/api/users/${Auth.currentUserId()}/chats`)
+    axios.get(`/api/users/${Auth.currentUserId()}/chats`, Auth.bearerHeader())
       .then(res => this.setState({ chats: res.data }));
   }
 
