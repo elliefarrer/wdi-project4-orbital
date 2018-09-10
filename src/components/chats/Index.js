@@ -68,9 +68,17 @@ export default class ChatsIndex extends React.Component {
 
   handleUnmatch = userToUnmatch => {
     return () => {
-      axios.delete(`/api/users/${Auth.currentUserId()}/swipes/${userToUnmatch}`, userToUnmatch)
+      axios.delete(`/api/users/${Auth.currentUserId()}/swipes/${userToUnmatch}`)
         .then(res => this.setState({ swipes: res.data }))
         .then(() => this.props.history.push(`/users/${Auth.currentUserId()}/chats}`))
+        .catch(err => console.log(err));
+    };
+  }
+
+  handleChatDelete = chatToDelete => {
+    return () => {
+      axios.delete(`/api/users/${Auth.currentUserId()}/chats/${chatToDelete}`)
+        .then(res => this.setState({ chats: res.data }))
         .catch(err => console.log(err));
     };
   }
@@ -83,6 +91,7 @@ export default class ChatsIndex extends React.Component {
       .then(res => this.setState({ chats: res.data }));
 
   }
+
 
 
 
@@ -124,7 +133,8 @@ export default class ChatsIndex extends React.Component {
         <h2>Chats</h2>
         <div className="chats-section">
           {this.state.chats && this.state.chats.map(chat =>
-            <Link className="chat-container" key={chat._id} to={`/users/${Auth.currentUserId()}/chats/${chat._id}`}>
+            <div key={chat._id}>
+            <Link className="chat-container" to={`/users/${Auth.currentUserId()}/chats/${chat._id}`}>
               <div className="column-1of2">
                 <img src={chat.userToDisplay.profilePic} alt={chat.userToDisplay.firstName} />
               </div>
@@ -135,6 +145,8 @@ export default class ChatsIndex extends React.Component {
               </div>
               <hr />
             </Link>
+            <a onClick={this.handleChatDelete(chat._id)}>Unmatch</a>
+          </div>
           )}
         </div>
       </section>

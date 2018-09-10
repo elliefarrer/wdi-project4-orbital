@@ -50,6 +50,15 @@ export default class ChatsShow extends React.Component {
       .catch(err => console.log(err));
   }
 
+  handleChatDelete = chatToDelete => {
+    return () => {
+      axios.delete(`/api/users/${Auth.currentUserId()}/chats/${chatToDelete}`)
+        .then(res => this.setState({ chats: res.data }))
+        .then(() => this.props.history.push(`/users/${Auth.currentUserId()}/chats`))
+        .catch(err => console.log(err));
+    };
+  }
+
   componentDidMount = () => {
     axios.get(`/api/users/${Auth.currentUserId()}/chats/${this.props.match.params.chatId}`)
       .then(res => this.setState({ chat: res.data }));
@@ -74,7 +83,10 @@ export default class ChatsShow extends React.Component {
               <img src={currentChat.userToDisplay.profilePic} alt={currentChat.userToDisplay.firstName} />
               <p>{currentChat.userToDisplay.firstName}</p>
             </Link>
+            <a onClick={this.handleChatDelete(currentChat._id)}>Unmatch</a>
             <hr />
+
+
             {currentChat.messages.map(message =>
               <div key={message._id}>
                 <div>

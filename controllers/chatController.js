@@ -4,7 +4,7 @@ const Chat = require('../models/chat');
 function chatsIndex(req, res, next) {
   Chat
     .find({ $or: [{ userOne: req.params.userId}, {userTwo: req.params.userId }] })
-    .populate('userOne userTwo messages.sentBy', 'firstName profilePic') //TODO: check if I need to populate chats.messages.sentBy and if so, how to do it
+    .populate('userOne userTwo messages.sentBy', 'firstName profilePic')
     .then(chats => res.json(chats))
     .catch(next);
 }
@@ -64,9 +64,44 @@ function continueChat(req, res, next) {
     .catch(next);
 }
 
+function chatsDelete(req, res, next) {
+  Chat
+    .findById(req.params.chatId)
+    .then(chat => chat.remove())
+    .then(() => res.sendStatus(204))
+    .catch(next);
+}
+
+// Chat
+//   .findById(req.params.chatId)
+//   .then(chat => chat.remove())
+//   .then(() => res.sendStatus(204))
+//   .catch(next);
+
+// function swipesDelete(req, res, next) {
+//   User
+//     .findById(req.params.userId)
+//     .then(user => {
+//       const userToUnmatch = user.swipes.id(req.params.swipeId).userId;
+//       User
+//         .findById(userToUnmatch)
+//         .then(user => {
+//           const key = user.swipes.findIndex(key => key.userId == req.params.userId);
+//           user.swipes[key].mutual = false;
+//           user.swipes[key].messaged = false;
+//           return user.save();
+//         });
+//       user.swipes.id(req.params.swipeId).remove();
+//       return user.save();
+//     })
+//     .then(user => res.json(user))
+//     .catch(next);
+// }
+
 module.exports = {
   index: chatsIndex,
   show: chatsShow,
   startNewChat: startNewChat,
-  continueChat: continueChat
+  continueChat: continueChat,
+  delete: chatsDelete
 };

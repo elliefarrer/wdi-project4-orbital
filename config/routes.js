@@ -44,6 +44,7 @@ Router.route('/users/:userId/chats')
 
 Router.route('/users/:userId/chats/:chatId')
   .get(chatController.show)
-  .post(chatController.continueChat);
+  .post(chatController.continueChat)
+  .delete(chatController.delete);
 
 module.exports = Router;
