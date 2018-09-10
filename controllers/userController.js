@@ -1,10 +1,39 @@
 const User = require('../models/user');
+const jwt = require('jsonwebtoken');
+const { secret } = require('../config/env');
+
+const moment = require('moment');
 
 //IDEA: can I filter by gender and age range here? Or use a query string with axios in the front end
+//IDEA: use && version of $or to filter
+
+let token;
+let userId;
+let userSexuality;
+let userGender;
+let userDateOfBirth;
+let userAge;
+
+function getTokenFromHttpRequest(req) {
+  token = req.headers.authorization.replace('Bearer ', '');
+  function retrieveUserIdFromToken(err, result) {
+    userId = result.sub;
+    userSexuality = result.sexuality;
+    userGender = result.gender;
+    userDateOfBirth = result.dateOfBirth;
+    userAge = moment().diff(userDateOfBirth, 'years');
+    console.log('User', userId, 'dob is', userAge);
+  }
+  jwt.verify(token, secret, retrieveUserIdFromToken);
+}
+
 function usersIndex(req, res, next) {
+  getTokenFromHttpRequest(req);
+
   User
-    .find()
+    .find({ $and: [ {sexuality: {$in: userGender}}, {gender: {$in: userSexuality}}, {_id: {$ne: userId}} ] } )
     .then(users => res.json(users))
+    .then(() => console.log('req params is', req.params))
     .catch(err => console.log(`There was an error ${err}`))
     .finally(next);
 }

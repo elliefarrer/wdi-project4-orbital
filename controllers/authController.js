@@ -24,7 +24,7 @@ function register(req, res, next) {
 
 function createAndSendToken(user, res, message) {
   //TODO after token expiry has been tested, think about when the token should expire and change it
-  const token = jwt.sign({ sub: user._id, name: user.firstName, profilePic: user.profilePic }, secret, { expiresIn: '1hr' });
+  const token = jwt.sign({ sub: user._id, name: user.firstName, profilePic: user.profilePic, dateOfBirth: user.dateOfBirth, gender: user.gender, sexuality: user.sexuality, minAgeRange: user.minAgeRange, maxAgeRange: user.maxAgeRange }, secret, { expiresIn: '1hr' });
   res.json({ message, token });
 }
 

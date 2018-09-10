@@ -26,12 +26,12 @@ export default class UsersIndex extends React.Component {
 
   componentDidMount = () => {
     console.log('component mounted');
-    axios.get('/api/users')
+    axios.get('/api/users', Auth.bearerHeader())
       .then(res => this.setState({ users: res.data }));
   }
 
   render() {
-    console.log('State is', this.state);
+
     return (
       <section className="users-index centered-text">
         {this.state.users && this.state.users.map(user =>

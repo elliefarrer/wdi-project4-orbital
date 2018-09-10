@@ -37,9 +37,20 @@ Auth.currentUserId = function() {
 
 Auth.currentProfilePic = function() {
   if(this.getToken()) {
-    console.log('payload pp is', this.getPayload().profilePic);
     return this.getPayload().profilePic;
   }
+};
+
+Auth.currentSexuality = function() {
+  return this.getPayload().sexuality;
+};
+
+Auth.currentMinAgeRange = function() {
+  return this.getPayload().minAgeRange;
+};
+
+Auth.currentMaxAgeRange = function() {
+  return this.getPayload().maxAgeRange;
 };
 
 Auth.bearerHeader = function() {

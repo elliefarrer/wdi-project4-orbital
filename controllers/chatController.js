@@ -46,6 +46,24 @@ function startNewChat(req, res, next) {
           return user.save();
         });
     })
+    .then(() => {
+      Chat
+        .find({ $or: [{ userOne: req.params.userId}, {userTwo: req.params.userId }] })
+        .populate('userOne userTwo messages.sentBy', 'firstName profilePic')
+        .then(chats => res.json(chats));
+    })
+    .then(() => {
+      User
+        .findById(req.params.userId)
+        .populate('swipes.userId', 'firstName profilePic')
+        .then(users => {
+          const filteredUsers = users.swipes.filter(key => {
+            return key.mutual === true && key.messaged === false;
+          });
+          return users = filteredUsers;
+        });
+        // .then(users => res.json(users));
+    })
     // .then(chat => res.json(chat))
     .catch(next);
 }
