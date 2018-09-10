@@ -5,12 +5,25 @@ import { Link } from 'react-router-dom';
 //IDEA: use moment to send timestamp with state on swipe
 import moment from 'moment';
 
+// Components
+import Location from './common/Location';
+
 // libraries
 import Auth from '../../lib/Auth';
 
-//IDEA: can I filter by sexuality and age range in back end? Or use a query string here to filter? Can you add params to axios like with $http in Angular?
+
 export default class UsersIndex extends React.Component {
-  state = {}
+  state = {
+    nominatimPostcodes: []
+  }
+
+  // IDEA: create an empty postcodes array in state. Then do a forEach/map to search for all of them and push the towns to the array.
+  getPostcode = postcodeToSearch => {
+    if(this.state.users) {
+      axios.get(`https://nominatim.openstreetmap.org/search/${postcodeToSearch}?format=json`)
+        .then(res => this.setState({ nominatimPostcode: res.data }));
+    }
+  }
 
   handleSwipe = event => {
     event.preventDefault();
@@ -44,7 +57,15 @@ export default class UsersIndex extends React.Component {
               <div className="polaroid-footer">
                 <h2>{user.firstName}, {moment().diff(user.dateOfBirth, 'years')}</h2>
                 <h4>{user.occupation}</h4>
-                <h4>{user.postcode}</h4>
+                {this.state.nominatimPostcode &&
+                  <Location
+                    getPostcode={this.getPostcode}
+                    currentFirstName={Auth.currentFirstName()}
+                    currentPostcode={Auth.currentPostcode()}
+                    userOptions={this.state.user}
+                    postcode={this.state.nominatimPostcode}
+                  />
+                }
               </div>
             </div>
 

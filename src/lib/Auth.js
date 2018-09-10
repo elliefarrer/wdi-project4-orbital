@@ -41,16 +41,8 @@ Auth.currentProfilePic = function() {
   }
 };
 
-Auth.currentSexuality = function() {
-  return this.getPayload().sexuality;
-};
-
-Auth.currentMinAgeRange = function() {
-  return this.getPayload().minAgeRange;
-};
-
-Auth.currentMaxAgeRange = function() {
-  return this.getPayload().maxAgeRange;
+Auth.currentPostcode = function() {
+  return this.getPayload().postcode;
 };
 
 Auth.bearerHeader = function() {
