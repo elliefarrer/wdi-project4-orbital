@@ -112,11 +112,8 @@ export default class UsersShow extends React.Component {
                 distance={this.state.distance}
               />
             }
-            {this.state.distance &&
-              <p>{this.state.distance.route.distance.toFixed(0)} miles away</p>
-            }
 
-            <p>{user.sexuality} {user.gender}</p>
+            <p>{user.gender.charAt(0).toUpperCase() + user.gender.slice(1)}, looking for a {user.sexuality}</p>
 
             <h2>About {user.firstName}</h2>
             <p>{user.bio}</p>

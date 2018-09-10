@@ -7,6 +7,8 @@ const swipeController = require('../controllers/swipeController');
 const chatController = require('../controllers/chatController');
 const authController = require('../controllers/authController');
 
+const gifController = require('../controllers/gifController');
+
 //////////////// AUTH ///////////////////
 Router.route('/register')
   .post(authController.register);
@@ -50,5 +52,10 @@ Router.route('/users/:userId/chats/:chatId')
   .get(chatController.show)
   .post(chatController.continueChat)
   .delete(chatController.delete);
+
+
+////////////////////// GIFS ////////////////////////
+Router.route('/gifs')
+  .get(gifController.search);
 
 module.exports = Router;

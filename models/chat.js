@@ -8,7 +8,8 @@ const chatSchema = new mongoose.Schema({
   userToDisplay: { type: mongoose.Schema.ObjectId, ref: 'User' },
   messages: [{
     sentBy: { type: mongoose.Schema.ObjectId, ref: 'User' },
-    content: { type: String, required: true },
+    content: { type: String },
+    gif: { type: String },
     timestamps: { type: String, default: moment().format('YYYY-MM-DD HH:mm') }
   }]
 });

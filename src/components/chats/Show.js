@@ -8,7 +8,8 @@ import Auth from '../../lib/Auth';
 
 export default class ChatsShow extends React.Component {
   state = {
-    messageContainerClass: ''
+    messageContainerClass: '',
+    gifSearch: false
   }
 
   getOtherUser = () => {
@@ -71,6 +72,46 @@ export default class ChatsShow extends React.Component {
     }
   }
 
+  toggleGifSearch = () => {
+    const gifSearch = !this.state.gifSearch;
+    this.setState({ gifSearch });
+  }
+
+  handleGifChange = event => {
+    console.log('Event fired', event.target.name, event.target.value);
+    const { target: { name, value }} = event;
+    this.setState({ [name]: value });
+  }
+
+  handleGifSubmit = event => {
+    event.preventDefault();
+    axios.get('/api/gifs', {
+      params: {
+        searchTerm: this.state.newGifSearch
+      }
+    })
+      .then(res => this.setState({ gifs: res.data }));
+  }
+
+  sendGif = event => {
+    const chatId = this.props.match.params.chatId;
+    console.log('Trig trogged', event.target.src);
+    const messageData = {
+      sentBy: {
+        _id: Auth.currentUserId(),
+        firstName: Auth.currentFirstName(),
+        profilePic: Auth.currentProfilePic()
+      },
+      gif: event.target.src,
+      timestamps: moment().format('YYYY-MM-DD HH:mm')
+    };
+
+    axios.post(`/api/users/${Auth.currentUserId()}/chats/${chatId}`, messageData, Auth.bearerHeader())
+      .then(res => this.setState({ chat: res.data, newMessage: '', newGifSearch: '', gifs: '', gifSearch: false }))
+      .then(() => this.getOtherUser())
+      .catch(err => console.log(err));
+  }
+
   componentDidMount = () => {
     axios.get(`/api/users/${Auth.currentUserId()}/chats/${this.props.match.params.chatId}`, Auth.bearerHeader())
       .then(res => this.setState({ chat: res.data }));
@@ -78,9 +119,6 @@ export default class ChatsShow extends React.Component {
     this.getOtherUser();
   }
 
-  // componentDidUpdate = () => {
-  //   this.getOtherUser();
-  // }
 
   render() {
     const messagedUser = this.getOtherUser(this.state.chats);
@@ -111,6 +149,7 @@ export default class ChatsShow extends React.Component {
                   </div>
                   <div className="message-bubble">
                     <p>{message.content}</p>
+                    <img src={message.gif}/>
                     <p>{message.timestamps}</p>
                   </div>
                 </div>
@@ -125,6 +164,23 @@ export default class ChatsShow extends React.Component {
                   <button>Send</button>
                 </div>
               </form>
+              <button onClick={this.toggleGifSearch}>GIF</button>
+              {this.state.gifSearch &&
+                <form onSubmit={this.handleGifSubmit}>
+                  <div className="field">
+                    <input name="newGifSearch" type="text" placeholder="Search for a gif..." value={this.state.newGifSearch || ''} onChange={this.handleGifChange}/>
+                  </div>
+                  <button>Search</button>
+                </form>
+              }
+
+              {this.state.gifs && this.state.gifs.data.map(gif =>
+                <div key={gif.id}>
+                  <img onClick={this.sendGif} style={{height: 300}} src={gif.images.original.url} alt={gif.title} value={gif.images.original.url}/>
+                </div>
+              )}
+
+
             </div>
           </div>
         }

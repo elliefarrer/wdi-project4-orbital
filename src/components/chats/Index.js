@@ -30,6 +30,7 @@ export default class ChatsIndex extends React.Component {
   }
 
   toggleNewChat = () => {
+    //IDEA: can you get the other user's ID onto newChat somehow, onto the state?
     const newChat = !this.state.newChat;
     this.setState({ newChat });
   }
@@ -97,7 +98,7 @@ export default class ChatsIndex extends React.Component {
     console.log('Messaged users are', messagedUsers);
     console.log('swipes are', this.state.swipes);
 
-
+    //IDEA: for problematic textarea, change the name to the other user's ID. That way it should be possible to grab it out and do something with it to ensure only that one pops up.
     return (
       <section className="chats-index">
         <div>
