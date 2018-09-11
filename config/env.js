@@ -1,6 +1,6 @@
 const dbURI = process.env.MONGODB_URI || 'mongodb://localhost/orbital';
 const port = process.env.PORT || 4000;
-const secret = process.env.SECRET || 'afsd93DkafdpysDiaIDSAFadfsiaFdfs,304iaPdsfaXdf';
+const secret = process.env.SECRET || 'afsd93DkafdpysDiaIDSAFadfsiaFdfs,304iaPdsfaXdf3f';
 
 const giphyApiKey = process.env.GIPHY_API_KEY;
 
