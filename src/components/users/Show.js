@@ -82,14 +82,17 @@ export default class UsersShow extends React.Component {
     const user = this.state.user;
     console.log('State is', this.state);
 
+    console.log('Last place visited was', this.props);
+
+    //IDEA: to get route to go back to, stick the current on the button to go into props for the next one. Then do a .contains()/.includes function
+
     return (
       <section>
         {this.state.user &&
           <div>
             <img src={user.profilePic} alt={user.firstName} />
 
-            {/* make this link look like a button */}
-            <Link to="/users">Back</Link>
+            <Link to="/users"><i className="fas fa-angle-double-up"></i></Link>
 
             <div className="buttons">
               <div className="column-1of2">
@@ -122,8 +125,6 @@ export default class UsersShow extends React.Component {
                 <span key={index}>{language}</span>
               )}
             </p>
-
-            {/* <a className="twitter-timeline" data-lang="en" href="https://twitter.com/EllieFarrerMus?ref_src=twsrc%5Etfw">Tweets by EllieFarrerMus</a> <script async src="https://platform.twitter.com/widgets.js" charSet="utf-8"></script> */}
 
             {Auth.isAuthenticated() &&
               <div>

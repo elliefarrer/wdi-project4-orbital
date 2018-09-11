@@ -2,25 +2,19 @@ const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 const { secret } = require('../config/env');
 
-const moment = require('moment');
+// const moment = require('moment');
 
-// from Rob: this is a bit odd, although it works. Perhaps build up a user object and return it instead. 
+// from Rob: this is a bit odd, although it works. Perhaps build up a user object and return it instead.
 let token;
-let userId;
-let userSexuality;
-let userGender;
-let userDateOfBirth;
-let userAge;
+const userObject = {};
 
 function getTokenFromHttpRequest(req) {
   token = req.headers.authorization.replace('Bearer ', '');
   function retrieveUserIdFromToken(err, result) {
-    userId = result.sub;
-    userSexuality = result.sexuality;
-    userGender = result.gender;
-    userDateOfBirth = result.dateOfBirth;
-    userAge = moment().diff(userDateOfBirth, 'years');
-    console.log('User', userId, 'dob is', userAge);
+    userObject.userId = result.sub;
+    userObject.sexuality = result.sexuality;
+    userObject.gender = result.gender;
+    userObject.swipeIds = result.swipes.map(swipe => swipe.userId);
   }
   jwt.verify(token, secret, retrieveUserIdFromToken);
 }
@@ -29,7 +23,7 @@ function usersIndex(req, res, next) {
   getTokenFromHttpRequest(req);
 
   User
-    .find({ $and: [ {sexuality: {$in: userGender}}, {gender: {$in: userSexuality}}, {_id: {$ne: userId}} ] } )
+    .find({ $and: [ {sexuality: {$in: userObject.gender}}, {gender: {$in: userObject.sexuality}}, {_id: {$ne: userObject.userId}}, {_id: {$nin: userObject.swipeIds}} ] } )
     .then(users => res.json(users))
     .catch(err => console.log(`There was an error ${err}`))
     .finally(next);
