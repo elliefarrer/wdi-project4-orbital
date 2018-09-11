@@ -10,6 +10,9 @@
       "src/*"
     ]
   },
+  "engines": {
+  "node": "9.10.0"
+  },
   "scripts": {
     "start:server": "nodemon",
     "start:client": "webpack-dev-server",
