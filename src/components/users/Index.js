@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import moment from 'moment';
 
 // Components
-import Location from './common/Location';
+// import Location from './common/Location';
 
 // libraries
 import Auth from '../../lib/Auth';
