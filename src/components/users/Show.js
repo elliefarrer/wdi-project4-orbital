@@ -5,7 +5,8 @@ import { Link } from 'react-router-dom';
 import moment from 'moment';
 
 // Components
-import Location from './common/Location';
+import BackButton from '../common/BackButton';
+import Location from '../common/Location';
 
 // libraries
 import Auth from '../../lib/Auth';
@@ -82,49 +83,53 @@ export default class UsersShow extends React.Component {
     const user = this.state.user;
     console.log('State is', this.state);
 
-    console.log('Last place visited was', this.props);
-
-    //IDEA: to get route to go back to, stick the current on the button to go into props for the next one. Then do a .contains()/.includes function
-
     return (
       <section>
         {this.state.user &&
           <div>
             <img src={user.profilePic} alt={user.firstName} />
 
-            <Link to="/users"><i className="fas fa-angle-double-up"></i></Link>
-
-            <div className="buttons">
-              <div className="column-1of2">
-                <button name={user._id} value="left" onClick={this.handleSwipe}>✖️</button>
-              </div>
-              <div className="column-2of2">
-                <button name={user._id} value="right" onClick={this.handleSwipe}>💖</button>
+            {/* BUTTONS */}
+            {this.props.match.url.split('/')[2] !== Auth.currentUserId() &&
+            <div>
+              <BackButton link={'/users'}/>
+              <div className="buttons">
+                <div className="column-1of2">
+                  <button name={user._id} value="left" onClick={this.handleSwipe}>✖️</button>
+                </div>
+                <div className="column-2of2">
+                  <button name={user._id} value="right" onClick={this.handleSwipe}>💖</button>
+                </div>
               </div>
             </div>
+            }
+
 
             <h2>{user.firstName}, {moment().diff(user.dateOfBirth, 'years')}</h2>
             <p>{user.occupation}</p>
             {this.state.nominatimPostcode && this.state.distance &&
               <Location
-                getPostcode={this.getPostcode}
-                currentFirstName={Auth.currentFirstName()}
-                currentPostcode={Auth.currentPostcode()}
-                userOptions={this.state.user}
+                user={this.props.match.url.split('/')[2]}
                 postcode={this.state.nominatimPostcode}
                 distance={this.state.distance}
               />
             }
 
-            <p>{user.gender.charAt(0).toUpperCase() + user.gender.slice(1)}, looking for a {user.sexuality}</p>
+            <p>{user.gender.charAt(0).toUpperCase() + user.gender.slice(1)}, looking for a:</p>
+            <ul>
+              {user.sexuality.map((option, index) =>
+                <li key={index}>{option}</li>
+              )}
+            </ul>
 
             <h2>About {user.firstName}</h2>
             <p>{user.bio}</p>
-            <p>Languages:
+            <p>Languages:</p>
+            <ul>
               {user.languages.map((language, index) =>
-                <span key={index}>{language}</span>
+                <li key={index}>{language}</li>
               )}
-            </p>
+            </ul>
 
             {Auth.isAuthenticated() &&
               <div>

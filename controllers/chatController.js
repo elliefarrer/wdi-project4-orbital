@@ -4,7 +4,8 @@ const Chat = require('../models/chat');
 // do some sort here to sort the messages in timestamps order
 function chatsIndex(req, res, next) {
   Chat
-    .find({ $or: [{ userOne: req.params.userId}, {userTwo: req.params.userId }] })
+    .find(
+      { $or: [{ userOne: req.params.userId}, {userTwo: req.params.userId }] })
     .populate('userOne userTwo messages.sentBy', 'firstName profilePic')
     .then(chats => res.json(chats))
     .catch(next);

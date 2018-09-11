@@ -23,7 +23,7 @@ function usersIndex(req, res, next) {
   getTokenFromHttpRequest(req);
 
   User
-    .find({ $and: [ {sexuality: {$in: userObject.gender}}, {gender: {$in: userObject.sexuality}}, {_id: {$ne: userObject.userId}}, {_id: {$nin: userObject.swipeIds}} ] } )
+    .find({ $and: [ {sexuality: {$in: userObject.gender}}, {gender: {$in: userObject.sexuality}}, {_id: {$ne: userObject.userId, $nin: userObject.swipeIds}} ] } )
     .then(users => res.json(users))
     .catch(err => console.log(`There was an error ${err}`))
     .finally(next);
