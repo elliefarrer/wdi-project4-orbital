@@ -24,7 +24,7 @@ app.use((req, res, next) => {
   next();
 });
 
-
+app.use(express.static(`${__dirname}/public`));
 app.use('/api', Router);
 
 app.get('/*', (req, res) => res.sendFile(`${__dirname}/public/index.html`));
