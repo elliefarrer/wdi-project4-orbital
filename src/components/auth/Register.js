@@ -63,7 +63,6 @@ export default class AuthRegister extends React.Component {
     occupation: 'Student',
     languages: [],
     bio: 'History student at QMUL, originally from Essex. Part time model but I love pizza more than anything!',
-    extraPhotos: [],
 
     errors: {
 
@@ -94,14 +93,6 @@ export default class AuthRegister extends React.Component {
     const errors = this.state.errors;
     delete errors['languages'];
     this.state.languages.push(value);
-  }
-
-  handleExtraPhotoChange = event => {
-    console.log('Handle change fired', event.target.name, event.target.value);
-    const value = event.target.value;
-    const errors = this.state.errors;
-    delete errors['extraPhotos'];
-    this.state.extraPhotos.push(value);
   }
 
   // toggle password type between password and text, to reveal it
@@ -270,41 +261,6 @@ export default class AuthRegister extends React.Component {
             />
           </div>
           <ErrorMessage error={this.state.errors.bio} />
-
-          <div className="field">
-            <label htmlFor="extraPhotos">Add up to 4 more photos (URL)</label>
-            <input
-              name="extraPhotos"
-              type="text"
-              placeholder="Photo (URL)"
-              value={this.state.extraPhotos[0] || ''}
-              onChange={this.handleExtraPhotoChange}
-            />
-
-            <input
-              name="extraPhotos"
-              type="text"
-              placeholder="Photo (URL)"
-              value={this.state.extraPhotos[1] || ''}
-              onChange={this.handleExtraPhotoChange}
-            />
-
-            <input
-              name="extraPhotos"
-              type="text"
-              placeholder="Photo (URL)"
-              value={this.state.extraPhotos[2] || ''}
-              onChange={this.handleExtraPhotoChange}
-            />
-
-            <input
-              name="extraPhotos"
-              type="text"
-              placeholder="Photo (URL)"
-              value={this.state.extraPhotos[3] || ''}
-              onChange={this.handleExtraPhotoChange}
-            />
-          </div>
 
           <button>Sign Up</button>
 

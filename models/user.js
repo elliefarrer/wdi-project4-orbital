@@ -48,11 +48,11 @@ const userSchema = new mongoose.Schema({
     type: Number,
     min: 19
   },
-  profilePic: {
+  profilePic: [{
     type: String,
     required: true,
     match: /(?=.*[.jpg]$)(?=.*[.jpeg]$)(?=.*[.png]$)/
-  },
+  }],
   occupation: String,
   languages: [{
     type: String
@@ -63,10 +63,9 @@ const userSchema = new mongoose.Schema({
     minlength: 100,
     maxlength: 250
   },
-  extraPhotos: {
-    type: String,
-    match: /(?=.*[.jpg]$)(?=.*[.jpeg]$)(?=.*[.png]$)/
-  },
+  extraPhotos: [{
+    type: String
+  }],
   swipes: [
     {
       userId: { type: mongoose.Schema.ObjectId, ref: 'User' },

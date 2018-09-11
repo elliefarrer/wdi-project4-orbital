@@ -16,7 +16,8 @@ export default class UsersShow extends React.Component {
   state = {
     apikey: 'DmK3IjydVb4R9lDw3X08xjNBNVV0WOks',
     nominatimPostcode: '',
-    distance: ''
+    distance: '',
+    newPhoto: false
   }
 
   componentDidMount = () => {
@@ -71,6 +72,28 @@ export default class UsersShow extends React.Component {
     Flash.setMessage('neutral', 'Sorry to see you go! Hope to see you back again one day...');
   }
 
+  toggleNewPhoto = () => {
+    const newPhoto = !this.state.newPhoto;
+    this.setState({ newPhoto });
+  }
+
+  handlePhotoChange = event => {
+    console.log('Event fired', event.target.name, event.target.value);
+    const { target: { name, value }} = event;
+    this.setState({ [name]: value });
+  }
+
+  handlePhotoSubmit = event => {
+    event.preventDefault();
+    console.log('State is', this.state);
+    const photoData = {
+      url: this.state.newPhotoUpload
+    };
+    axios.post(`/api/users/${Auth.currentUserId()}/photos`, photoData, Auth.bearerHeader())
+      .then(res => this.setState({ user: res.data, newPhoto: false, newPhotoUpload: '' }))
+      .catch(err => console.log(err));
+  }
+
   render() {
     if(this.state.user && !this.state.nominatimPostcode) {
       this.getPostcode(this.state.user.postcode);
@@ -87,7 +110,7 @@ export default class UsersShow extends React.Component {
       <section>
         {this.state.user &&
           <div>
-            <img src={user.profilePic} alt={user.firstName} />
+            <img src={user.profilePic[0]} alt={user.firstName} />
 
             {/* BUTTONS */}
             {this.props.match.url.split('/')[2] !== Auth.currentUserId() &&
@@ -103,6 +126,25 @@ export default class UsersShow extends React.Component {
               </div>
             </div>
             }
+
+            {/* ADD PHOTO */}
+            {this.props.match.url.split('/')[2] === Auth.currentUserId() &&
+            <p onClick={this.toggleNewPhoto}><i className="fas fa-plus-circle"></i></p>
+            }
+            {this.state.newPhoto &&
+              <form onSubmit={this.handlePhotoSubmit}>
+                <div className="field">
+                  <input name="newPhotoUpload" type="text" placeholder="Add a photo (URL)" value={this.state.newPhotoUpload || ''} onChange={this.handlePhotoChange}/>
+                  <button>Submit</button>
+                </div>
+              </form>
+            }
+
+            {user.extraPhotos && user.extraPhotos.map((photo, index) =>
+              <div key={index}>
+                <img src={photo} />
+              </div>
+            )}
 
 
             <h2>{user.firstName}, {moment().diff(user.dateOfBirth, 'years')}</h2>
@@ -131,7 +173,7 @@ export default class UsersShow extends React.Component {
               )}
             </ul>
 
-            {Auth.isAuthenticated() &&
+            {this.props.match.url.split('/')[2] === Auth.currentUserId() &&
               <div>
                 <Link to={`/users/${Auth.currentUserId()}/edit`}>Edit Profile</Link>
                 <a onClick={this.logOut}>Log out {Auth.currentFirstName()}</a>

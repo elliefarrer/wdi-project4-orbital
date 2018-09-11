@@ -6,6 +6,7 @@ const userController = require('../controllers/userController');
 const swipeController = require('../controllers/swipeController');
 const chatController = require('../controllers/chatController');
 const authController = require('../controllers/authController');
+const photoController = require('../controllers/photoController');
 
 const gifController = require('../controllers/gifController');
 
@@ -54,8 +55,14 @@ Router.route('/users/:userId/chats/:chatId')
   .delete(chatController.delete);
 
 
+////////////////////// PHOTOS ///////////////////////////
+Router.route('/users/:userId/photos')
+  .all(secureRoute)
+  .post(photoController.create);
+
 ////////////////////// GIFS ////////////////////////
 Router.route('/gifs')
+  .all(secureRoute)
   .get(gifController.search);
 
 module.exports = Router;
