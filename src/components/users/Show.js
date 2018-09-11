@@ -94,6 +94,14 @@ export default class UsersShow extends React.Component {
       .catch(err => console.log(err));
   }
 
+  //IDEA: look at how this is constructed, with the photoId being passed in on click, to try and fix textarea bug
+  deletePhoto = photoId => {
+    return () => {
+      axios.delete(`/api/users/${Auth.currentUserId()}/photos/${photoId}`, Auth.bearerHeader())
+        .then(res => this.setState({ user: res.data }))
+        .catch(err => console.log(err));
+    };
+  }
   render() {
     if(this.state.user && !this.state.nominatimPostcode) {
       this.getPostcode(this.state.user.postcode);
@@ -142,7 +150,8 @@ export default class UsersShow extends React.Component {
 
             {user.extraPhotos && user.extraPhotos.map((photo, index) =>
               <div key={index}>
-                <img src={photo} />
+                <img src={photo.url} />
+                <p onClick={this.deletePhoto(photo._id)}><i className="fas fa-trash-alt"></i></p>
               </div>
             )}
 

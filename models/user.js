@@ -63,9 +63,11 @@ const userSchema = new mongoose.Schema({
     minlength: 100,
     maxlength: 250
   },
-  extraPhotos: [{
-    type: String
-  }],
+  extraPhotos: [
+    {
+      url: String
+    }
+  ],
   swipes: [
     {
       userId: { type: mongoose.Schema.ObjectId, ref: 'User' },

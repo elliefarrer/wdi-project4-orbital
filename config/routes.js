@@ -60,6 +60,10 @@ Router.route('/users/:userId/photos')
   .all(secureRoute)
   .post(photoController.create);
 
+Router.route('/users/:userId/photos/:photoId')
+  .all(secureRoute)
+  .delete(photoController.delete);
+
 ////////////////////// GIFS ////////////////////////
 Router.route('/gifs')
   .all(secureRoute)
