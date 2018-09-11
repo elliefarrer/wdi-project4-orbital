@@ -1,4 +1,4 @@
-const dbURI = process.env.DBURI || 'mongodb://localhost/orbital';
+const dbURI = process.env.MONGODB_URI || 'mongodb://localhost/orbital';
 const port = process.env.PORT || 4000;
 const secret = process.env.SECRET || 'afsd93DkafdpysDiaIDSAFadfsiaFdfs,304iaPdsfaXdf';
 
