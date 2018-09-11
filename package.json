@@ -13,6 +13,8 @@
   "scripts": {
     "start:server": "nodemon",
     "start:client": "webpack-dev-server",
+    "build": "webpack -p",
+    "start": "yarn build && node index",
     "seed": "node db/seeds",
     "test": "nyc mocha test/**/*_spec.js --require test/spec_helper --recursive --exit"
   },

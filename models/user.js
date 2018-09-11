@@ -63,7 +63,10 @@ const userSchema = new mongoose.Schema({
     minlength: 100,
     maxlength: 250
   },
-  // timeStamps: String,
+  extraPhotos: {
+    type: String,
+    match: /(?=.*[.jpg]$)(?=.*[.jpeg]$)(?=.*[.png]$)/
+  },
   swipes: [
     {
       userId: { type: mongoose.Schema.ObjectId, ref: 'User' },
@@ -71,15 +74,9 @@ const userSchema = new mongoose.Schema({
       mutual: { type: Boolean, default: false },
       messaged: { type: Boolean, default: false },
       timestamps: { type: String, default: moment().format('YYYY-MM-dd HH:mm') }
-      //TODO: change default back to 'no swipe' when tested/figured out how to do this a better way
     }
   ]
 });
-
-// no swipe = neither user has swiped the other either right or left
-// left swipe = one or both users has swiped the other left
-// pending = one user has swiped the other right, waiting for the other to swipe
-// match = both users have swiped each other right so can now message
 
 userSchema.plugin(require('mongoose-unique-validator'));
 
