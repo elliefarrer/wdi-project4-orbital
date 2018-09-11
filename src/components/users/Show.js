@@ -7,6 +7,7 @@ import moment from 'moment';
 // Components
 import BackButton from '../common/BackButton';
 import Location from '../common/Location';
+import SwipeButtons from '../common/SwipeButtons';
 
 // libraries
 import Auth from '../../lib/Auth';
@@ -124,14 +125,10 @@ export default class UsersShow extends React.Component {
             {this.props.match.url.split('/')[2] !== Auth.currentUserId() &&
             <div>
               <BackButton link={'/users'}/>
-              <div className="buttons">
-                <div className="column-1of2">
-                  <button name={user._id} value="left" onClick={this.handleSwipe}>✖️</button>
-                </div>
-                <div className="column-2of2">
-                  <button name={user._id} value="right" onClick={this.handleSwipe}>💖</button>
-                </div>
-              </div>
+              <SwipeButtons
+                handleSwipe={this.handleSwipe}
+                user={this.state.user}
+              />
             </div>
             }
 

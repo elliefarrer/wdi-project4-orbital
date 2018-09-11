@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import moment from 'moment';
 
 // Components
-// import Location from './common/Location';
+import SwipeButtons from '../common/SwipeButtons';
 
 // libraries
 import Auth from '../../lib/Auth';
@@ -57,26 +57,13 @@ export default class UsersIndex extends React.Component {
               <div className="polaroid-footer">
                 <h2>{user.firstName}, {moment().diff(user.dateOfBirth, 'years')}</h2>
                 <h4>{user.occupation}</h4>
-                {this.state.nominatimPostcode &&
-                  <Location
-                    getPostcode={this.getPostcode}
-                    currentFirstName={Auth.currentFirstName()}
-                    currentPostcode={Auth.currentPostcode()}
-                    userOptions={this.state.user}
-                    postcode={this.state.nominatimPostcode}
-                  />
-                }
               </div>
             </div>
 
-            <div className="buttons">
-              <div className="column-1of2">
-                <button name={user._id} value="left" onClick={this.handleSwipe}>✖️</button>
-              </div>
-              <div className="column-2of2">
-                <button name={user._id} value="right" onClick={this.handleSwipe}>💖</button>
-              </div>
-            </div>
+            <SwipeButtons
+              handleSwipe={this.handleSwipe}
+              user={this.state.users}
+            />
           </div>
         )}
 

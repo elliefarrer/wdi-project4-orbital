@@ -6,6 +6,9 @@ import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import moment from 'moment';
 
+// components
+// import Dropdown from '../common/Dropdown';
+
 // libraries
 import Auth from '../../lib/Auth';
 
@@ -13,7 +16,8 @@ import Auth from '../../lib/Auth';
 
 export default class ChatsIndex extends React.Component {
   state = {
-    newChat: false
+    newChat: false,
+    newDropdown: false
   };
 
   getOtherUser = () => {
@@ -27,6 +31,11 @@ export default class ChatsIndex extends React.Component {
         }
       });
     }
+  }
+
+  toggleDropdown = () => {
+    const newDropdown = !this.state.newDropdown;
+    this.setState({ newDropdown });
   }
 
   toggleNewChat = () => {
@@ -107,12 +116,35 @@ export default class ChatsIndex extends React.Component {
             {this.state.swipes && this.state.swipes.map((swipe, index) =>
               <div className="match" key={index} to={`/users/${swipe.userId._id}`}>
                 <img src={swipe.userId.profilePic} alt={swipe.userId.firstName} />
-                <Link to={`/users/${swipe.userId._id}`}>
-                  <i className="fas fa-info-circle"></i>
+
+                <a onClick={this.toggleDropdown}><i className="fas fa-ellipsis-h"></i></a>
+
+                {/* IDEA: ADD ANOTHER CONDITIONAL HERE TO CHECK FOR THE CORRECT USER ID SO ONLY ONE DROPDOWN HAPPENS */}
+                {this.state.newDropdown &&
+                  // <Dropdown
+                  //   toggleNewChat={this.toggleNewChat}
+                  //   handleUnmatch={this.handleUnmatch}
+                  //   swipe={this.swipe}
+                  // />
+                  <div className="dropdown">
+                    <div className="dropdown-option">
+                      <Link to={`/users/${swipe.userId._id}`}><i className="fas fa-info-circle"></i> <span>View profile</span></Link>
+                    </div>
+                    <div className="dropdown-option">
+                      <a id={swipe.userId._id} onClick={this.toggleNewChat}><i className="fas fa-comments" ></i> <span>Message</span> </a>
+                    </div>
+                    <div className="dropdown-option">
+                      <a onClick={this.handleUnmatch(swipe._id)}><i className="fas fa-times"></i> <span>Unmatch</span></a>
+                    </div>
+                  </div>
+                }
+
+                {/* <Link to={`/users/${swipe.userId._id}`}>
+
                 </Link>
-                <i id={swipe.userId._id} className="fas fa-comments" onClick={this.toggleNewChat}></i>
+
                 <p>{swipe.userId.firstName}</p>
-                <a onClick={this.handleUnmatch(swipe._id)}>Unmatch</a>
+                <a onClick={this.handleUnmatch(swipe._id)}>Unmatch</a> */}
 
                 {this.state.newChat &&
                   <form onSubmit={this.handleSubmit}>

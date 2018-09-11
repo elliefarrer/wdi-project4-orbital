@@ -66,7 +66,6 @@ Router.route('/users/:userId/photos/:photoId')
 
 ////////////////////// GIFS ////////////////////////
 Router.route('/gifs')
-  .all(secureRoute)
   .get(gifController.search);
 
 module.exports = Router;
