@@ -168,7 +168,7 @@ export default class ChatsIndex extends React.Component {
                 <div className="column-2of2">
                   <h3>{chat.userToDisplay.firstName}</h3>
                   <p className="last-message">{chat.messages[chat.messages.length-1].sentBy.firstName}:  {chat.messages[chat.messages.length-1].content}</p>
-                  <p className="timestamps">Sent on {chat.messages[chat.messages.length-1].timestamps}</p>
+                  <p className="timestamps"> {moment(chat.messages[chat.messages.length-1].timestamps).calendar()}</p>
                 </div>
                 {/* <hr /> */}
               </Link>

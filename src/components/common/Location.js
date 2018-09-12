@@ -6,11 +6,11 @@ import Auth from '../../lib/Auth';
 const Location = ({ distance, postcode, user }) => {
   if(user !== Auth.currentUserId()) {
     return (
-      <p><i className="fas fa-map-marker-alt"></i>  {postcode[0].display_name.split(',')[0]}, {distance.route.distance.toFixed(0)} miles away</p>
+      <h4><i className="fas fa-map-marker-alt"></i>  {postcode[0].display_name.split(',')[0]}, {distance.route.distance.toFixed(0)} miles away</h4>
     );
   } else {
     return (
-      <p><i className="fas fa-map-marker-alt"></i>  {postcode[0].display_name.split(',')[0]}</p>
+      <h4><i className="fas fa-map-marker-alt"></i>  {postcode[0].display_name.split(',')[0]}</h4>
     );
   }
 

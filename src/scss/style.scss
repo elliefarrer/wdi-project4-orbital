@@ -26,7 +26,7 @@ body {
       position: absolute;
       top: 50%;
       left: 1%;
-      color: pink;
+      color: $header-color;
       font-size: 3rem;
     }
 
@@ -34,7 +34,7 @@ body {
       position: absolute;
       top: 50%;
       right: 1%;
-      color: pink;
+      color: $header-color;
       font-size: 3rem;
     }
 
@@ -74,6 +74,52 @@ body {
       bottom: 2%;
       font-size: 3rem;
       z-index: 5;
+    }
+  }
+
+
+  ////////////////////// USER SHOW ////////////////////////
+  .users-show {
+    .about-user {
+      background-color: $polaroid-body-color;
+      width: 95%;
+      margin: 0 auto;
+      margin-top: 1rem;
+      h2 {
+        font-size: 4.5rem;
+        span {
+          text-align: right;
+        }
+      }
+      h4 {
+        font-size: 2rem;
+      }
+      p {
+        display: inline;
+      }
+      ul {
+        display: inline;
+        li {
+          display: inline;
+        }
+      }
+      .bio {
+        margin: 1.5rem 0;
+        h3 {
+          font-size: 3rem;
+          margin-bottom: 0.75rem;
+        }
+      }
+      .button {
+        background-color: $header-color;
+        color: $polaroid-body-color;
+        border: none;
+        border-radius: 20%;
+        padding: 1rem 1rem;
+        font-size: 1.5rem;
+        display: block;
+        // position: absolute;
+      }
     }
   }
 

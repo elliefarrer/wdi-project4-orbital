@@ -154,7 +154,7 @@ export default class UsersShow extends React.Component {
     console.log('State is', this.state);
 
     return (
-      <section>
+      <section className="users-show">
         {this.state.user &&
           <div>
 
@@ -191,16 +191,6 @@ export default class UsersShow extends React.Component {
                   <a className="next" name="1" onClick={this.moveIndex}>&#10095;</a>
                 }
 
-                <div className="carousel-dots">
-                  <div className="dot is-active"></div>
-                  {user.extraPhotos && user.extraPhotos.map((photo, index) =>
-                    <div key={index} className="dot"></div>
-
-                  )}
-
-
-                </div>
-
               </div>
             }
 
@@ -215,40 +205,43 @@ export default class UsersShow extends React.Component {
               </form>
             }
 
+            <div className="about-user">
+              <h2>{user.firstName}, {moment().diff(user.dateOfBirth, 'years')}</h2>
+              <h4>{user.occupation}</h4>
+              {this.state.nominatimPostcode && this.state.distance &&
+                <Location
+                  user={this.props.match.url.split('/')[2]}
+                  postcode={this.state.nominatimPostcode}
+                  distance={this.state.distance}
+                />
+              }
 
-            <h2>{user.firstName}, {moment().diff(user.dateOfBirth, 'years')}</h2>
-            <p>{user.occupation}</p>
-            {this.state.nominatimPostcode && this.state.distance &&
-              <Location
-                user={this.props.match.url.split('/')[2]}
-                postcode={this.state.nominatimPostcode}
-                distance={this.state.distance}
-              />
-            }
+              <p>{user.gender.charAt(0).toUpperCase() + user.gender.slice(1)}, looking for a </p>
+              <ul>
+                {user.sexuality.map((option, index) =>
+                  <li key={index}>{option}</li>
+                )}
+              </ul>
 
-            <p>{user.gender.charAt(0).toUpperCase() + user.gender.slice(1)}, looking for a:</p>
-            <ul>
-              {user.sexuality.map((option, index) =>
-                <li key={index}>{option}</li>
-              )}
-            </ul>
-
-            <h2>About {user.firstName}</h2>
-            <p>{user.bio}</p>
-            <p>Languages:</p>
-            <ul>
-              {user.languages.map((language, index) =>
-                <li key={index}>{language}</li>
-              )}
-            </ul>
-
-            {this.props.match.url.split('/')[2] === Auth.currentUserId() &&
-              <div>
-                <Link to={`/users/${Auth.currentUserId()}/edit`}>Edit Profile</Link>
-                <a onClick={this.logOut}>Log out {Auth.currentFirstName()}</a>
-                <a onClick={this.deleteProfile}>Delete Profile</a>
+              <div className="bio">
+                <h3>About {user.firstName}</h3>
+                <p>{user.bio}</p><br />
+                <p>Languages:</p>
+                <ul>
+                  {user.languages.map((language, index) =>
+                    <li key={index}>{language}</li>
+                  )}
+                </ul>
               </div>
-            }
+
+              {this.props.match.url.split('/')[2] === Auth.currentUserId() &&
+              <div>
+                <Link className="button" to={`/users/${Auth.currentUserId()}/edit`}>Edit Profile</Link>
+                <a className="button" onClick={this.logOut}>Log out {Auth.currentFirstName()}</a>
+                <a className="button" onClick={this.deleteProfile}>Delete Profile</a>
+              </div>
+              }
+            </div>
           </div>
         }
 
