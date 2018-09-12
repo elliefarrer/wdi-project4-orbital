@@ -18,12 +18,15 @@ export default class UsersShow extends React.Component {
     apikey: 'DmK3IjydVb4R9lDw3X08xjNBNVV0WOks',
     nominatimPostcode: '',
     distance: '',
-    newPhoto: false
+    newPhoto: false,
+
+    carouselIndex: 0,
+    triggerChangeImage: false
   }
 
   componentDidMount = () => {
     axios.get(`/api/users/${this.props.match.params.userId}`, Auth.bearerHeader())
-      .then(res => this.setState({ user: res.data }));
+      .then(res => this.setState({ user: res.data, carouselImage: res.data.profilePic }));
   }
 
 
@@ -103,6 +106,36 @@ export default class UsersShow extends React.Component {
         .catch(err => console.log(err));
     };
   }
+
+  ///////////////// CAROUSEL //////////////////////
+
+  moveIndex = event => {
+    const newState = this.state;
+    if(parseInt(event.target.name) === 1) {
+      this.setState({ carouselIndex: newState.carouselIndex + 1, triggerChangeImage: true });
+    } else {
+      this.setState({ carouselIndex: newState.carouselIndex - 1, triggerChangeImage: true });
+    }
+
+    return this.changeImage();
+  }
+
+  changeImage = () => {
+    const newState = this.state;
+    if(parseInt(newState.carouselIndex) > -1) {
+      console.log('First one runs');
+      // newState.carouselImage.pop();
+      // newState.carouselImage.push(this.state.user.extraPhotos[this.state.carouselIndex].url);
+      return this.setState({ carouselImage: this.state.user.extraPhotos[this.state.carouselIndex].url, triggerChangeImage: false });
+    } else if (parseInt(newState.carouselIndex) === -1) {
+      console.log('Second one runs');
+      return this.setState({ carouselImage: this.state.user.profilePic, triggerChangeImage: false });
+    } else {
+      console.log('Total fail');
+    }
+  }
+
+
   render() {
     if(this.state.user && !this.state.nominatimPostcode) {
       this.getPostcode(this.state.user.postcode);
@@ -119,7 +152,37 @@ export default class UsersShow extends React.Component {
       <section>
         {this.state.user &&
           <div>
-            <img src={user.profilePic[0]} alt={user.firstName} />
+
+            {/* CAROUSEL */}
+            {/* <div className="carousel-container">
+              <div id="carousel-img">
+                <img style={{width: '100vw'}} src={user.profilePic} alt={user.firstName} />
+              </div>
+              {user.extraPhotos && user.extraPhotos.map((photo, index) =>
+                <div key={index} id="carousel-img">
+                  <img style={{width: '100vw'}} src={photo.url} alt={user.firstName} />
+                  <p onClick={this.deletePhoto(photo._id)}><i className="fas fa-trash-alt"></i></p>
+                </div>
+              )}
+              <a className="prev" onClick={this.plusImages(-1)}>&#10094;</a>
+              <a className="next" onClick={this.plusImages(1)}>&#10095;</a>
+            </div> */}
+
+            {user.extraPhotos &&
+              <div className="carousel-container">
+                <div className="carousel-img">
+
+                  {this.state.user.extraPhotos && this.state.carouselImage &&
+                    <img style={{width: '100vw'}} src={this.state.carouselImage}/>
+                  }
+                  {/* <p>{user.extraPhotos[1]}</p> */}
+                </div>
+                <a className="prev" name="-1" onClick={this.moveIndex}>&#10094;</a>
+                <a className="next" name="1" onClick={this.moveIndex}>&#10095;</a>
+              </div>
+            }
+
+            {/* <img src={user.profilePic} alt={user.firstName} /> */}
 
             {/* BUTTONS */}
             {this.props.match.url.split('/')[2] !== Auth.currentUserId() &&
@@ -145,12 +208,12 @@ export default class UsersShow extends React.Component {
               </form>
             }
 
-            {user.extraPhotos && user.extraPhotos.map((photo, index) =>
+            {/* {user.extraPhotos && user.extraPhotos.map((photo, index) =>
               <div key={index}>
                 <img src={photo.url} />
-                <p onClick={this.deletePhoto(photo._id)}><i className="fas fa-trash-alt"></i></p>
+
               </div>
-            )}
+            )} */}
 
 
             <h2>{user.firstName}, {moment().diff(user.dateOfBirth, 'years')}</h2>

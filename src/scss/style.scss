@@ -4,6 +4,23 @@ body {
     text-align: center;
   }
 
+  // move these to where they need to be
+  .prev {
+    position: absolute;
+    top: 40%;
+    left: 1%;
+    color: pink;
+    font-size: 3rem;
+  }
+
+  .next {
+    position: absolute;
+    top: 40%;
+    right: 1%;
+    color: pink;
+    font-size: 3rem;
+  }
+
   nav {
     color: #ffffff;
     height: 7vh;

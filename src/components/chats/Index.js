@@ -3,7 +3,6 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 // import querystring from 'query-string';
 
-import _ from 'lodash';
 import moment from 'moment';
 
 // components
@@ -12,7 +11,6 @@ import moment from 'moment';
 // libraries
 import Auth from '../../lib/Auth';
 
-// TODO: also, to fix timestamp bug (v. important for messaging), look at what you did in project 2 with pre validation and do the same there
 
 export default class ChatsIndex extends React.Component {
   state = {
