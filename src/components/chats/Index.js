@@ -122,24 +122,19 @@ export default class ChatsIndex extends React.Component {
                 <img src={swipe.userId.profilePic} alt={swipe.userId.firstName} />
                 <h5 className="match-name">{swipe.userId.firstName}</h5>
 
-                <a onClick={this.toggleDropdown}><i className="fas fa-ellipsis-h"></i></a>
+                <a onClick={this.toggleDropdown}><i className="fas fa-ellipsis-h dropdown-toggle"></i></a>
 
                 {/* IDEA: ADD ANOTHER CONDITIONAL HERE TO CHECK FOR THE CORRECT USER ID SO ONLY ONE DROPDOWN HAPPENS */}
                 {this.state.newDropdown &&
-                  // <Dropdown
-                  //   toggleNewChat={this.toggleNewChat}
-                  //   handleUnmatch={this.handleUnmatch}
-                  //   swipe={this.swipe}
-                  // />
                   <div className="dropdown">
                     <div className="dropdown-option">
-                      <Link to={`/users/${swipe.userId._id}`}><i className="fas fa-info-circle"></i> <span>View profile</span></Link>
+                      <Link to={`/users/${swipe.userId._id}`}><span>View profile</span></Link>
                     </div>
                     <div className="dropdown-option">
-                      <a id={swipe.userId._id} onClick={this.toggleNewChat}><i className="fas fa-comments" ></i> <span>Message</span> </a>
+                      <a id={swipe.userId._id} onClick={this.toggleNewChat}><span>Message</span> </a>
                     </div>
                     <div className="dropdown-option">
-                      <a onClick={this.handleUnmatch(swipe._id)}><i className="fas fa-times"></i> <span>Unmatch</span></a>
+                      <a onClick={this.handleUnmatch(swipe._id)}><span>Unmatch</span></a>
                     </div>
                   </div>
                 }
@@ -175,19 +170,8 @@ export default class ChatsIndex extends React.Component {
                   <p className="last-message">{chat.messages[chat.messages.length-1].sentBy.firstName}:  {chat.messages[chat.messages.length-1].content}</p>
                   <p className="timestamps">Sent on {chat.messages[chat.messages.length-1].timestamps}</p>
                 </div>
-                <hr />
+                {/* <hr /> */}
               </Link>
-              <a onClick={this.toggleDropdown}><i className="fas fa-ellipsis-h dropdown-toggle"></i></a>
-              {this.state.newDropdown &&
-                <div className="dropdown">
-                  <div className="dropdown-option">
-                    <Link to={`/users/${chat.userToDisplay._id}`}><span>View profile</span></Link>
-                  </div>
-                  <div className="dropdown-option">
-                    <a onClick={this.handleChatDelete(chat._id)}><span>Unmatch</span></a>
-                  </div>
-                </div>
-              }
             </div>
           )}
 

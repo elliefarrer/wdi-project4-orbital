@@ -212,9 +212,10 @@ body {
       width: 95%;
       margin: 0 auto;
       display: flex;
-      overflow-x: scroll; //TODO: test this with seedies
+      overflow-x: scroll;
       .match {
         display: inline-block;
+        position: relative;
         img {
           height: 200px;
           width: 200px;
@@ -224,22 +225,45 @@ body {
           color: $polaroid-body-color;
           text-align: center;
           font-size: 1.5rem;
-
+        }
+        .dropdown-toggle {
+          color: $overlay-color;
+          position: absolute;
+          right: 0;
+          top: 0;
+        }
+        .dropdown {
+          background-color: $polaroid-body-color;
+          position: absolute;
+          right: 0;
+          top: 5%;
+          .dropdown-option {
+            padding: 1rem;
+          }
+          :hover {
+            background-color: $header-color;
+            color: $polaroid-body-color;
+          }
         }
       }
     }
     .chats-section {
-      position: absolute;
+      // position: absolute;
       width: 100vw;
       margin-top: 3rem;
       .chat-container {
+        position: relative;
         width: 95%;
-        height: auto;
+        height: 250px;
         margin: 0 auto;
+        background-color: $polaroid-body-color;
+        margin-bottom: 1rem;
+
         .message-show {
-          color: $polaroid-body-color;
+          color: $text-color;
           p {
             font-size: 1.5rem;
+            overflow: hidden;
           }
           .timestamps {
             text-align: right;
@@ -248,7 +272,7 @@ body {
           }
         }
         .column-1of2 {
-          position: relative;
+          position: absolute;
           left: 0;
           width: 40vw;
           display: flex;
@@ -257,12 +281,13 @@ body {
             width: 250px;
             height: 250px;
             border-radius: 50%;
+            position: relative;
+            top: 50%;
           }
         }
         .column-2of2 {
-          position: relative;
+          position: absolute;
           left: 35%;
-          top: -100px;
           width: 55vw;
           h3 {
             font-size: 3rem;
