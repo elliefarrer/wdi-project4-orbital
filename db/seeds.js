@@ -63,7 +63,12 @@ const userData = [
       { userId: userIds[3], status: 'left' },
       { userId: userIds[4], status: 'left' },
       { userId: userIds[5], status: 'right', mutual: true },
-      { userId: userIds[11], status: 'right', mutual: true }
+      { userId: userIds[11], status: 'right', mutual: true },
+      { userId: userIds[6], status: 'right', mutual: true },
+      { userId: userIds[7], status: 'right', mutual: true },
+      { userId: userIds[8], status: 'right', mutual: true },
+      { userId: userIds[9], status: 'right', mutual: true },
+      { userId: userIds[10], status: 'right', mutual: true }
     ],
     extraPhotos: [
       { url: 'https://i.imgur.com/zXxme0i.png' },
@@ -187,7 +192,7 @@ const userData = [
     languages: [ 'English', 'Portuguese', 'Spanish', 'French' ],
     bio: 'I\'m a Portuguese bassoonist, studying in Moorgate. Swipe right if you know who Stravinsky is. Not sure what I\'m looking for on here, just want to meet people and see where it leads.',
     swipes: [
-      { userId: userIds[0], status: 'left' }
+      { userId: userIds[0], status: 'right', mutual: true }
     ]
   },
   {
@@ -207,7 +212,7 @@ const userData = [
     languages: [ 'English', 'French' ],
     bio: 'I\'m the one in the middle. Composer who writes music for jingles. Only on here so my dad will stop asking if there are any females. If you get any weird messages from me, you can assume it was my brother.',
     swipes: [
-      { userId: userIds[0], status: 'left' }
+      { userId: userIds[0], status: 'right', mutual: true }
     ],
     extraPhotos: [
       { url: 'https://i.imgur.com/feg1ZmQ.png' },
@@ -230,7 +235,10 @@ const userData = [
     profilePic: 'https://i.imgur.com/oHVVpOS.png',
     occupation: 'Student',
     languages: [ 'English', 'German' ],
-    bio: 'Medicine student at Imperial College London and big fan of all things tech and science. I\'ve probably watched every episode of Big Bang Theory more than hundred times hahaha don\'t judge 😂'
+    bio: 'Medicine student at Imperial College London and big fan of all things tech and science. I\'ve probably watched every episode of Big Bang Theory more than hundred times hahaha don\'t judge 😂',
+    swipes: [
+      { userId: userIds[0], status: 'right', mutual: true }
+    ]
   },
   {
     _id: userIds[9],
@@ -247,7 +255,10 @@ const userData = [
     profilePic: 'https://i.imgur.com/yvQOjVE.png',
     occupation: 'Stock Image Model',
     languages: ['English'],
-    bio: 'I\'m a stock image model. You have probably seen me in the seed files of dating apps, as well as memes on Reddit.'
+    bio: 'I\'m a stock image model. You have probably seen me in the seed files of dating apps, as well as memes on Reddit.',
+    swipes: [
+      { userId: userIds[0], status: 'right', mutual: true }
+    ]
   },
   {
     _id: userIds[10],
@@ -264,7 +275,10 @@ const userData = [
     profilePic: 'https://i.imgur.com/5i04OXV.png',
     occupation: 'Instagram Model',
     languages: ['English', 'Spanish', 'Mandarin'],
-    bio: 'Just back from a trip around South East Asia. Had the best time and can\'t wait to go back, maybe with a travel companion! Picture was taken on a boat off the coast of Vietnam. I can\'t actually play guitar 😅'
+    bio: 'Just back from a trip around South East Asia. Had the best time and can\'t wait to go back, maybe with a travel companion! Picture was taken on a boat off the coast of Vietnam. I can\'t actually play guitar 😅',
+    swipes: [
+      { userId: userIds[0], status: 'right', mutual: true }
+    ]
   },
   {
     _id: userIds[11],

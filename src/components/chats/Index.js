@@ -120,6 +120,7 @@ export default class ChatsIndex extends React.Component {
             {this.state.swipes && this.state.swipes.map((swipe, index) =>
               <div className="match" key={index} to={`/users/${swipe.userId._id}`}>
                 <img src={swipe.userId.profilePic} alt={swipe.userId.firstName} />
+                <h5 className="match-name">{swipe.userId.firstName}</h5>
 
                 <a onClick={this.toggleDropdown}><i className="fas fa-ellipsis-h"></i></a>
 
@@ -161,22 +162,32 @@ export default class ChatsIndex extends React.Component {
           </div>
         </div>
 
-        <h2>Chats</h2>
         <div className="chats-section">
+          <h2>Chats</h2>
           {this.state.chats && this.state.chats.map(chat =>
-            <div key={chat._id}>
-              <Link className="chat-container"  to={`/users/${Auth.currentUserId()}/chats/${chat._id}`}>
+            <div key={chat._id} className="chat-container">
+              <Link className="message-show" to={`/users/${Auth.currentUserId()}/chats/${chat._id}`}>
                 <div className="column-1of2">
-                  <img src={chat.userToDisplay.profilePic} alt={chat.userToDisplay.firstName}   />
+                  <img className="thumbnail" src={chat.userToDisplay.profilePic} alt={chat.userToDisplay.firstName}   />
                 </div>
                 <div className="column-2of2">
                   <h3>{chat.userToDisplay.firstName}</h3>
-                  <p>{chat.messages[chat.messages.length-1].sentBy.firstName}:  {chat.messages[chat.messages.length-1].content}</p>
-                  <p>Sent on {chat.messages[chat.messages.length-1].timestamps}</p>
+                  <p className="last-message">{chat.messages[chat.messages.length-1].sentBy.firstName}:  {chat.messages[chat.messages.length-1].content}</p>
+                  <p className="timestamps">Sent on {chat.messages[chat.messages.length-1].timestamps}</p>
                 </div>
                 <hr />
               </Link>
-              <a onClick={this.handleChatDelete(chat._id)}>Unmatch</a>
+              <a onClick={this.toggleDropdown}><i className="fas fa-ellipsis-h dropdown-toggle"></i></a>
+              {this.state.newDropdown &&
+                <div className="dropdown">
+                  <div className="dropdown-option">
+                    <Link to={`/users/${chat.userToDisplay._id}`}><span>View profile</span></Link>
+                  </div>
+                  <div className="dropdown-option">
+                    <a onClick={this.handleChatDelete(chat._id)}><span>Unmatch</span></a>
+                  </div>
+                </div>
+              }
             </div>
           )}
 
