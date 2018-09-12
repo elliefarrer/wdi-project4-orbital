@@ -10,8 +10,8 @@ import Flash from '../../lib/Flash';
 export default class AuthLogin extends React.Component {
   state = {
     passwordHidden: true,
-    email: 'ellie@platyp.com',
-    password: 'Pass1234'
+    email: '',
+    password: ''
   }
 
 
@@ -47,8 +47,8 @@ export default class AuthLogin extends React.Component {
 
   render() {
     return (
-      <section>
-        <h1>Orbital</h1>
+      <section className="login-section">
+        <h1 className="welcome"><span className="curly">O</span>rbital</h1>
         <form onSubmit={this.handleSubmit}>
           <div className="field">
             <input
@@ -62,6 +62,7 @@ export default class AuthLogin extends React.Component {
           <div>
             <div className="field">
               <input
+                className="password-input"
                 name="password"
                 type={this.state.passwordHidden ? 'password' : 'text'}
                 placeholder="Password"
@@ -69,12 +70,15 @@ export default class AuthLogin extends React.Component {
                 onChange={this.handleChange}
               />
             </div>
-            <button>Login</button>
+            <div className="form-button-container">
+              <button className="button login-button">Login</button>
+            </div>
           </div>
         </form>
-        <button onClick={this.togglePasswordShow}>👁</button>
+        <div className="other-button-container">
 
-        <Link to="/register">Sign Up</Link>
+          <Link className="button register-button" to="/register">Sign Up</Link>
+        </div>
       </section>
     );
   }
