@@ -10,6 +10,7 @@ import moment from 'moment';
 
 // libraries
 import Auth from '../../lib/Auth';
+import LocalStorage from '../../lib/LocalStorage';
 
 
 export default class ChatsIndex extends React.Component {
@@ -23,8 +24,10 @@ export default class ChatsIndex extends React.Component {
     if(this.state.chats) {
       this.state.chats.forEach(chat => {
         if(currentUserId === chat.userOne._id) {
+          console.log('This runs');
           chat.userToDisplay = chat.userTwo;
         } else {
+          console.log('This runs');
           chat.userToDisplay = chat.userOne;
         }
       });
@@ -89,6 +92,10 @@ export default class ChatsIndex extends React.Component {
     };
   }
 
+  setBackButton = () => {
+    LocalStorage.setItem('lastPath', this.props.location.pathname);
+  }
+
   componentDidMount = () => {
     axios.get(`/api/users/${Auth.currentUserId()}/swipes`, Auth.bearerHeader())
       .then(res => this.setState({ swipes: res.data }));
@@ -100,12 +107,11 @@ export default class ChatsIndex extends React.Component {
 
 
   render() {
-    //BUG: sometimes messages load for a second time, must be due to asynchronicity
-    const messagedUsers = this.getOtherUser(this.state.chats);
-    console.log('Messaged users are', messagedUsers);
-    console.log('swipes are', this.state.swipes);
+    console.log('Props are', this.props.location.pathname);
 
     //IDEA: for problematic textarea, change the name to the other user's ID. That way it should be possible to grab it out and do something with it to ensure only that one pops up.
+    const messagedUsers = this.getOtherUser(this.state.chats);
+    console.log('Messaged users are', messagedUsers);
     return (
       <section className="chats-index">
         <div>
@@ -137,12 +143,6 @@ export default class ChatsIndex extends React.Component {
                   </div>
                 }
 
-                {/* <Link to={`/users/${swipe.userId._id}`}>
-
-                </Link>
-
-                <p>{swipe.userId.firstName}</p>
-                <a onClick={this.handleUnmatch(swipe._id)}>Unmatch</a> */}
 
                 {this.state.newChat &&
                   <form onSubmit={this.handleSubmit}>
@@ -154,6 +154,10 @@ export default class ChatsIndex extends React.Component {
                 }
               </div>
             )}
+
+            {!this.state.swipes &&
+              <h2>You have no new matches. Swipe right on more people to get more!</h2>
+            }
           </div>
         </div>
 
@@ -163,7 +167,6 @@ export default class ChatsIndex extends React.Component {
             <div key={chat._id}>
               <Link className="chat-container"  to={`/users/${Auth.currentUserId()}/chats/${chat._id}`}>
                 <div className="column-1of2">
-                  {/* <p>{chat}</p> */}
                   <img src={chat.userToDisplay.profilePic} alt={chat.userToDisplay.firstName}   />
                 </div>
                 <div className="column-2of2">
@@ -176,6 +179,10 @@ export default class ChatsIndex extends React.Component {
               <a onClick={this.handleChatDelete(chat._id)}>Unmatch</a>
             </div>
           )}
+
+          {!this.state.chats &&
+            <h2>You have no current chats. Why not send a message to one of your chats, or swipe right on more people.</h2>
+          }
         </div>
       </section>
     );

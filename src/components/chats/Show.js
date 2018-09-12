@@ -9,11 +9,13 @@ import Footer from '../common/Footer';
 
 // libraries
 import Auth from '../../lib/Auth';
+import LocalStorage from '../../lib/LocalStorage';
 
 export default class ChatsShow extends React.Component {
   state = {
     messageContainerClass: '',
-    gifSearch: false
+    gifSearch: false,
+    newDropdown: false
   }
 
   getOtherUser = () => {
@@ -116,6 +118,15 @@ export default class ChatsShow extends React.Component {
       .catch(err => console.log(err));
   }
 
+  setBackButton = () => {
+    LocalStorage.setItem('lastPath', this.props.location.pathname);
+  }
+
+  toggleDropdown = () => {
+    const newDropdown = !this.state.newDropdown;
+    this.setState({ newDropdown });
+  }
+
   componentDidMount = () => {
     axios.get(`/api/users/${Auth.currentUserId()}/chats/${this.props.match.params.chatId}`, Auth.bearerHeader())
       .then(res => this.setState({ chat: res.data }));
@@ -133,65 +144,79 @@ export default class ChatsShow extends React.Component {
       <section className="chat-show">
         {currentChat &&
           <div className="chat-container">
-            <Link to={`/users/${currentChat.userToDisplay._id}`}>
-              <img src={currentChat.userToDisplay.profilePic} alt={currentChat.userToDisplay.firstName} />
-              <p>{currentChat.userToDisplay.firstName}</p>
-            </Link>
-            <a onClick={this.handleChatDelete(currentChat._id)}>Unmatch</a>
-            <hr />
+            <div className="chat-header">
+              <img src={currentChat.userToDisplay.profilePic}  alt={currentChat.userToDisplay.firstName} />
+              <h4>{currentChat.userToDisplay.firstName}</h4>
 
+              <a onClick={this.toggleDropdown}><i className="fas fa-ellipsis-h dropdown-toggle"></i></a>
 
-            {currentChat.messages.map(message =>
-              <div key={message._id}>
-
-                {this.setMessageStyle(message.sentBy._id)}
-
-                <div className={`message-container ${this.state.messageContainerClass}`}>
-                  <div>
-                    {/* <img className="thumbnail" src={message.sentBy.profilePic} alt={message.sentBy.firstName} /> */}
+              {this.state.newDropdown &&
+                <div className="dropdown">
+                  <div className="dropdown-option">
+                    <Link to={`/users/${currentChat.userToDisplay._id}`}><span>View profile</span></Link>
                   </div>
-                  {message.gif &&
-                    <img className="gif" src={message.gif}/>
-                  }
-                  <div className="message-bubble">
-                    <p>{message.content}</p>
-                    <p>{message.timestamps}</p>
+                  <div className="dropdown-option">
+                    <a onClick={this.handleChatDelete(currentChat._id)}><span>Unmatch</span></a>
                   </div>
                 </div>
-              </div>
-            )}
+              }
+            </div>
+            <hr />
+
+            <div className="message-window">
+              {currentChat.messages.map(message =>
+                <div key={message._id}>
+
+                  {this.setMessageStyle(message.sentBy._id)}
+
+                  <div className={`message-container ${this.state.messageContainerClass}`}>
+                    <div>
+                    </div>
+                    {message.gif &&
+                      <img className="gif" src={message.gif}/>
+                    }
+                    <div className="message-bubble">
+                      <p>{message.content}</p>
+                      <p className="timestamps">{moment(message.timestamps).calendar()}</p>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
 
             {/* NEW MESSAGE FORM */}
             <div className="message-form">
               <hr />
-              <form onSubmit={this.handleSubmit}>
-                <div className="field">
-                  <textarea name="newMessage" type="text" placeholder="Type a message..." value={this.state.newMessage || ''} onChange={this.handleChange}></textarea>
-                  <button>Send</button>
-                </div>
-              </form>
-              <button onClick={this.toggleGifSearch}>GIF</button>
+              {!this.state.gifSearch &&
+                <form onSubmit={this.handleSubmit}>
+                  <div className="field">
+                    <textarea name="newMessage" type="text" placeholder="Type a message..." value={this.state.newMessage || ''} onChange={this.handleChange}></textarea>
+                    <button className="button send-button">Send</button>
+                  </div>
+                </form>
+              }
+              <button className="button toggle-gif" onClick={this.toggleGifSearch}>GIF</button>
               {this.state.gifSearch &&
                 <form onSubmit={this.handleGifSubmit}>
                   <div className="field">
                     <input name="newGifSearch" type="text" placeholder="Search for a gif..." value={this.state.newGifSearch || ''} onChange={this.handleGifChange}/>
                   </div>
-                  <button>Search</button>
+                  <button className="button search-gif">Search</button>
                 </form>
               }
 
-              {this.state.gifs && this.state.gifs.data.map(gif =>
-                <div key={gif.id}>
-                  <img onClick={this.sendGif} style={{height: 300}} src={gif.images.original.url} alt={gif.title} value={gif.images.original.url}/>
-                </div>
-              )}
+              <div className="gif-container">
+                {this.state.gifs && this.state.gifs.data.map(gif =>
+                  <div className="found-gifs-scroll" key={gif.id}>
+                    <img className="found-gifs" onClick={this.sendGif} src={gif.images.original.url} alt={gif.title} value={gif.images.original.url}/>
+                  </div>
+                )}
+              </div>
 
 
             </div>
           </div>
         }
-
-        <Footer />
       </section>
     );
   }

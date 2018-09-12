@@ -41,7 +41,7 @@ export default class UsersIndex extends React.Component {
 
   setBackButton = () => {
     console.log('This works', this.state.usersArrayIndex);
-    LocalStorage.setItem('usersArrayIndex', this.state.usersArrayIndex);
+    LocalStorage.setItem('usersArrayIndex', this.state.usersArrayIndex, 'lastPath', this.props.location.pathName);
   }
 
   componentDidMount = () => {
@@ -51,7 +51,7 @@ export default class UsersIndex extends React.Component {
   }
 
   render() {
-
+    console.log('Props are', this.props.location.pathname);
     return (
       <section className="users-index centered-text">
         {this.state.users && this.state.usersArrayIndex < this.state.users.length &&
