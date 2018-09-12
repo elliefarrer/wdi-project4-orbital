@@ -7,23 +7,14 @@ import moment from 'moment';
 
 // Components
 import SwipeButtons from '../common/SwipeButtons';
+import Footer from '../common/Footer';
 
 // libraries
 import Auth from '../../lib/Auth';
 
 
 export default class UsersIndex extends React.Component {
-  state = {
-    nominatimPostcodes: []
-  }
-
-  // IDEA: create an empty postcodes array in state. Then do a forEach/map to search for all of them and push the towns to the array.
-  getPostcode = postcodeToSearch => {
-    if(this.state.users) {
-      axios.get(`https://nominatim.openstreetmap.org/search/${postcodeToSearch}?format=json`)
-        .then(res => this.setState({ nominatimPostcode: res.data }));
-    }
-  }
+  state = {}
 
   handleSwipe = event => {
     event.preventDefault();
@@ -50,10 +41,12 @@ export default class UsersIndex extends React.Component {
         {this.state.users && this.state.users.map(user =>
           <div key={user._id} >
             <div className="polaroid">
-              <img className="polaroid-body" src={user.profilePic} alt={user.firstName} />
-              <Link to={`/users/${user._id}`}>
-                <i className="fas fa-info-circle"></i>
-              </Link>
+              <div className="polaroid-body">
+                <img src={user.profilePic} alt={user.firstName} />
+                <Link to={`/users/${user._id}`}>
+                  <i className="fas fa-info-circle over-image bottom-right"></i>
+                </Link>
+              </div>
               <div className="polaroid-footer">
                 <h2>{user.firstName}, {moment().diff(user.dateOfBirth, 'years')}</h2>
                 <h4>{user.occupation}</h4>
@@ -67,6 +60,7 @@ export default class UsersIndex extends React.Component {
           </div>
         )}
 
+        <Footer />
       </section>
     );
   }

@@ -4,6 +4,10 @@ import axios from 'axios';
 
 import moment from 'moment';
 
+// components
+import Footer from '../common/Footer';
+
+// libraries
 import Auth from '../../lib/Auth';
 
 export default class ChatsShow extends React.Component {
@@ -184,6 +188,8 @@ export default class ChatsShow extends React.Component {
             </div>
           </div>
         }
+
+        <Footer />
       </section>
     );
   }

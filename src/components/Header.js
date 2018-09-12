@@ -11,15 +11,15 @@ const Header = function() {
     <nav>
       {Auth.isAuthenticated() &&
       <div className="column column-1of3 centered-text">
-        <Link to={`/users/${Auth.currentUserId()}`}>Profile</Link>
+        <Link to={`/users/${Auth.currentUserId()}`}><i className="fas fa-user-circle"></i></Link>
       </div>
       }
       <div className="column column-2of3 centered-text">
-        <Link to="/users">Index</Link>
+        <Link to="/users"><i className="fas fa-globe"></i></Link>
       </div>
       {Auth.isAuthenticated() &&
         <div className="column column-3of3 centered-text">
-          <Link to={`/users/${Auth.currentUserId()}/chats`}>Inbox</Link>
+          <Link to={`/users/${Auth.currentUserId()}/chats`}><i className="fas fa-envelope"></i></Link>
         </div>
       }
     </nav>

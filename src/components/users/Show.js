@@ -8,6 +8,7 @@ import moment from 'moment';
 import BackButton from '../common/BackButton';
 import Location from '../common/Location';
 import SwipeButtons from '../common/SwipeButtons';
+import Footer from '../common/Footer';
 
 // libraries
 import Auth from '../../lib/Auth';
@@ -164,16 +165,21 @@ export default class UsersShow extends React.Component {
                       <img style={{width: '100vw'}} src={this.state.carouselImage}/>
 
                       {this.props.match.url.split('/')[2] === Auth.currentUserId() &&
-                      <a className="create-button" onClick={this.toggleNewPhoto}><i className="fas fa-plus-circle"></i></a>
+                      <a className="over-image top-left" onClick={this.toggleNewPhoto}><i className="fas fa-plus-circle"></i></a>
+                      }
+
+                      {this.props.match.url.split('/')[2] !== Auth.currentUserId() &&
+                        <BackButton link={'/users'}/>
                       }
 
                       {this.props.match.url.split('/')[2] === Auth.currentUserId() && this.state.carouselIndex >= 0 &&
                         <div>
-                          <a className="delete-button" onClick={this.deletePhoto(user.extraPhotos[this.state.carouselIndex]._id)}><i className="fas fa-trash-alt"></i></a>
+                          <a className="over-image bottom-right" onClick={this.deletePhoto(user.extraPhotos[this.state.carouselIndex]._id)}><i className="fas fa-trash-alt"></i></a>
                         </div>
                       }
                     </div>
                   }
+
                 </div>
 
                 {this.state.carouselIndex >= 0 &&
@@ -183,12 +189,14 @@ export default class UsersShow extends React.Component {
                   <a className="next" name="1" onClick={this.moveIndex}>&#10095;</a>
                 }
 
-                <div className="carousel-dots" style={{textAlign: 'center'}}>
+                <div className="carousel-dots">
                   <div className="dot is-active"></div>
                   {user.extraPhotos && user.extraPhotos.map((photo, index) =>
                     <div key={index} className="dot"></div>
 
                   )}
+
+
                 </div>
 
               </div>
@@ -199,7 +207,7 @@ export default class UsersShow extends React.Component {
             {/* BUTTONS */}
             {this.props.match.url.split('/')[2] !== Auth.currentUserId() &&
             <div>
-              <BackButton link={'/users'}/>
+
               <SwipeButtons
                 handleSwipe={this.handleSwipe}
                 user={this.state.user}
@@ -262,6 +270,7 @@ export default class UsersShow extends React.Component {
           </div>
         }
 
+        <Footer />
       </section>
     );
   }
