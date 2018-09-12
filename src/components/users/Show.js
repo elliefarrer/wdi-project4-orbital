@@ -20,7 +20,7 @@ export default class UsersShow extends React.Component {
     distance: '',
     newPhoto: false,
 
-    carouselIndex: 0,
+    carouselIndex: -1,
     triggerChangeImage: false
   }
 
@@ -116,20 +116,20 @@ export default class UsersShow extends React.Component {
     } else {
       this.setState({ carouselIndex: newState.carouselIndex - 1, triggerChangeImage: true });
     }
-
-    return this.changeImage();
+    // is there a React equivalent to $scope.watch
+    setTimeout(() => {
+      return this.changeImage();
+    }, 50);
   }
 
   changeImage = () => {
     const newState = this.state;
     if(parseInt(newState.carouselIndex) > -1) {
       console.log('First one runs');
-      // newState.carouselImage.pop();
-      // newState.carouselImage.push(this.state.user.extraPhotos[this.state.carouselIndex].url);
-      return this.setState({ carouselImage: this.state.user.extraPhotos[this.state.carouselIndex].url, triggerChangeImage: false });
+      return this.setState({ carouselImage: newState.user.extraPhotos[newState.carouselIndex].url });
     } else if (parseInt(newState.carouselIndex) === -1) {
       console.log('Second one runs');
-      return this.setState({ carouselImage: this.state.user.profilePic, triggerChangeImage: false });
+      return this.setState({ carouselImage: newState.user.profilePic });
     } else {
       console.log('Total fail');
     }
@@ -153,21 +153,6 @@ export default class UsersShow extends React.Component {
         {this.state.user &&
           <div>
 
-            {/* CAROUSEL */}
-            {/* <div className="carousel-container">
-              <div id="carousel-img">
-                <img style={{width: '100vw'}} src={user.profilePic} alt={user.firstName} />
-              </div>
-              {user.extraPhotos && user.extraPhotos.map((photo, index) =>
-                <div key={index} id="carousel-img">
-                  <img style={{width: '100vw'}} src={photo.url} alt={user.firstName} />
-                  <p onClick={this.deletePhoto(photo._id)}><i className="fas fa-trash-alt"></i></p>
-                </div>
-              )}
-              <a className="prev" onClick={this.plusImages(-1)}>&#10094;</a>
-              <a className="next" onClick={this.plusImages(1)}>&#10095;</a>
-            </div> */}
-
             {user.extraPhotos &&
               <div className="carousel-container">
                 <div className="carousel-img">
@@ -175,10 +160,13 @@ export default class UsersShow extends React.Component {
                   {this.state.user.extraPhotos && this.state.carouselImage &&
                     <img style={{width: '100vw'}} src={this.state.carouselImage}/>
                   }
-                  {/* <p>{user.extraPhotos[1]}</p> */}
                 </div>
-                <a className="prev" name="-1" onClick={this.moveIndex}>&#10094;</a>
-                <a className="next" name="1" onClick={this.moveIndex}>&#10095;</a>
+                {this.state.carouselIndex >= 0 &&
+                  <a className="prev" name="-1" onClick={this.moveIndex}>&#10094;</a>
+                }
+                {this.state.carouselIndex < user.extraPhotos.length-1 &&
+                  <a className="next" name="1" onClick={this.moveIndex}>&#10095;</a>
+                }
               </div>
             }
 
