@@ -206,20 +206,22 @@ export default class UsersShow extends React.Component {
             }
 
             <div className="about-user">
-              <h2>{user.firstName}, {moment().diff(user.dateOfBirth, 'years')}</h2>
-              <h4>{user.occupation}</h4>
-              {this.state.nominatimPostcode && this.state.distance &&
-                <Location
-                  user={this.props.match.url.split('/')[2]}
-                  postcode={this.state.nominatimPostcode}
-                  distance={this.state.distance}
-                />
-              }
+              <div className="basic-info">
+                <h2>{user.firstName}, {moment().diff(user.dateOfBirth, 'years')}</h2>
+                <h4>{user.occupation}</h4>
+                {this.state.nominatimPostcode && this.state.distance &&
+                  <Location
+                    user={this.props.match.url.split('/')[2]}
+                    postcode={this.state.nominatimPostcode}
+                    distance={this.state.distance}
+                  />
+                }
+              </div>
 
               <p>{user.gender.charAt(0).toUpperCase() + user.gender.slice(1)}, looking for a </p>
               <ul>
                 {user.sexuality.map((option, index) =>
-                  <li key={index}>{option}</li>
+                  <li key={index}>{option}, </li>
                 )}
               </ul>
 
@@ -229,16 +231,23 @@ export default class UsersShow extends React.Component {
                 <p>Languages:</p>
                 <ul>
                   {user.languages.map((language, index) =>
-                    <li key={index}>{language}</li>
+                    <li key={index}> {language},</li>
                   )}
                 </ul>
               </div>
 
               {this.props.match.url.split('/')[2] === Auth.currentUserId() &&
-              <div>
-                <Link className="button" to={`/users/${Auth.currentUserId()}/edit`}>Edit Profile</Link>
-                <a className="button" onClick={this.logOut}>Log out {Auth.currentFirstName()}</a>
-                <a className="button" onClick={this.deleteProfile}>Delete Profile</a>
+              <div className="buttons">
+                <div className="columns-1of2">
+                  <Link className="button" to={`/users/${Auth.currentUserId()}/edit`}>Edit Profile</Link>
+                </div>
+                <div className="columns-2of2">
+                  <a className="button" onClick={this.logOut}>Log out {Auth.currentFirstName()}</a>
+                </div>
+                <br />
+                <div className="delete-container">
+                  <a className="delete-link" onClick={this.deleteProfile}>Delete Profile</a>
+                </div>
               </div>
               }
             </div>
