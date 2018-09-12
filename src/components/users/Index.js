@@ -83,10 +83,10 @@ export default class UsersIndex extends React.Component {
 
             <div className="buttons">
               <div className="column-1of2">
-                <button className="swipe-button" name={user._id} value="left" onClick={this.handleSwipe}>✖️</button>
+                <button className="swipe-button" name={user._id} value="left" onClick={this.handleSwipe}>✕</button>
               </div>
               <div className="column-2of2">
-                <button className="swipe-button" name={user._id} value="right" onClick={this.handleSwipe}>🖤</button>
+                <button className="swipe-button" name={user._id} value="right" onClick={this.handleSwipe}>♥︎</button>
               </div>
             </div>
           </div>

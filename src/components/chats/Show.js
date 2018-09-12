@@ -132,7 +132,7 @@ export default class ChatsShow extends React.Component {
     return (
       <section className="chat-show">
         {currentChat &&
-          <div>
+          <div className="chat-container">
             <Link to={`/users/${currentChat.userToDisplay._id}`}>
               <img src={currentChat.userToDisplay.profilePic} alt={currentChat.userToDisplay.firstName} />
               <p>{currentChat.userToDisplay.firstName}</p>
@@ -148,12 +148,13 @@ export default class ChatsShow extends React.Component {
 
                 <div className={`message-container ${this.state.messageContainerClass}`}>
                   <div>
-                    <img className="thumbnail" src={message.sentBy.profilePic} alt={message.sentBy.firstName} />
-                    <p>{message.sentBy.firstName}</p>
+                    {/* <img className="thumbnail" src={message.sentBy.profilePic} alt={message.sentBy.firstName} /> */}
                   </div>
+                  {message.gif &&
+                    <img className="gif" src={message.gif}/>
+                  }
                   <div className="message-bubble">
                     <p>{message.content}</p>
-                    <img src={message.gif}/>
                     <p>{message.timestamps}</p>
                   </div>
                 </div>
@@ -162,6 +163,7 @@ export default class ChatsShow extends React.Component {
 
             {/* NEW MESSAGE FORM */}
             <div className="message-form">
+              <hr />
               <form onSubmit={this.handleSubmit}>
                 <div className="field">
                   <textarea name="newMessage" type="text" placeholder="Type a message..." value={this.state.newMessage || ''} onChange={this.handleChange}></textarea>
