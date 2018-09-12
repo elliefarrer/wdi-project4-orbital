@@ -3,6 +3,7 @@ import axios from 'axios';
 
 // Components
 import ErrorMessage from '../common/ErrorMessage';
+import Footer from '../common/Footer';
 
 // libraries
 import Auth from '../../lib/Auth';
@@ -123,7 +124,7 @@ export default class UsersEdit extends React.Component {
   render() {
     const state = this.state;
     return (
-      <section>
+      <section className="edit-users">
         {state.firstName &&
           <form onSubmit={this.handleSubmit}>
             <div className="field">
@@ -171,7 +172,7 @@ export default class UsersEdit extends React.Component {
             <ErrorMessage error={this.state.errors.email}/>
 
 
-            <div className="field">
+            <div className="field multiple-options">
               <label htmlFor="gender">Please select your gender</label>
               {this.state.genders.map((gender, index) =>
                 <div key={index}>
@@ -182,7 +183,7 @@ export default class UsersEdit extends React.Component {
             </div>
             <ErrorMessage error={this.state.errors.gender}/>
 
-            <div className="field">
+            <div className="field multiple-options">
               <label htmlFor="sexuality">Please select who you are interested in meeting on Orbital</label>
               {this.state.sexualityCheckboxes.map((sexuality, index) =>
                 <div key={index}>
@@ -215,7 +216,7 @@ export default class UsersEdit extends React.Component {
             </div>
             <ErrorMessage error={this.state.errors.profilePic}/>
 
-            <div className="field">
+            <div className="field multiple-options">
               <label htmlFor="languages">What other languages do you speak?</label>
               {this.state.languageOptions.map((language, index) =>
                 <div key={index}>
@@ -227,14 +228,16 @@ export default class UsersEdit extends React.Component {
             <ErrorMessage error={this.state.errors.languages}/>
 
             <div className="field">
-              <label>{this.state.bio.length}/250</label>
-              <input
+              <div className="length-label-wrapper">
+                <label className="length-label">{this.state.bio.length}/250</label>
+              </div>
+              <textarea
                 name="bio"
                 type="text"
                 placeholder="Bio"
                 value={this.state.bio || ''}
                 onChange={this.handleChange}
-              />
+              ></textarea>
             </div>
             <ErrorMessage error={this.state.errors.bio}/>
 
@@ -242,6 +245,7 @@ export default class UsersEdit extends React.Component {
 
           </form>
         }
+        <Footer />
       </section>
     );
   }
