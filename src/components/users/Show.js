@@ -7,12 +7,13 @@ import moment from 'moment';
 // Components
 import BackButton from '../common/BackButton';
 import Location from '../common/Location';
-import SwipeButtons from '../common/SwipeButtons';
+// import SwipeButtons from '../common/SwipeButtons';
 import Footer from '../common/Footer';
 
 // libraries
 import Auth from '../../lib/Auth';
 import Flash from '../../lib/Flash';
+import LocalStorage from '../../lib/LocalStorage';
 
 export default class UsersShow extends React.Component {
   state = {
@@ -66,6 +67,7 @@ export default class UsersShow extends React.Component {
 
   logOut = () => {
     Auth.removeToken();
+    LocalStorage.removeAll();
     Flash.setMessage('neutral', 'Goodbye! Hope to see you again soon...');
     this.props.history.push('/');
   }

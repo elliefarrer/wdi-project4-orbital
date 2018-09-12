@@ -11,10 +11,13 @@ import moment from 'moment';
 
 // libraries
 import Auth from '../../lib/Auth';
+import LocalStorage from '../../lib/LocalStorage';
 
 
 export default class UsersIndex extends React.Component {
-  state = {}
+  state = {
+    usersArrayIndex: LocalStorage.getItem('usersArrayIndex') || 0
+  }
 
   handleSwipe = event => {
     console.log('Swiped', event.target.name, event.target.value);
@@ -36,10 +39,15 @@ export default class UsersIndex extends React.Component {
     this.setState({ usersArrayIndex: newState.usersArrayIndex + 1 });
   }
 
+  setBackButton = () => {
+    console.log('This works', this.state.usersArrayIndex);
+    LocalStorage.setItem('usersArrayIndex', this.state.usersArrayIndex);
+  }
+
   componentDidMount = () => {
     console.log('component mounted');
     axios.get('/api/users', Auth.bearerHeader())
-      .then(res => this.setState({ users: res.data, usersArrayIndex: 0 }));
+      .then(res => this.setState({ users: res.data }));
   }
 
   render() {
@@ -51,7 +59,7 @@ export default class UsersIndex extends React.Component {
             <div className="polaroid">
               <div className="polaroid-body">
                 <img src={this.state.users[this.state.usersArrayIndex].profilePic} alt={this.state.users[this.state.usersArrayIndex].firstName}/>
-                <Link to={`/users/${this.state.users[this.state.usersArrayIndex]._id}`}>
+                <Link onClick={this.setBackButton} to={`/users/${this.state.users[this.state.usersArrayIndex]._id}`}>
                   <i className="fas fa-info-circle over-image bottom-right"></i>
                 </Link>
               </div>

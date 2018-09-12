@@ -64,6 +64,12 @@ const userData = [
       { userId: userIds[4], status: 'left' },
       { userId: userIds[5], status: 'right', mutual: true },
       { userId: userIds[11], status: 'right', mutual: true }
+    ],
+    extraPhotos: [
+      { url: 'https://i.imgur.com/zXxme0i.png' },
+      { url: 'https://i.imgur.com/OwcVge8.png' },
+      { url: 'https://i.imgur.com/XejETG5.png' },
+      { url: 'https://i.imgur.com/GVrEbLB.png' }
     ]
   },
   ////////////////// MEN /////////////////////
@@ -202,6 +208,11 @@ const userData = [
     bio: 'I\'m the one in the middle. Composer who writes music for jingles. Only on here so my dad will stop asking if there are any females. If you get any weird messages from me, you can assume it was my brother.',
     swipes: [
       { userId: userIds[0], status: 'left' }
+    ],
+    extraPhotos: [
+      { url: 'https://i.imgur.com/feg1ZmQ.png' },
+      { url: 'https://i.imgur.com/VVrUpZk.png' },
+      { url: 'https://i.imgur.com/YojcoSM.png' }
     ]
   },
   {
@@ -273,6 +284,10 @@ const userData = [
     bio: 'Estate agent who\'s a big fan of whipped cream, less so of salt. You can never meet my family, they\'re very weird. Never available to hang out on Friday nights.',
     swipes: [
       { userId: userIds[0], status: 'right', mutual: true }
+    ],
+    extraPhotos: [
+      {url: 'https://i.imgur.com/b1RD7S0.png'},
+      {url: 'https://i.imgur.com/Y7CDbTK.png'}
     ]
   },
 

@@ -24,7 +24,6 @@ Auth.getPayload = function() {
   }
 };
 
-//IDEA: extend this function and use it to get profilePic as well, if necessary
 Auth.currentFirstName = function() {
   return this.getPayload().name;
 };
