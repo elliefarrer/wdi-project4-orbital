@@ -202,19 +202,6 @@ export default class UsersShow extends React.Component {
               </div>
             }
 
-            {/* <img src={user.profilePic} alt={user.firstName} /> */}
-
-            {/* BUTTONS */}
-            {this.props.match.url.split('/')[2] !== Auth.currentUserId() &&
-            <div>
-
-              <SwipeButtons
-                handleSwipe={this.handleSwipe}
-                user={this.state.user}
-              />
-            </div>
-            }
-
             {/* ADD PHOTO */}
 
             {this.state.newPhoto &&
@@ -225,13 +212,6 @@ export default class UsersShow extends React.Component {
                 </div>
               </form>
             }
-
-            {/* {user.extraPhotos && user.extraPhotos.map((photo, index) =>
-              <div key={index}>
-                <img src={photo.url} />
-
-              </div>
-            )} */}
 
 
             <h2>{user.firstName}, {moment().diff(user.dateOfBirth, 'years')}</h2>

@@ -4,10 +4,10 @@ const SwipeButtons = ({ handleSwipe, user }) => {
   return (
     <div className="buttons">
       <div className="column-1of2">
-        <button name={user._id} value="left" onClick={handleSwipe}><i className="fas fa-times"></i></button>
+        <a name={user._id} value="left" onClick={handleSwipe}><i className="fas fa-times swipe-button swipe-left"></i></a>
       </div>
       <div className="column-2of2">
-        <button name={user._id} value="right" onClick={handleSwipe}><i className="fas fa-heart"></i></button>
+        <a name={user._id} value="right" onClick={handleSwipe}><i className="fas fa-heart swipe-button swipe-right"></i></a>
       </div>
     </div>
   );
