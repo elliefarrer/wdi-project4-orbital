@@ -208,7 +208,7 @@ export default class UsersShow extends React.Component {
             <div className="about-user">
               <div className="basic-info">
                 <h2>{user.firstName}, {moment().diff(user.dateOfBirth, 'years')}</h2>
-                <h4>{user.occupation}</h4>
+                <h4 className="occupation">{user.occupation}</h4>
                 {this.state.nominatimPostcode && this.state.distance &&
                   <Location
                     user={this.props.match.url.split('/')[2]}

@@ -96,10 +96,21 @@ body {
       .basic-info {
         margin-bottom: 1rem;
         h2 {
-          font-size: 4.5rem;
+          font-size: 5rem;
+          font-family: 'Homemade Apple', cursive;
+          padding: 2rem 0.25rem;
+          // margin-bottom: 1.5rem;
         }
         h4 {
-          font-size: 2rem;
+          font-size: 3rem;
+          // font-family: 'Homemade Apple', cursive;
+          // margin-bottom: 2rem;
+          // line-height: 5rem;
+        }
+        .occupation {
+          font-family: 'Homemade Apple', cursive;
+          padding: 0 1rem;
+          margin-bottom: 2rem;
         }
       }
       p, span, li {
@@ -218,8 +229,10 @@ body {
       min-height: 70vh;
       margin-bottom: 1rem;
       .end-of-swipes {
-        font-size: 4.5rem;
+        font-size: 5rem;
         margin: 5rem;
+        padding-top: 2rem;
+        font-family: 'Homemade Apple', cursive;
       }
       .polaroid-body {
         position: relative;
@@ -238,14 +251,19 @@ body {
         // height: 800px;
       }
       .polaroid-footer {
-        margin-left: 3rem;
+        width: 90%;
+        margin: 0 auto;
         text-align: left;
         height: 15vw;
+        margin-top: 3rem;
+        padding: 0.25rem 0;
         h2 {
-          font-size: 4.5rem;
+          font-size: 5rem;
+          font-family: 'Homemade Apple', cursive;
         }
         h4 {
-          font-size: 2rem;
+          font-size: 3rem;
+          font-family: 'Homemade Apple', cursive;
         }
       }
     }
@@ -320,6 +338,8 @@ body {
           color: $polaroid-body-color;
           text-align: center;
           font-size: 1.5rem;
+          font-family: 'Homemade Apple', cursive;
+          padding: 0 1rem;
         }
         .dropdown-toggle {
           color: $overlay-color;
@@ -389,7 +409,8 @@ body {
             position: relative;
             left: 0;
             top: 0;
-            padding-bottom: 1rem;
+            font-family: 'Homemade Apple', cursive;
+            padding: 1.5rem 0;
           }
         }
       }
@@ -417,6 +438,8 @@ body {
           color: $polaroid-body-color;
           text-decoration: none;
           font-size: 3rem;
+          font-family: 'Homemade Apple', cursive;
+          padding: 1.5rem 0;
         }
         .dropdown-toggle {
           color: $polaroid-body-color;
