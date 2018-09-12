@@ -15,7 +15,7 @@ import Flash from '../../lib/Flash';
 
 export default class UsersShow extends React.Component {
   state = {
-    apikey: 'DmK3IjydVb4R9lDw3X08xjNBNVV0WOks',
+    apikey: 'pTiMIjTIOVqycoP0rcPHuxGP0b7Y3Mbj',
     nominatimPostcode: '',
     distance: '',
     newPhoto: false,
@@ -100,9 +100,11 @@ export default class UsersShow extends React.Component {
 
   //IDEA: look at how this is constructed, with the photoId being passed in on click, to try and fix textarea bug
   deletePhoto = photoId => {
+    console.log('It runs');
     return () => {
       axios.delete(`/api/users/${Auth.currentUserId()}/photos/${photoId}`, Auth.bearerHeader())
-        .then(res => this.setState({ user: res.data }))
+        .then(res => this.setState({ user: res.data, carouselIndex: -1, carouselImage: this.state.user.profilePic }))
+        // .then(() => this.props.history.push(`/users/${Auth.currentUserId()}`))
         .catch(err => console.log(err));
     };
   }
@@ -153,20 +155,42 @@ export default class UsersShow extends React.Component {
         {this.state.user &&
           <div>
 
+            {/* CAROUSEL */}
             {user.extraPhotos &&
               <div className="carousel-container">
                 <div className="carousel-img">
-
                   {this.state.user.extraPhotos && this.state.carouselImage &&
-                    <img style={{width: '100vw'}} src={this.state.carouselImage}/>
+                    <div>
+                      <img style={{width: '100vw'}} src={this.state.carouselImage}/>
+
+                      {this.props.match.url.split('/')[2] === Auth.currentUserId() &&
+                      <a className="create-button" onClick={this.toggleNewPhoto}><i className="fas fa-plus-circle"></i></a>
+                      }
+
+                      {this.props.match.url.split('/')[2] === Auth.currentUserId() && this.state.carouselIndex >= 0 &&
+                        <div>
+                          <a className="delete-button" onClick={this.deletePhoto(user.extraPhotos[this.state.carouselIndex]._id)}><i className="fas fa-trash-alt"></i></a>
+                        </div>
+                      }
+                    </div>
                   }
                 </div>
+
                 {this.state.carouselIndex >= 0 &&
                   <a className="prev" name="-1" onClick={this.moveIndex}>&#10094;</a>
                 }
                 {this.state.carouselIndex < user.extraPhotos.length-1 &&
                   <a className="next" name="1" onClick={this.moveIndex}>&#10095;</a>
                 }
+
+                <div className="carousel-dots" style={{textAlign: 'center'}}>
+                  <div className="dot is-active"></div>
+                  {user.extraPhotos && user.extraPhotos.map((photo, index) =>
+                    <div key={index} className="dot"></div>
+
+                  )}
+                </div>
+
               </div>
             }
 
@@ -184,9 +208,7 @@ export default class UsersShow extends React.Component {
             }
 
             {/* ADD PHOTO */}
-            {this.props.match.url.split('/')[2] === Auth.currentUserId() &&
-            <p onClick={this.toggleNewPhoto}><i className="fas fa-plus-circle"></i></p>
-            }
+
             {this.state.newPhoto &&
               <form onSubmit={this.handlePhotoSubmit}>
                 <div className="field">
