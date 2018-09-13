@@ -1,4 +1,10 @@
 .users-index {
+  .left {
+    background-color: $swipe-left-color;
+  }
+  .right {
+    background-color: $swipe-right-color;
+  }
   margin-top: 3rem;
   .polaroid {
     margin: 0 auto;

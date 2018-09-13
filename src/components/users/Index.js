@@ -31,10 +31,17 @@ export default class UsersIndex extends React.Component {
       .then(res => this.setState({ currentUser: res.data }))
       .catch(err => console.log(err));
 
+
     this.changeUser();
   }
+  //
+  // animateSwipe = (element, direction) => {
+  //   const toAnimate = document.getElementsByClassName('polaroid');
+  //   toAnimate.classList.add(direction);
+  // }
 
   changeUser = () => {
+    // this.animateSwipe('users-index', event.target.value);
     const newState = this.state;
     this.setState({ usersArrayIndex: newState.usersArrayIndex + 1 });
   }

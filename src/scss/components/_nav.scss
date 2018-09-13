@@ -1,33 +1,25 @@
 nav {
-  height: 7vh;
+  height: 6vh;
   // position: relative;
   background-color: $header-color;
+  display: flex;
   .header-icon {
     color: $polaroid-body-color;
-    // TODO: fix this
-    // font-size: 350%;
-    // position: relative;
-    // top: 25%;
+    height: 6vh;
+    font-size: 4vh;
+    justify-content: center;
   }
   :active {
     color: $background-color;
+    transition: .1s;
   }
   .column {
-    position: absolute;
+    // position: absolute;
+    width: 100%;
     top: 0;
     height: 7vh;
-  }
-  .column-1of3 {
-    left: 0;
-    width: 33vw;
-  }
-  .column-2of3 {
-    left: 33%;
-    width: 33vw;
-  }
-  .column-3of3 {
-    left: 66%;
-    width: 34vw;
-    // TODO: replace width: 34vw with calc
+    justify-content: space-around;
+    display: flex;
+    flex-direction: column;
   }
 }
