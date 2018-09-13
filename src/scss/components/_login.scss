@@ -1,0 +1,62 @@
+.login-section {
+  text-align: center;
+  .welcome, .curly {
+    color: $header-color; //TODO: choose one of these
+    color: $polaroid-body-color;
+    text-align: center;
+    font-size: 10rem;
+    margin-top: 30vh;
+    font-family: 'Homemade Apple', cursive;
+  }
+  .curly {
+    font-family: 'Meddon', cursive;
+  }
+  input {
+    width: 95%;
+    margin: 0 auto;
+    margin: 1rem 0;
+    height: 2vh;
+    background-color: $background-color;
+    border: 1px solid $background-color;
+    border-bottom: 4px solid $header-color;
+    color: $polaroid-body-color;
+    font-size: 1.5rem;
+    box-sizing: content-box;
+  }
+  ::-webkit-input-placeholder {
+    color: $placeholder-color;
+  }
+  .fa-eye {
+    color: $overlay-color;
+  }
+
+  .button {
+    background-color: $header-color;
+    color: $polaroid-body-color;
+    border: none;
+    border-radius: 20%;
+    padding: 1rem 1.5rem;
+    font-size: 1.5rem;
+    text-align: center;
+  }
+  .form-button-container {
+    position: relative;
+    width: 100vw;
+    margin-top: 2rem;
+    .login-button {
+      position: relative;
+      left: 0;
+      top: 0;
+    }
+  }
+  .other-button-container {
+    position: relative;
+    width: 100vw;
+    margin-top: 6rem;
+  }
+  .register-button {
+    position: relative;
+    left: 0;
+    top: 0;
+  }
+}

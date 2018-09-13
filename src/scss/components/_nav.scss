@@ -1,0 +1,33 @@
+nav {
+  height: 7vh;
+  // position: relative;
+  background-color: $header-color;
+  .header-icon {
+    color: $polaroid-body-color;
+    // TODO: fix this
+    // font-size: 350%;
+    // position: relative;
+    // top: 25%;
+  }
+  :active {
+    color: $background-color;
+  }
+  .column {
+    position: absolute;
+    top: 0;
+    height: 7vh;
+  }
+  .column-1of3 {
+    left: 0;
+    width: 33vw;
+  }
+  .column-2of3 {
+    left: 33%;
+    width: 33vw;
+  }
+  .column-3of3 {
+    left: 66%;
+    width: 34vw;
+    // TODO: replace width: 34vw with calc
+  }
+}

@@ -1,0 +1,14 @@
+.flash {
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  width: 70%;
+  margin: 0 auto;
+  background-color: $flash-message-color;
+  text-align: center;
+  padding: 3rem;
+  font-size: 1.5rem;
+  border-left: 10px solid $header-color;
+  color: $polaroid-body-color;
+  z-index: 5;
+}
