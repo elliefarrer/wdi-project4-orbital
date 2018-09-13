@@ -68,7 +68,7 @@ export default class UsersShow extends React.Component {
   logOut = () => {
     Auth.removeToken();
     LocalStorage.removeAll();
-    Flash.setMessage('neutral', 'Goodbye! Hope to see you again soon...');
+    Flash.setMessage('flash', 'Goodbye! Hope to see you again soon...');
     this.props.history.push('/');
   }
 
@@ -76,7 +76,7 @@ export default class UsersShow extends React.Component {
     axios.delete(`/api/users/${this.props.match.params.userId}`, Auth.bearerHeader())
       .then(() => this.props.history.push('/'));
     Auth.removeToken();
-    Flash.setMessage('neutral', 'Sorry to see you go! Hope to see you back again one day...');
+    Flash.setMessage('flash', 'Sorry to see you go! Hope to see you back again one day...');
   }
 
   toggleNewPhoto = () => {
@@ -121,7 +121,6 @@ export default class UsersShow extends React.Component {
     } else {
       this.setState({ carouselIndex: newState.carouselIndex - 1, triggerChangeImage: true });
     }
-    // is there a React equivalent to $scope.watch
     setTimeout(() => {
       return this.changeImage();
     }, 50);
@@ -199,8 +198,8 @@ export default class UsersShow extends React.Component {
             {this.state.newPhoto &&
               <form onSubmit={this.handlePhotoSubmit}>
                 <div className="field">
-                  <input name="newPhotoUpload" type="text" placeholder="Add a photo (URL)" value={this.state.newPhotoUpload || ''} onChange={this.handlePhotoChange}/>
-                  <button>Submit</button>
+                  <input className="photo-input" name="newPhotoUpload" type="text" placeholder="Add a photo (URL)" value={this.state.newPhotoUpload || ''} onChange={this.handlePhotoChange}/>
+                  <button className="photo-submit">Submit</button>
                 </div>
               </form>
             }

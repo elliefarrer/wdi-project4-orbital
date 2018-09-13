@@ -5,7 +5,7 @@ import axios from 'axios';
 import moment from 'moment';
 
 // components
-import Footer from '../common/Footer';
+// import Footer from '../common/Footer';
 
 // libraries
 import Auth from '../../lib/Auth';

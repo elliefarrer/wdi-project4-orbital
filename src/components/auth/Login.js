@@ -34,12 +34,12 @@ export default class AuthLogin extends React.Component {
       .then(res => {
         const token = res.data.token;
         Auth.setToken(token);
-        Flash.setMessage('neutral', res.data.message);
+        Flash.setMessage('flash', res.data.message);
         this.props.history.push('/users');
       })
       .catch(err => {
         console.log('Error is', err.response);
-        Flash.setMessage('anger', 'We couldn\'t find your login details. Please try again');
+        Flash.setMessage('flash', 'We couldn\'t find your login details. Please try again');
         this.props.history.push(this.props.location.pathname);
       });
   }

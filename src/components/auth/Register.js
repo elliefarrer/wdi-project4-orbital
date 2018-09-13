@@ -114,7 +114,7 @@ export default class AuthRegister extends React.Component {
       .then(res => {
         const token = res.data.token;
         Auth.setToken(token);
-        Flash.setMessage('neutral', `Welcome to Orbital, ${Auth.currentFirstName()}!`);
+        Flash.setMessage('flash', `Welcome to Orbital, ${Auth.currentFirstName()}!`);
         this.props.history.push('/users');
       })
       .catch(err => {
