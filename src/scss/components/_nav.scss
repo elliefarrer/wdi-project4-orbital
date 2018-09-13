@@ -1,6 +1,5 @@
 nav {
   height: 6vh;
-  // position: relative;
   background-color: $header-color;
   display: flex;
   .header-icon {
@@ -14,7 +13,6 @@ nav {
     transition: .1s;
   }
   .column {
-    // position: absolute;
     width: 100%;
     top: 0;
     height: 7vh;

@@ -143,7 +143,7 @@ export default class ChatsIndex extends React.Component {
                 {this.state.newChat &&
                   <form onSubmit={this.handleSubmit}>
                     <div className="field">
-                      <textarea id={swipe.userId._id} name="newMessage" type="text" placeholder="Type a message..." value={this.state.newMessage || ''} onChange={this.handleChange}></textarea>
+                      <textarea id={swipe.userId._id} name="newMessage" type="text" placeholder={`Write a message to ${swipe.userId.firstName}`} value={this.state.newMessage || ''} onChange={this.handleChange}></textarea>
                       <button id={swipe.userId._id}>Send</button>
                     </div>
                   </form>

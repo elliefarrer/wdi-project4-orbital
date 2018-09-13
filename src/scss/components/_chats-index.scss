@@ -44,7 +44,28 @@
         :hover {
           background-color: $header-color;
           color: $polaroid-body-color;
+          transition: .2s
         }
+      }
+      textarea {
+        margin: 0 auto;
+        margin: 1rem 0;
+        height: 8vh;
+        background-color: $background-color;
+        border: 1px solid $background-color;
+        border-left: 2px solid $header-color;
+        border-bottom: 4px solid $header-color;
+        color: $polaroid-body-color;
+        font-size: 1.5rem;
+        box-sizing: content-box;
+      }
+      button {
+        background-color: $header-color;
+        color: $polaroid-body-color;
+        border: none;
+        border-radius: 20%;
+        padding: 0.75rem 1rem;
+        font-size: 1.5rem;
       }
     }
   }
