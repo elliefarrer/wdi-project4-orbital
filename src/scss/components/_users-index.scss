@@ -52,6 +52,13 @@
       }
     }
   }
+  .swipe-leave {
+    color: $polaroid-body-color;
+  }
+  .swipe-leave, .swipe-leave-active {
+    color: $header-color;
+    
+  }
   .buttons {
     position: relative;
     height: 20vh;
