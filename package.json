@@ -19,7 +19,8 @@
     "build": "webpack -p",
     "start": "yarn build && node index",
     "seed": "node db/seeds",
-    "test": "nyc mocha test/**/*_spec.js --require test/spec_helper --recursive --exit"
+    "test": "nyc mocha test/**/*_spec.js --require test/spec_helper --recursive --exit",
+    "test:client": "_mocha test/client/helper.js \"test/client/**/*_test.js\""
   },
   "dependencies": {
     "axios": "^0.18.0",
