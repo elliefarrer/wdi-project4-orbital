@@ -1,8 +1,35 @@
-# General Assembly WDI Project 4: Orbital
+![Orbital](orbital.png)
 
 [Heroku](https://orbital-dating.herokuapp.com/)
 
 [GitHub Repo](https://github.com/platypotomus/wdi-project4-orbital)
+
+Orbital is a one-page, MERN stack dating app, designed mobile first. It works with a Tinder-esque right/left matching system, in which users tap the button on the right to "like" the other user's profile, or left to "dislike" it. Only if both users tap right for each other are they granted permission to message each other. Orbital's built-in messenger integrates GIPHY, thus allowing users to send gifs to one another; as well as the usual timestamped, text-based message.
+
+### Login
+![Login](./screenshots/loginactual.png)
+
+
+### Users Index
+![Users Index](./screenshots/users-index.png)
+
+
+### User Show
+![User Show](./screenshots/users-show.png)
+
+
+### Chats and Swipes Index
+![Chats and Swipes Index](./screenshots/chats-index.png)
+
+
+### Chat Show
+![Chat Show](./screenshots/chats-show.png)
+
+
+### Chat Show with Gif Search
+![Chat Show with Gif Search](./screenshots/gif-search.png)
+
+---
 
 ## Brief
 * Build a full-stack application by making your own backend and your own front-end
@@ -13,11 +40,6 @@
 * Have a visually impressive design to kick your portfolio up a notch and have something to wow future clients & employers. ALLOW time for this.
 * Be deployed online so it's publicly accessible.
 * Have automated tests for at least one RESTful resource on the back-end. Improve your employability by demonstrating a good understanding of testing principals.
-
-
-## App Description
-Orbital is a one-page, mobile-first, MERN stack dating app. It works with a Tinder-esque right/left matching system, in which users tap the button on the right to say they like the other person's profile, or left if they don't. Only if both users tap right for each other, then they can message each other. Orbital features a built-in messenger, which allows users to send gifs from GIPHY, as well as timestamped text-based messages.
-
 
 ## Technologies Used
 * HTML5
@@ -89,63 +111,72 @@ The wireframes were put together in Photoshop.
 #### Chat Show
 ![Chat Show Wireframe](./wireframes/messages-show.png)
 
-### Functionality
-I organised my workload using a Trello board, which I found to be very helpful for planning and deciding which features to prioritise:
+## Functionality
+I organised my workload using a Trello board:
 
 ![Trello Board](./screenshots/trello.png)
 
 
-#### Back End
-I started out on the back end, with the aim to has as strong and stable a back end as possible before rendering anything on the page. I also wanted the back end to do as much work as possible, especially in terms of filtering. I managed to get most of the back end (apart from the gifController and photoController, which came later) up and running in a few days. To ensure everything worked as it should, I tested at least one route in each controller.
+### Back End
+I began with the back end, with the aim to have as strong and stable a back end as possible before rendering anything to the page. I also wanted the back end to do as much work as possible. I managed to get most of the back end working in a few days, apart from the gifController and photoController (which were both extras so came later). I tested at least one route in every controller apart from these two.
 
-#### Front End
-With the front end, I started by rendering data on the page (doing the GET requests) before making it functional (the other requests.) Naturally I did find a couple of things on the back end, whilst they worked on Insomnia and in the tests, did not actually work quite how I wanted when rendering on the front end. Still, I finished the basic front end in a few days, leaving me time to add extra features such as the photo carousel and gifs.
+### Featured Piece of Code no. 1
+This is the best visualisation of how I dealt with swipes. It's from swipes that one determines if two users have permission to message each other or not. In my previous project, we used a few arrays, to which user Ids would be pushed and filtered, to deal with the friend requests. Here, I used a single array of objects, which allowed me to store more information. From [./models/user.js](https://github.com/platypotomus/wdi-project4-orbital/blob/master/models/user.js).
+
+```javascript
+swipes: [
+  {
+    userId: { type: mongoose.Schema.ObjectId, ref: 'User' },
+    status: { type: String, enum: ['right', 'left'] },
+    mutual: { type: Boolean, default: false },
+    messaged: { type: Boolean, default: false },
+    timestamps: { type: String, default: moment().format('YYYY-MM-dd HH:mm') }
+  }
+]
+```
+
+### Featured Piece of Code no. 2
+In `getTokenFromHttpRequest`, I made an object with some of the logged in user's data, which I saved to the token. I then used the Mongoose find() method to filter according to this, so they only see users according to their set preferences. From [./controllers/userController.js](https://github.com/platypotomus/wdi-project4-orbital/blob/master/controllers/userController.js)
+
+```javascript
+function usersIndex(req, res, next) {
+  getTokenFromHttpRequest(req);
+
+  User
+    .find({ $and: [ {sexuality: {$in: userObject.gender}}, {gender: {$in: userObject.sexuality}}, {_id: {$ne: userObject.userId, $nin: userObject.swipeIds}} ] } )
+    .then(users => res.json(users))
+    .catch(err => console.log(`There was an error ${err}`))
+    .finally(next);
+}
+```
+
+### Front End
+With front end, I worked on rendering the user pages, before getting the swipes and chats working. I finished a basic front end in a couple of days, which left me time to add extra features such as the photo carousel and GIPHY integration.
 
 
 ### Styling
-I left almost all styling til the very end. I decided not to use Bulma this time, and just revert back to pure SCSS, to have more control over the design.
-
-I stumbled across the colour scheme somewhat by accident, by finding a random chalk board grey, then an off-white, then tested a few dark pinks. I used three Google fonts in total: Meddon and Homemade Apple for the logo; Homemade Apple for the users' names, ages, and occupation; and Oxygen for the main text body.
-
-
-### Finished Product
-
-#### Login
-![Login](./screenshots/loginactual.png)
-
-
-#### Registration
-![Registration](./screenshots/register.png)
-
-
-#### Users Index
-![Users Index](./screenshots/users-index.png)
-
-
-#### User Show
-![User Show](./screenshots/users-show.png)
-
-
-#### Chats and Swipes Index
-![Chats and Swipes Index](./screenshots/chats-index.png)
-
-
-#### Chat Show
-![Chat Show](./screenshots/chats-show.png)
-
-
-#### Chat Show with Gif Search
-![Chat Show with Gif Search](./screenshots/gif-search.png)
+I left almost all the styling until the very end. I decided not to use a framework this time, and just use pure SCSS with positions, dimensions, and the box model. The colour scheme came about somewhat by accident, but I kept it for its 'chalkboard' effect. I uesed three Google fonts: Meddon and Homemade Apple for the logo, Homemade Apple for the main headings and user info, and Oxygen for the rest.
 
 
 ## Wins and Blockers
-A big win overall was the messaging. I was very nervous about building it, yet it happened relatively smoothly. I'm especially pleased with the different colours and alignments, depending on which user sent the message. Surprisingly, I found floats and clears to be the only way to align the message bubbles horizontally and keep the vertical alignment.
+The messenger was a huge win. I was incredibly nervous about building it, yet it happened pretty smoothly. I'm especially pleased with how it looks on the page with the different colours and alignments. Perhaps somewhat weirdly, I found floats and clears to be lifesavers as they allowed me to mess with the message bubbles' horizontal alignment, whilst keeping the vertical the same. Integrating GIPHY was another win here. I thought it would take longer than it did. Although I did research it and look at the data ahead of time.
 
-Another win was the GIPHY API integration. Again, I thought this would be more complex than it was. I made sure to look into the API and data ahead of time, so I didn't spend too long finding what I needed (this time.)
+Back end testing was another win. I struggled with it in my previous project, but not only did I find it much more straight forward this time, but I genuinely found it very helpful.
 
-The matching system took a while to get working, because of how many possibilities they are, and the conditions they all carry.
+The biggest blocker was the matching system, both on the front and back ends. There are several possibilities of what can happen between two users, so it was very fiddly to account for that, and update data for both affected users.
 
-Styling both without a framework and without flexbox was also a challenge, given how important responsiveness was.
+Styling both without a framework and without flexbox was also a challenge, given how important responsiveness was. Whilst I plan to work on the responsiveness, I'm happy with how it looks. Not using a framework gave me a lot more freedom to style a beautiful app that doesn't just look like another Bulma or Bootstrap app.
 
 
 ## Future Features
+There are lots of features I'm planning on adding to Orbital, including:
+
+* An actual 'swipe' event listener - with animations - instead of tap buttons.
+* Integrate a websocket so the other user's messages can be viewed immediately, without refreshing the page.
+* Ordering chats on the chats index page in order of their most recent message.
+* Showing just a preview of the most recent message on the chats index, and not the whole thing.
+* Push notifications.
+* Integrating EmojiOne, for a more unique emoji experience.
+* Allow users to link up their Instagram and/or Spotify accounts to their profile.
+* A built-in gaming feature, like a mini Facebook quizzes or Sporcle, with the option to challenge other users.
+* Improved responsiveness.

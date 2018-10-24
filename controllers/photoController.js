@@ -24,28 +24,6 @@ function photosDelete(req, res, next) {
     .catch(next);
 }
 
-// function tagsDelete(req, res, next) {
-//   Film.findById(req.params.filmId)
-//     .then(film => {
-//       film.tags.id(req.params.tagId).remove();
-//       return film.save();
-//     })
-//     .then(film => res.json(film))
-//     .catch(next);
-// }
-//
-// Restaurant
-//     .findById(req.params.restaurantId)
-//     .then(restaurant => {
-//       restaurant.comments = restaurant.comments.filter(
-//         comment => comment.id !== req.params.commentId
-//       );
-//       return restaurant.save();
-//     })
-//     .then(restaurant => res.redirect(`/restaurants/${restaurant.id}`))
-//     .catch(next);
-//
-
 module.exports = {
   create: photosCreate,
   delete: photosDelete
